@@ -22,9 +22,11 @@ Game::~Game()
 
 bool Game::Start()
 {
-	m_player = NewGO<Player>(0,"player");
-	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
+	m_player = NewGO<Player>(0, "player");
 	m_backGround = NewGO<BackGround>(0, "backGround");
+	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
+
+	
 	return true;
 }
 
