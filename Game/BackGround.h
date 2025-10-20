@@ -11,6 +11,6 @@ public:
     void Render(RenderContext& rc);
     //モデルレンダ―。     
 
-    ModelRender modelRender;
-
+    ModelRender m_modelRender;
+    PhysicsStaticObject m_physicsStaticObject;// 物理オブジェクト
 };
