@@ -4,7 +4,7 @@
 class Player;
 class GameCamera;
 class BackGround;
-class GameClear;
+//class GameClear;
 
 //Gameシーンを管理するクラス。
 class Game : public IGameObject
@@ -15,12 +15,17 @@ public:
 	bool Start();
 	//更新処理
 	void Update();
+	void ResidueCalculation();//残基計算
+	void GameClearProcess();//ゲームクリア
+	void GameOverProcess();//ゲームオーバー
+	
 
 	// "*"がある時は->で　それ以外の時は"."で"*"を使わない
 	Player* m_player;         //プレイヤー
 	GameCamera* m_gameCamera; //ゲームカメラ
 	SoundSource* m_gameBGM;   //ゲーム中のBGM
-	GameClear* m_gameclear;   //ゲームカメラ
+	//GameClear* m_gameclear;   //ゲームクリア
 	BackGround* m_backGround; //背景	
+	int m_playerResidue = 3;//Playerの残基
 };
 

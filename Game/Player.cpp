@@ -14,6 +14,7 @@ Player::~Player()
 
 bool Player::Start()
 {
+	//アニメーションクリップの読み込み
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
 	m_animationClips[enAnimationClip_Walk].Load("Assets/animData/walk.tka");
@@ -22,16 +23,23 @@ bool Player::Start()
 	m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
 	m_animationClips[enAnimationClip_Jump].Load("Assets/animData/jump.tka");
 	m_animationClips[enAnimationClip_Jump].SetLoopFlag(false);
-	m_modelRender.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);
-	
+	//モデルの初期化
+	m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
+	m_modelRender[1].Init("Assets/modelData/unityChanDX.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//大人化モデル
+	m_modelRender[2].Init("Assets/modelData/MagicalUnity.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//魔法少女モデル
 	m_position = Vector3{ 200.0f,0.0f,50.0f };
-	m_modelRender.SetPosition(m_position);
+	for(int i=0;i<3;i++)
+	{
+		m_modelRender[i].SetPosition(m_position);
+	}
+	m_formState = 0;
 	m_characterController.Init(25.0f, 75.0f, m_position);
+	m_maxJumpCount = 2;
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
-	
 	return true;
 }
 
+//更新処理
 void Player::Update()
 {
 	Move();
@@ -40,6 +48,7 @@ void Player::Update()
 	SetAnimation();
 }
 
+//移動処理
 void Player::Move()
 {
 	//xzの移動速度を0.0fにする
@@ -68,16 +77,8 @@ void Player::Move()
 	//最初いきなり加速せず
 	if (g_pad[0]->IsPress(enButtonB) && m_time <= m_initialVelocity)
 	{
-		m_moveSpeed.x *= m_acceleration; // Bボタンが押されている間は右方向の速度を1.5倍にする
-		m_moveSpeed.z *= m_acceleration; // Bボタンが押されている間は前方向の速度を1.5倍にする
-		m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
-	}
-	//Bボタンが押されて1秒後は移動速度を2倍にする
-	else if (g_pad[0]->IsPress(enButtonB) && m_time >= m_initialVelocity)
-	{
-		float speedBaika = 5.0f;
-		m_moveSpeed.x *= speedBaika; // Bボタンが押されている間は右方向の速度を2倍にする
-		m_moveSpeed.z *= speedBaika; // Bボタンが押されている間は前方向の速度を2倍にする
+		m_moveSpeed.x *= m_time; // Bボタンが押されている間は右方向の速度を1.5倍にする
+		m_moveSpeed.z *= m_time; // Bボタンが押されている間は前方向の速度を1.5倍にする
 		m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
 	}
 	else
@@ -95,29 +96,32 @@ void Player::Move()
 	{
 		//重力をなくす
 		m_moveSpeed.y = 0.0f;
-		m_playerState = 0;
+		m_playerAnimationState = 0;
 		m_jumpCount = 0;
 	}
 	else//地面についていなかったら
 	{
 		//重力を発生させる
-		const float gravety = 5.5f;//重力の定数
-		m_moveSpeed.y -= gravety;
+		const float gravety = 150.0f;//重力の定数
+		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime();
 	}
 
 	//ジャンプの処理
-//Aボタンを押したときジャンプのカウントが最大でなければジャンプする
+	//Jボタンを押したときジャンプのカウントが最大でなければジャンプする
 	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_maxJumpCount)
 	{
-
-		m_moveSpeed.y += 250.0f;
+		const float m_InitialeVlocity = 150.0f;//初速加速度の定数
+		//上方向に250の初速を加える
+		m_moveSpeed.y += m_InitialeVlocity;
 	}
 	//キャラクターコントローラーを使って座標を移動させる
 	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
-	m_modelRender.SetPosition(m_position);
-	m_modelRender.Update();
+
+	m_modelRender[m_formState].SetPosition(m_position);
+	m_modelRender[m_formState].Update();
 }
 
+//回転処理
 void Player::Rotate()
 {
 	//カメラの前方向を持ってくる
@@ -127,40 +131,40 @@ void Player::Rotate()
 	//向きをセット
 	m_rotation.SetRotationYFromDirectionXZ(forward);
 	//絵描きさんに回転を教える
-	m_modelRender.SetRotation(m_rotation);
+	m_modelRender[m_formState].SetRotation(m_rotation);
 }
 
-//ステート管理
+//アニメーションの再生
 void Player::PlayAnimation()
 {
 	//ジャンプの処理
 	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_maxJumpCount) // Aボタンが押されたら
 	{
-		m_playerState=3;
+		m_playerAnimationState=3;
 		m_jumpCount++;
 	}
 	//地面についていなかったら
 	if (!m_characterController.IsOnGround())
 	{		
-		m_playerState=3;		
+		m_playerAnimationState=3;		
 	}
 
-	if (m_playerState!=3) { // ジャンプ中は無視
+	if (m_playerAnimationState!=3) { // ジャンプ中は無視
 		//ｘかｚの移動速度があったら（スティックの入力があったら）
 		if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 		{
 			//歩きアニメーションを再生する
-			m_playerState=1;
+			m_playerAnimationState=1;
 			//走るアニメーションを再生する
 			if (g_pad[0]->IsPress(enButtonB))
 			{
-				m_playerState=2;
+				m_playerAnimationState=2;
 			}
 		}
 		//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
 		else
 		{
-			m_playerState=0;
+			m_playerAnimationState=0;
 		}
 	}
 }
@@ -169,37 +173,39 @@ void Player::PlayAnimation()
 void Player::SetAnimation()
 {
 	//switch文
-	switch (m_playerState) {
+	switch (m_playerAnimationState) {
 		//プレイヤーステートが0（待機）だったら
 	case 0:
 		//待機アニメーションを再生する
-		m_modelRender.PlayAnimation(enAnimationClip_Idle);
+		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Idle);
 		break;
 		//プレイヤーステートが1（歩き）だったら
 	case 1:
 		//歩きアニメーションを再生する
-		m_modelRender.PlayAnimation(enAnimationClip_Walk);
+		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Walk);
 		break;
 	case 2:
 		//走るアニメーションを再生する
-		m_modelRender.PlayAnimation(enAnimationClip_Run);
+		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Run);
 		break;
 	case 3:
 		//ジャンプアニメーション
-		m_modelRender.PlayAnimation(enAnimationClip_Jump);
+		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Jump);
 		break;
 	}
 }
 
 
-void Player::Render(RenderContext& renderContext)
+void Player::Render(RenderContext& rc)
 {
 	if (!m_gameCamera)
 	{
 		return;
 	}
+	//プレイヤーが描画される設定になっていたら描画する
 	if(m_gameCamera->m_playerRenderFlag)
 	{
-		m_modelRender.Draw(renderContext);
+		//現在の形態状態のモデルレンダーを描画する
+		m_modelRender[m_formState].Draw(rc);
 	}
 }
