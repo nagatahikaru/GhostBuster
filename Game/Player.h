@@ -12,8 +12,10 @@ public:
 	void Move();
 	void Rotate();
 	void PlayAnimation();
-	void SetAnimation();	
-	void Render(RenderContext& renderContxt);
+	void SetAnimation();
+	void Atk();
+	void Damage(int damage);
+	void Render(RenderContext& rc);
 
 	const Vector3& GetPosition() const
 	{
@@ -28,6 +30,9 @@ public:
 	CharacterController m_characterController;
 	Quaternion m_rotation;
 	GameCamera* m_gameCamera;
+
+	int m_residue;
+private:
 	enum EnAnimaationClip {
 		enAnimationClip_Idle,
 		enAnimationClip_Run,
@@ -38,13 +43,15 @@ public:
 	AnimationClip m_animationClips[enAnimationClip_Num];
 	float m_time = 0.0f;//時間
 	float m_acceleration = 1.5f;//加速度
-	float m_initialVelocity = 1.0f;//初速度
+	float m_initialVelocity = 15.0f;//初速度
 	float m_reset = 0.0f;	//リセット用
 	int m_jumpCount = 0;//ジャンプ回数
 	int m_maxJumpCount = 3;//最大ジャンプ回数
 	bool m_jumpFlag = false;//ジャンプフラグ
 	int m_playerAnimationState = 0;//Playerのアニメーション状態
 	int m_formState = 0;//Playerの形態状態
-	
+	int m_form1 = 1;//チェック用
+	int m_form2 = 2;//チェック用
+	bool sperd = false;
 };
 

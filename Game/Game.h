@@ -4,6 +4,7 @@
 class Player;
 class GameCamera;
 class BackGround;
+//class SnowEnemy;
 //class GameClear;
 
 //Gameシーンを管理するクラス。
@@ -15,7 +16,6 @@ public:
 	bool Start();
 	//更新処理
 	void Update();
-	void ResidueCalculation();//残基計算
 	void GameClearProcess();//ゲームクリア
 	void GameOverProcess();//ゲームオーバー
 	
@@ -26,6 +26,6 @@ public:
 	SoundSource* m_gameBGM;   //ゲーム中のBGM
 	//GameClear* m_gameclear;   //ゲームクリア
 	BackGround* m_backGround; //背景	
-	int m_playerResidue = 3;//Playerの残基
+	//SnowEnemy* m_snowEnemy;//雪だるま型の敵
 };
 

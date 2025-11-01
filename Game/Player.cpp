@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "GameCamera.h"
+#include "SnowEnemy.h"
 
 Player::Player()
 {
@@ -77,14 +78,23 @@ void Player::Move()
 	//最初いきなり加速せず
 	if (g_pad[0]->IsPress(enButtonB) && m_time <= m_initialVelocity)
 	{
-		m_moveSpeed.x *= m_time; // Bボタンが押されている間は右方向の速度を1.5倍にする
-		m_moveSpeed.z *= m_time; // Bボタンが押されている間は前方向の速度を1.5倍にする
-		m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
+		m_moveSpeed.x *= m_time; // Bボタンが押されている間、時間経過で加速していく
+		m_moveSpeed.z *= m_time; // Bボタンが押されている間、時間経過で加速していく
+		if (m_time <= 10.0f)
+		{
+			m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
+			sperd = true;
+		}
+		if(sperd)
+		{
+			m_time = 10.0f;
+		}		
 	}
 	else
 	{
 		//経過時間を減算していく
 		m_time = m_reset;
+		sperd = false;
 	}
 	if (m_time <= m_reset) // 経過時間が0以下になったら
 	{
@@ -106,6 +116,14 @@ void Player::Move()
 		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime();
 	}
 
+	if (g_pad[0]->IsTrigger(enButtonX))
+	{
+		int form=m_formState;
+		m_formState=m_form1;
+		m_form1 = m_form2;
+		m_form2 = form;
+
+	}
 	//ジャンプの処理
 	//Jボタンを押したときジャンプのカウントが最大でなければジャンプする
 	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_maxJumpCount)
@@ -119,6 +137,12 @@ void Player::Move()
 
 	m_modelRender[m_formState].SetPosition(m_position);
 	m_modelRender[m_formState].Update();
+}
+
+//攻撃処理
+void Player::Atk()
+{
+
 }
 
 //回転処理
@@ -192,6 +216,17 @@ void Player::SetAnimation()
 		//ジャンプアニメーション
 		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Jump);
 		break;
+	}
+}
+
+//ダメージ処理
+void Player::Damage(int damage)
+{
+	//形態ダウン
+	m_formState -= damage;
+	if (m_formState < 0)
+	{
+		m_residue--;
 	}
 }
 

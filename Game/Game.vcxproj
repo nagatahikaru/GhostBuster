@@ -227,23 +227,43 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameLoad.cpp" />
+    <ClCompile Include="GhostEnemy.cpp" />
+    <ClCompile Include="GolemEnemy.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemBox.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MushroomEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SnowEnemy.cpp" />
+    <ClCompile Include="SnowMan.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLoad.h" />
+    <ClInclude Include="GhostEnemy.h" />
+    <ClInclude Include="GolemEnemy.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemBox.h" />
+    <ClInclude Include="MushroomEnemy.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SnowEnemy.h" />
+    <ClInclude Include="SnowMan.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="UI.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

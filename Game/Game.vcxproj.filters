@@ -16,6 +16,14 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameLoad.cpp" />
+    <ClCompile Include="ItemBox.cpp" />
+    <ClCompile Include="SnowMan.cpp" />
+    <ClCompile Include="SnowEnemy.cpp" />
+    <ClCompile Include="GhostEnemy.cpp" />
+    <ClCompile Include="MushroomEnemy.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="GolemEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -27,5 +35,17 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLoad.h" />
+    <ClInclude Include="ItemBox.h" />
+    <ClInclude Include="SnowMan.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SnowEnemy.h" />
+    <ClInclude Include="GhostEnemy.h" />
+    <ClInclude Include="MushroomEnemy.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="GolemEnemy.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
 </Project>
