@@ -1,36 +1,41 @@
 #pragma once
 
 class Player;
+class SnowBall;
+class SnowBallManager;
 
 class SnowEnemy:public IGameObject
 {
 public:
 	SnowEnemy();
-	~SnowEnemy();
+	~SnowEnemy()override;
 	bool Start();
 	void Update();
+	bool SetPosition(Vector3 pos);
 	void Atk();
 	void Move();
 	void Rotation();
 	void Damage(int damage);
+	void PlayAnimation();
 	void Render(RenderContext& rc);
-
+		
+	CharacterController m_hitJudgment;//当たり判定
+	bool m_spawnPos = true;
 private:
 	ModelRender m_snow[2];//雪だるまに擬態する敵
-	enum EnAnimaationClip {
-		enAnimationClip_Idle,
-		enAnimationClip_Num,
-	};
-	AnimationClip m_animationClips[enAnimationClip_Num];
 	Vector3 m_position;
 	Vector3 m_moveSpeed;
+	Vector3 m_snowEnemyCollisionScale;
 	Player* m_player;
-	CharacterController m_hitJudgment;//当たり判定
-	Quaternion        m_rotation;     //クォータニオン。
+	SnowBallManager* m_snowBallManager;	
+	Quaternion m_rotation;     //クォータニオン。
 	int m_form = 0;
-
 	int m_hp=0;
-
-
+	int m_posStert=0;
+	float m_speed = 0.0f;
+	FontRender m_distance;
+	float m_coolTime;
+	bool m_coolTimeFrag = false;
+	
 };
 

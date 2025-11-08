@@ -234,7 +234,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MushroomEnemy.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SnowBall.cpp" />
+    <ClCompile Include="SnowBallManager.cpp" />
     <ClCompile Include="SnowEnemy.cpp" />
+    <ClCompile Include="SnowEnemyManager.cpp" />
     <ClCompile Include="SnowMan.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -254,9 +257,13 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemBox.h" />
     <ClInclude Include="MushroomEnemy.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="SnowBall.h" />
+    <ClInclude Include="SnowBallManager.h" />
     <ClInclude Include="SnowEnemy.h" />
+    <ClInclude Include="SnowEnemyManager.h" />
     <ClInclude Include="SnowMan.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />

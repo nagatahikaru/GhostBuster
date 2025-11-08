@@ -1,7 +1,9 @@
 #include "stdafx.h"
+
 #include "Player.h"
 #include "GameCamera.h"
 #include "SnowEnemy.h"
+
 
 Player::Player()
 {
@@ -15,6 +17,8 @@ Player::~Player()
 
 bool Player::Start()
 {
+	
+
 	//アニメーションクリップの読み込み
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
@@ -26,17 +30,30 @@ bool Player::Start()
 	m_animationClips[enAnimationClip_Jump].SetLoopFlag(false);
 	//モデルの初期化
 	m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
-	m_modelRender[1].Init("Assets/modelData/unityChanDX.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//大人化モデル
-	m_modelRender[2].Init("Assets/modelData/MagicalUnity.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//魔法少女モデル
+	m_modelRender[1].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
+	m_modelRender[2].Init("Assets/modelData/unityChanDX.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//大人化モデル
+	m_modelRender[3].Init("Assets/modelData/MagicalUnity.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//魔法少女モデル
 	m_position = Vector3{ 200.0f,0.0f,50.0f };
 	for(int i=0;i<3;i++)
 	{
 		m_modelRender[i].SetPosition(m_position);
 	}
-	m_formState = 0;
+	m_snowEnemy=FindGO<SnowEnemy>("snowEnemy");
+	//m_mushroomEnemy = FindGO<MushroomEnemy>("mushroomEnemy");
+	//m_ghostEnemy = FindGO<GhostEnemy>("ghostEnemy");
+	//m_golemEnemy= FindGO<GolemEnemy>("golemEnemy");
+	m_playerCollisionScale = Vector3(25.0f, 75.0f, 25.0f);
+	m_playerCollisionObj = new CollisionObject;
+	m_playerCollisionObj->CreateBox(
+		m_position,
+		Quaternion::Identity,
+		m_playerCollisionScale);
+
+	m_formState = 1;
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_maxJumpCount = 2;
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
+	m_residue = 3;
 	return true;
 }
 
@@ -46,7 +63,6 @@ void Player::Update()
 	Move();
 	Rotate();
 	PlayAnimation();
-	SetAnimation();
 }
 
 //移動処理
@@ -76,18 +92,18 @@ void Player::Move()
 	m_moveSpeed += right + forward;
 
 	//最初いきなり加速せず
-	if (g_pad[0]->IsPress(enButtonB) && m_time <= m_initialVelocity)
+	if (g_pad[0]->IsPress(enButtonB))
 	{
 		m_moveSpeed.x *= m_time; // Bボタンが押されている間、時間経過で加速していく
 		m_moveSpeed.z *= m_time; // Bボタンが押されている間、時間経過で加速していく
-		if (m_time <= 10.0f)
+		if (m_time <= 5.0f)
 		{
 			m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
 			sperd = true;
 		}
 		if(sperd)
 		{
-			m_time = 10.0f;
+			m_time = 5.0f;
 		}		
 	}
 	else
@@ -132,9 +148,12 @@ void Player::Move()
 		//上方向に250の初速を加える
 		m_moveSpeed.y += m_InitialeVlocity;
 	}
+	m_playerCollisionObj->IsHit(m_snowEnemy->m_hitJudgment);
 	//キャラクターコントローラーを使って座標を移動させる
 	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
-
+	m_playerCollisionObj->SetPosition(m_position);
+	m_playerCollisionObj->SetRotation(Quaternion::Identity);
+	m_playerCollisionObj->Update();
 	m_modelRender[m_formState].SetPosition(m_position);
 	m_modelRender[m_formState].Update();
 }
@@ -142,14 +161,14 @@ void Player::Move()
 //攻撃処理
 void Player::Atk()
 {
-
+	
 }
 
 //回転処理
 void Player::Rotate()
 {
-	//カメラの前方向を持ってくる
-	Vector3 forward = g_camera3D->GetForward();
+	//入力方向を持ってくる
+	Vector3 forward = m_moveSpeed;
 	forward.y = 0;
 	forward.Normalize();
 	//向きをセット
@@ -191,41 +210,16 @@ void Player::PlayAnimation()
 			m_playerAnimationState=0;
 		}
 	}
+	m_modelRender[m_formState].PlayAnimation(m_playerAnimationState);
 }
-
-//アニメーションの切り替え
-void Player::SetAnimation()
-{
-	//switch文
-	switch (m_playerAnimationState) {
-		//プレイヤーステートが0（待機）だったら
-	case 0:
-		//待機アニメーションを再生する
-		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Idle);
-		break;
-		//プレイヤーステートが1（歩き）だったら
-	case 1:
-		//歩きアニメーションを再生する
-		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Walk);
-		break;
-	case 2:
-		//走るアニメーションを再生する
-		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Run);
-		break;
-	case 3:
-		//ジャンプアニメーション
-		m_modelRender[m_formState].PlayAnimation(enAnimationClip_Jump);
-		break;
-	}
-}
-
 //ダメージ処理
 void Player::Damage(int damage)
 {
 	//形態ダウン
 	m_formState -= damage;
-	if (m_formState < 0)
+	if (m_formState == 0)
 	{
+		m_formState = 1;
 		m_residue--;
 	}
 }

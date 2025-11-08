@@ -24,6 +24,9 @@
     <ClCompile Include="UI.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="GolemEnemy.cpp" />
+    <ClCompile Include="SnowBall.cpp" />
+    <ClCompile Include="SnowBallManager.cpp" />
+    <ClCompile Include="SnowEnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -44,6 +47,10 @@
     <ClInclude Include="UI.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="GolemEnemy.h" />
+    <ClInclude Include="SnowBall.h" />
+    <ClInclude Include="SnowBallManager.h" />
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="SnowEnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />
