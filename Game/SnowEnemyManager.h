@@ -3,6 +3,8 @@
 
 class SnowEnemy;
 
+enum { EnemyBaseSpawnPosNum = 2};
+
 class SnowEnemyManager:public IGameObject
 {
 public:
@@ -11,7 +13,7 @@ public:
 	bool Start() override;
 	void Update() override;
 	void Regeneration();
-	float Random(float min, float max);
+	//float Random(const float min, const float max);
 	
 
 private:
@@ -20,7 +22,7 @@ private:
 	bool m_spawnTimeFrag = true;
 	float m_spawnInterval = 0.0f;
 	int m_randomNumber = 0;
-	Vector3 m_spawnPoints[m_randomNumber];
-	
+	Vector3 m_spawnPos;
+	Vector3 m_enemyBaseSpawnPos;
 };
 

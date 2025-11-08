@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "GameCamera.h"
 #include "BackGround.h"
-#include "SnowEnemy.h"
+#include "SnowEnemyManager.h"
 #include "SnowBallManager.h"
 
 
@@ -18,7 +18,7 @@ Game::~Game()
 	DeleteGO(m_player);
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_backGround);
-	DeleteGO(m_snowEnemy);
+	DeleteGO(m_snowEnemyManager);
 
 
 }
@@ -28,7 +28,7 @@ bool Game::Start()
 	m_player = NewGO<Player>(0, "player");
 	m_backGround = NewGO<BackGround>(0, "backGround");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-	m_snowEnemy = NewGO<SnowEnemy>(0, "snowEnemy");
+	m_snowEnemyManager = NewGO<SnowEnemyManager>(0, "snowEnemyManager");
 	//m_gameBGM = NewGO<SoundSource>(0, "gameBGM");
 	m_player = FindGO<Player>("player");
 	m_snowBallManager = NewGO<SnowBallManager>(0,"snowBallManager");

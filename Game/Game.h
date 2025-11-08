@@ -6,6 +6,7 @@ class GameCamera;
 class BackGround;
 class SnowEnemy;
 class SnowBallManager;
+class SnowEnemyManager;
 //class GameClear;
 
 //GameƒV[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
@@ -27,7 +28,7 @@ public:
 	SoundSource* m_gameBGM;   //ƒQ[ƒ€’†‚ÌBGM
 	//GameClear* m_gameclear;   //ƒQ[ƒ€ƒNƒŠƒA
 	BackGround* m_backGround; //”wŒi	
-	SnowEnemy* m_snowEnemy;//á‚¾‚é‚ÜŒ^‚Ì“G
+	SnowEnemyManager* m_snowEnemyManager;//á‚¾‚é‚ÜŒ^‚Ì“G
 	SnowBallManager* m_snowBallManager;
 };
 

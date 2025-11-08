@@ -3,6 +3,20 @@
 #include <string>
 #include <typeinfo>
 
+
+
+
+//Factory挑戦
+//自力では出来なかった
+//次回以降自力でできるように理解を深める
+template<typename T>
+class GenericFactory {
+public:
+	T* Create(const char* name = nullptr) { return NewGO<T>(0, name ? name : typeid(T).name()); }
+	void Destroy(T* obj) { DeleteGO(obj); }
+};
+
+
 //
 // ObjectPool クラス
 // ------------------------
@@ -20,7 +34,7 @@
 template<typename T>
 class ObjectPool {
 	std::vector<T*> m_pool;	// プール内のオブジェクト一覧
-
+	GenericFactory<T>m_factory;
 public:
 
 	//
@@ -33,7 +47,7 @@ public:
 	//
 	void Init(size_t count, const char* name = nullptr) {
 		for (size_t i = 0; i < count; ++i) {
-			auto obj = NewGO<T>(0, name ? name : typeid(T).name());
+			auto obj =m_factory.Create(name);
 			obj->Deactivate();	// 初期状態では非アクティブ
 			m_pool.push_back(obj);
 		}
@@ -55,7 +69,7 @@ public:
 		}
 
 		if (autoExpand) {
-			auto obj = NewGO<T>(0, typeid(T).name());
+			auto obj =m_factory.Create(typeid(T).name());
 			obj->Deactivate();
 			m_pool.push_back(obj);
 			return obj;
@@ -86,6 +100,25 @@ public:
 		return nullptr;  // まだ時間に達していない、または空きがない
 	}
 
+	// GetActive
+	// ------------------------
+	// プール内のオブジェクトのうち、現在アクティブなものだけを集めて返す。
+	// 戻り値は std::vector<T*> で、アクティブなオブジェクトのポインタ一覧。
+	// - obj が nullptr の場合は無視する
+	// - obj->IsActive() が false の場合も無視する
+	//
+	// 注意:
+	// - 戻り値はコピーされるため、大量のオブジェクトがある場合はコストがかかる。
+	// - 参照を返すバージョンにするとコピーを避けられるが、外部から誤って変更されるリスクもある。
+	std::vector<T*> GetActive() const {
+		std::vector<T*> activeObjs;
+		for (auto obj : m_pool) {
+			if (obj && obj->IsActive()) activeObjs.push_back(obj);
+		}
+		return activeObjs;
+	}
+
+
 	//
 	// Clear
 	// ------------------------
@@ -95,7 +128,7 @@ public:
 	void Clear() {
 		for (auto it = m_pool.rbegin(); it != m_pool.rend(); ++it) {
 			if (*it) {
-				DeleteGO(*it);
+				m_factory.Destroy(*it);
 				*it = nullptr;
 			}
 		}

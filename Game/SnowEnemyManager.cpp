@@ -2,10 +2,21 @@
 #include "SnowEnemyManager.h"
 #include "SnowEnemy.h"
 
+
+namespace {
+	const Vector3 ENEMY_BASE_SPAWN_POS[EnemyBaseSpawnPosNum] = {
+		{700.0f,0.0f,-200.0f},
+		{500.0f,0.0f,600.0f}
+	};
+}
+
+
 SnowEnemyManager::SnowEnemyManager()
 {
-
+	
 }
+
+	
 
 SnowEnemyManager::~SnowEnemyManager()
 {
@@ -15,6 +26,11 @@ SnowEnemyManager::~SnowEnemyManager()
 bool SnowEnemyManager::Start()
 {
 	m_snowEnemyPool.Init(16, "snowEnemy");
+
+	int baseSpawnPosNum = rand() % EnemyBaseSpawnPosNum;
+
+	m_spawnPos = ENEMY_BASE_SPAWN_POS[baseSpawnPosNum];
+	
 	return true;
 }
 
@@ -22,6 +38,7 @@ void SnowEnemyManager::Update()
 {
 	Regeneration();
 }
+
 
 void SnowEnemyManager::Regeneration()
 {
@@ -34,20 +51,17 @@ void SnowEnemyManager::Regeneration()
 
 	if (SnowEnemy) {
 		// ?? ƒ‰ƒ“ƒ_ƒ€‚ÈoŒ»ˆÊ’u
-		int randIndex = rand() % m_spawnPoints.size();
-		Vector3 spawnPos = m_spawnPoints[randIndex];
+		Vector3 spawnPos = m_spawnPos;
 
-		spawnPos.x += Random(-50.0f, 50.0f);
-		spawnPos.z += Random(-50.0f, 50.0f);
+		spawnPos.x = (rand() % 501) - 250;
+		spawnPos.z = (rand() % 501) - 250;
+		SnowEnemy->m_IsSpawn = true;
 		SnowEnemy->SetPosition(spawnPos);
-		SnowEnemy->m_spawnPos=true;
+		
 	}	
 }
 
-float SnowEnemyManager::Random(float min, float max)
-{
-	return min + static_cast<float>(rand()) / RAND_MAX * (max - min);
-}
+
 
 
 

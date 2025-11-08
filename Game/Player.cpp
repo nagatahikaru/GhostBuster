@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "GameCamera.h"
 #include "SnowEnemy.h"
+#include "SnowEnemyManager.h"
+//#include "ObjectPool.h"
+
 
 
 Player::Player()
@@ -37,12 +40,8 @@ bool Player::Start()
 	for(int i=0;i<3;i++)
 	{
 		m_modelRender[i].SetPosition(m_position);
-	}
-	m_snowEnemy=FindGO<SnowEnemy>("snowEnemy");
-	//m_mushroomEnemy = FindGO<MushroomEnemy>("mushroomEnemy");
-	//m_ghostEnemy = FindGO<GhostEnemy>("ghostEnemy");
-	//m_golemEnemy= FindGO<GolemEnemy>("golemEnemy");
-	m_playerCollisionScale = Vector3(25.0f, 75.0f, 25.0f);
+	}	
+	m_playerCollisionScale = Vector3(25.0f, 10.0f, 25.0f);
 	m_playerCollisionObj = new CollisionObject;
 	m_playerCollisionObj->CreateBox(
 		m_position,
@@ -51,7 +50,6 @@ bool Player::Start()
 
 	m_formState = 1;
 	m_characterController.Init(25.0f, 75.0f, m_position);
-	m_maxJumpCount = 2;
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	m_residue = 3;
 	return true;
@@ -68,6 +66,7 @@ void Player::Update()
 //移動処理
 void Player::Move()
 {
+	
 	//xzの移動速度を0.0fにする
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
@@ -142,13 +141,13 @@ void Player::Move()
 	}
 	//ジャンプの処理
 	//Jボタンを押したときジャンプのカウントが最大でなければジャンプする
-	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_maxJumpCount)
+	//形態によってジャンプできる回数は変化する
+	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState)
 	{
 		const float m_InitialeVlocity = 150.0f;//初速加速度の定数
 		//上方向に250の初速を加える
 		m_moveSpeed.y += m_InitialeVlocity;
 	}
-	m_playerCollisionObj->IsHit(m_snowEnemy->m_hitJudgment);
 	//キャラクターコントローラーを使って座標を移動させる
 	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_playerCollisionObj->SetPosition(m_position);
@@ -181,7 +180,7 @@ void Player::Rotate()
 void Player::PlayAnimation()
 {
 	//ジャンプの処理
-	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_maxJumpCount) // Aボタンが押されたら
+	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
 	{
 		m_playerAnimationState=3;
 		m_jumpCount++;

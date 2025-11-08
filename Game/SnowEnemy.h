@@ -1,4 +1,5 @@
 #pragma once
+#include "ObjectPool.h"
 
 class Player;
 class SnowBall;
@@ -11,7 +12,8 @@ public:
 	~SnowEnemy()override;
 	bool Start();
 	void Update();
-	bool SetPosition(Vector3 pos);
+	void SetPosition(const Vector3& pos);
+	bool CanAtk();
 	void Atk();
 	void Move();
 	void Rotation();
@@ -19,9 +21,11 @@ public:
 	void PlayAnimation();
 	void Render(RenderContext& rc);
 		
-	CharacterController m_hitJudgment;//ìñÇΩÇËîªíË
-	bool m_spawnPos = true;
+	CharacterController m_characterController;//ìñÇΩÇËîªíË
+
+	bool m_IsSpawn = true;
 private:
+	ObjectPool<SnowEnemy> m_snowEnemyPool;
 	ModelRender m_snow[2];//ê·ÇæÇÈÇ‹Ç…ã[ë‘Ç∑ÇÈìG
 	Vector3 m_position;
 	Vector3 m_moveSpeed;
