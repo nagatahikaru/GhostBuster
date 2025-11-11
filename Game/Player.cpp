@@ -36,7 +36,7 @@ bool Player::Start()
 	m_modelRender[1].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
 	m_modelRender[2].Init("Assets/modelData/unityChanDX.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//大人化モデル
 	m_modelRender[3].Init("Assets/modelData/MagicalUnity.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//魔法少女モデル
-	m_position = Vector3{ 200.0f,0.0f,50.0f };
+	m_position = Vector3{ 500.0f,1600.0f,0.0f };
 	for(int i=0;i<3;i++)
 	{
 		m_modelRender[i].SetPosition(m_position);
@@ -51,7 +51,9 @@ bool Player::Start()
 	m_formState = 1;
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
+	const auto& enemys = FindGOs<SnowEnemy>("snowenemy");
 	m_residue = 3;
+	m_jumpingPower = 550.0f;
 	return true;
 }
 
@@ -67,6 +69,19 @@ void Player::Update()
 void Player::Move()
 {
 	
+	const auto snowenemys = FindGOs<SnowEnemy>("snowEnemy");
+	for (auto snowEnemy : snowenemys)
+	{
+		if (!snowEnemy->m_isInited) continue;
+
+		//ポインタ参照には*がいる
+		if (m_playerCollisionObj->IsHit(snowEnemy->m_characterController))
+		{
+			// 当たり判定があったときの処理
+			snowEnemy->Damage(10);
+			m_position.y += m_jumpingPower;
+		}
+	}
 	//xzの移動速度を0.0fにする
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
@@ -127,8 +142,8 @@ void Player::Move()
 	else//地面についていなかったら
 	{
 		//重力を発生させる
-		const float gravety = 150.0f;//重力の定数
-		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime();
+		const float gravety = 200.0f;//重力の定数
+		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime()*4;
 	}
 
 	if (g_pad[0]->IsTrigger(enButtonX))
@@ -144,9 +159,9 @@ void Player::Move()
 	//形態によってジャンプできる回数は変化する
 	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState)
 	{
-		const float m_InitialeVlocity = 150.0f;//初速加速度の定数
+		
 		//上方向に250の初速を加える
-		m_moveSpeed.y += m_InitialeVlocity;
+		m_moveSpeed.y += m_jumpingPower;
 	}
 	//キャラクターコントローラーを使って座標を移動させる
 	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -155,12 +170,6 @@ void Player::Move()
 	m_playerCollisionObj->Update();
 	m_modelRender[m_formState].SetPosition(m_position);
 	m_modelRender[m_formState].Update();
-}
-
-//攻撃処理
-void Player::Atk()
-{
-	
 }
 
 //回転処理
@@ -179,35 +188,70 @@ void Player::Rotate()
 //アニメーションの再生
 void Player::PlayAnimation()
 {
-	//ジャンプの処理
-	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
+	if(m_formState<=1)
 	{
-		m_playerAnimationState=3;
-		m_jumpCount++;
-	}
-	//地面についていなかったら
-	if (!m_characterController.IsOnGround())
-	{		
-		m_playerAnimationState=3;		
-	}
-
-	if (m_playerAnimationState!=3) { // ジャンプ中は無視
-		//ｘかｚの移動速度があったら（スティックの入力があったら）
-		if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+		//ジャンプの処理
+		if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
 		{
-			//歩きアニメーションを再生する
-			m_playerAnimationState=1;
-			//走るアニメーションを再生する
-			if (g_pad[0]->IsPress(enButtonB))
+			m_playerAnimationState = 3;
+			m_jumpCount++;
+		}
+		//地面についていなかったら
+		if (!m_characterController.IsOnGround())
+		{
+			m_playerAnimationState = 3;
+		}
+
+		if (m_playerAnimationState != 3) { // ジャンプ中は無視
+			//ｘかｚの移動速度があったら（スティックの入力があったら）
+			if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 			{
-				m_playerAnimationState=2;
+				//歩きアニメーションを再生する
+				m_playerAnimationState = 1;
+				//走るアニメーションを再生する
+				if (g_pad[0]->IsPress(enButtonB))
+				{
+					m_playerAnimationState = 2;
+				}
+			}
+			//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
+			else
+			{
+				m_playerAnimationState = 0;
 			}
 		}
-		//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
-		else
-		{
-			m_playerAnimationState=0;
-		}
+	}
+	if(m_formState>=2)
+	{
+		//ジャンプの処理
+		//if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
+		//{
+		//	m_playerAnimationState = 3;
+		//	m_jumpCount++;
+		//}
+		////地面についていなかったら
+		//if (!m_characterController.IsOnGround())
+		//{
+		//	m_playerAnimationState = 3;
+		//}
+		//if (m_playerAnimationState != 3) { // ジャンプ中は無視
+		//	//ｘかｚの移動速度があったら（スティックの入力があったら）
+		//	if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+		//	{
+		//		//歩きアニメーションを再生する
+		//		m_playerAnimationState = 1;
+		//		//走るアニメーションを再生する
+		//		if (g_pad[0]->IsPress(enButtonB))
+		//		{
+		//			m_playerAnimationState = 2;
+		//		}
+		//	}
+		//	//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
+		//	else
+		//	{
+		//		m_playerAnimationState = 0;
+		//	}
+		//}
 	}
 	m_modelRender[m_formState].PlayAnimation(m_playerAnimationState);
 }
@@ -230,6 +274,15 @@ void Player::Render(RenderContext& rc)
 	{
 		return;
 	}
+
+	wchar_t be[129];
+	m_posRender.SetPosition(-896.0f, 200.0f, 0.0f);
+	m_posRender.SetColor(g_vec4White);
+	Vector3 pos = m_position;
+	swprintf(be, 129, L"pos:x=%.0f,y=%.0f,z=%.0f", pos.x,pos.y,pos.z);
+	m_posRender.SetText(be);
+	m_posRender.Draw(rc);
+
 	//プレイヤーが描画される設定になっていたら描画する
 	if(m_gameCamera->m_playerRenderFlag)
 	{

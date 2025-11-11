@@ -5,8 +5,8 @@
 
 namespace {
 	const Vector3 ENEMY_BASE_SPAWN_POS[EnemyBaseSpawnPosNum] = {
-		{700.0f,0.0f,-200.0f},
-		{500.0f,0.0f,600.0f}
+		{700.0f,1000.0f,-200.0f},
+		{500.0f,1000.0f,600.0f}
 	};
 }
 

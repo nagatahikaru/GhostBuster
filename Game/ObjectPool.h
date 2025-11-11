@@ -6,9 +6,7 @@
 
 
 
-//Factory’§í
-//©—Í‚Å‚Ío—ˆ‚È‚©‚Á‚½
-//Ÿ‰ñˆÈ~©—Í‚Å‚Å‚«‚é‚æ‚¤‚É—‰ğ‚ğ[‚ß‚é
+
 template<typename T>
 class GenericFactory {
 public:

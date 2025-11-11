@@ -1,5 +1,4 @@
 #pragma once
-#include "ObjectPool.h"
 
 class Player;
 class SnowBall;
@@ -22,10 +21,9 @@ public:
 	void Render(RenderContext& rc);
 		
 	CharacterController m_characterController;//ìñÇΩÇËîªíË
-
+	bool m_isInited = false;
 	bool m_IsSpawn = true;
-private:
-	ObjectPool<SnowEnemy> m_snowEnemyPool;
+private:	
 	ModelRender m_snow[2];//ê·ÇæÇÈÇ‹Ç…ã[ë‘Ç∑ÇÈìG
 	Vector3 m_position;
 	Vector3 m_moveSpeed;

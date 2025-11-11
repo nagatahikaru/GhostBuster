@@ -4,7 +4,6 @@
 #include "Player.h"
 #include "SnowBall.h"
 #include "SnowBallManager.h"
-#include "ObjectPool.h"
 
 
 SnowEnemy::SnowEnemy()
@@ -14,13 +13,13 @@ SnowEnemy::SnowEnemy()
 
 SnowEnemy::~SnowEnemy()
 {
+	//m_characterController.RemoveRigidBoby();
 
 }
 
 bool SnowEnemy::Start()
 {
 	srand(time(nullptr));
-	m_position = Vector3(300.0f, 0.0f, 300.0f);
 	m_snow[0].Init("Assets/modelData/SnowMan.tkm");
 	m_snow[1].Init("Assets/modelData/SnoEnemy.tkm");
 	for (int i = 0; i < 2; i++)
@@ -29,8 +28,7 @@ bool SnowEnemy::Start()
 	}
 	m_player = FindGO<Player>("player");
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
-	
-	m_characterController.Init(50.0f, 100.0f, m_position);
+	m_hp = 10;
 
 	return true;
 }
@@ -41,9 +39,11 @@ void SnowEnemy::SetPosition(const Vector3& pos)
 	{
 		return;
 	}
-		m_position = pos;
+		m_position = pos;	
+		
+		m_characterController.Init(50.0f, 100.0f, m_position);
+		m_isInited = true;
 		m_IsSpawn = false;
-	
 }
 
 void SnowEnemy::Update()
@@ -145,7 +145,12 @@ bool SnowEnemy::CanAtk() {
 void SnowEnemy::Damage(int damage)
 {
 	m_hp -= damage;
-
+	if (m_hp <= 0)
+	{
+		m_characterController.RemoveRigidBoby();
+		m_IsSpawn = true;
+		Deactivate();
+	}
 }
 
 void SnowEnemy::PlayAnimation()

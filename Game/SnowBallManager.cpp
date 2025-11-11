@@ -15,7 +15,7 @@ SnowBallManager::~SnowBallManager()
 
 bool SnowBallManager::Start()
 {
-	m_snowBallPool.Init(12, "snowBall");
+	m_snowBallPool.Init(3, "snowBall");
 	return true;
 }
 

@@ -16,7 +16,6 @@ public:
 	void Move();
 	void Rotate();
 	void PlayAnimation();	
-	void Atk();
 	void Damage(int damage);
 	void Render(RenderContext& rc);
 
@@ -46,7 +45,7 @@ private:
 		enAnimationClip_Jump,
 		enAnimationClip_Num,
 	};
-
+	FontRender m_posRender;
 	Vector3 m_playerCollisionScale;	
 	AnimationClip m_animationClips[enAnimationClip_Num];
 	float m_time = 0.0f;//時間
@@ -59,6 +58,7 @@ private:
 	int m_playerAnimationState = 0;//Playerのアニメーション状態	
 	int m_form1 = 2;//チェック用
 	int m_form2 = 3;//チェック用
+	float m_jumpingPower = 0.0f;
 	bool sperd = false;
 };
 
