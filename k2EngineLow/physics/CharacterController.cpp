@@ -297,6 +297,17 @@ namespace nsK2EngineLow {
 	*/
 	void CharacterController::RemoveRigidBoby()
 	{
+		// 初期化済みか、RigidBody が有効かを確認して安全に除去する
+		if (!m_isInited) return;
+
+		btRigidBody* body = m_rigidBody.GetBody();
+		if (body == nullptr) {
+			// 既に剛体が取り除かれている、または未初期化
+			m_isInited = false;
+			return;
+		}
+
 		PhysicsWorld::GetInstance()->RemoveRigidBody(m_rigidBody);
+		m_isInited = false;
 	}
 }

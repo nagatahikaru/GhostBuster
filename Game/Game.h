@@ -7,6 +7,9 @@ class BackGround;
 class SnowEnemy;
 class SnowBallManager;
 class SnowEnemyManager;
+class MushroomEnemyManager;
+class GhostEnemyManager;
+class GolemEnemy;
 //class GameClear;
 
 //GameƒV[ƒ“‚ğŠÇ—‚·‚éƒNƒ‰ƒXB
@@ -29,6 +32,9 @@ public:
 	//GameClear* m_gameclear;   //ƒQ[ƒ€ƒNƒŠƒA
 	BackGround* m_backGround; //”wŒi	
 	SnowEnemyManager* m_snowEnemyManager;//á‚¾‚é‚ÜŒ^‚Ì“G
-	SnowBallManager* m_snowBallManager;
+	SnowBallManager* m_snowBallManager;//á‹Ê
+	MushroomEnemyManager* m_mushroomEnemyManager;//ƒLƒmƒRŒ^‚Ì“G
+	GhostEnemyManager* m_ghostEnemyManager;//—H—ìŒ^‚Ì“G
+	GolemEnemy* m_golemEnemy;//ƒS[ƒŒƒ€Œ^‚Ì“G
 };
 

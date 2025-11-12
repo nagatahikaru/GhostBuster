@@ -228,11 +228,13 @@
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="GameLoad.cpp" />
     <ClCompile Include="GhostEnemy.cpp" />
+    <ClCompile Include="GhostEnemyManager.cpp" />
     <ClCompile Include="GolemEnemy.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemBox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MushroomEnemy.cpp" />
+    <ClCompile Include="MushroomEnemyManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SnowBall.cpp" />
     <ClCompile Include="SnowBallManager.cpp" />
@@ -253,10 +255,12 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="GameLoad.h" />
     <ClInclude Include="GhostEnemy.h" />
+    <ClInclude Include="GhostEnemyManager.h" />
     <ClInclude Include="GolemEnemy.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemBox.h" />
     <ClInclude Include="MushroomEnemy.h" />
+    <ClInclude Include="MushroomEnemyManager.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />

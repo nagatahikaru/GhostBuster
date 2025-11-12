@@ -92,7 +92,12 @@ namespace nsK2EngineLow {
 		*/
 		void RemoveRigidBody(RigidBody& rb)
 		{
-			m_dynamicWorld->removeRigidBody(rb.GetBody());
+			btRigidBody* body = rb.GetBody();
+			if (body == nullptr) {
+				// ‰½‚à‚µ‚È‚¢i–hŒä“Ij
+				return;
+			}
+			m_dynamicWorld->removeRigidBody(body);
 		}
 		
 		void ConvexSweepTest(

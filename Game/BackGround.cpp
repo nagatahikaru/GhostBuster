@@ -16,6 +16,5 @@ BackGround::~BackGround()
 void BackGround::Render(RenderContext& rc)
 {
 	m_modelRender.Draw(rc);
-	//“–‚½‚è”»’è‚ð•`‰æ‚·‚éB
-	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
 }

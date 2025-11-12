@@ -1,5 +1,4 @@
 #pragma once
-#include "ObjectPool.h"
 
 class SnowEnemy;
 class Player;
@@ -30,7 +29,6 @@ private:
 	CollisionObject* m_ballcollisionObj;
 	Quaternion m_rotation;     //クォータニオン
 	float m_speed=0.0f;
-	float m_gravity = 0.1f;
-	ObjectPool<SnowBall> m_pool;
+	float m_gravity = 0.1f;	
 };
 

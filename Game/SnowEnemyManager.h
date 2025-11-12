@@ -3,7 +3,7 @@
 
 class SnowEnemy;
 
-enum { EnemyBaseSpawnPosNum = 2};
+enum { SnowEnemyBaseSpawnPosNum = 8};
 
 class SnowEnemyManager:public IGameObject
 {
@@ -13,7 +13,7 @@ public:
 	bool Start() override;
 	void Update() override;
 	void Regeneration();
-	//float Random(const float min, const float max);
+	
 	
 
 private:

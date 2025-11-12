@@ -4,6 +4,12 @@
 #include "GameCamera.h"
 #include "SnowEnemy.h"
 #include "SnowEnemyManager.h"
+#include "GhostEnemy.h"
+#include "GhostEnemyManager.h"
+#include "GolemEnemy.h"
+#include "MushroomEnemy.h"
+#include "MushroomEnemyManager.h"
+
 //#include "ObjectPool.h"
 
 
@@ -52,6 +58,9 @@ bool Player::Start()
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
 	const auto& enemys = FindGOs<SnowEnemy>("snowenemy");
+	const auto& ghostEnemys = FindGOs<GhostEnemy>("ghostEnemy");
+	const auto& mushroomEnemys = FindGOs<MushroomEnemy>("mushroomEnemy");
+	m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
 	m_residue = 3;
 	m_jumpingPower = 550.0f;
 	return true;
@@ -63,25 +72,12 @@ void Player::Update()
 	Move();
 	Rotate();
 	PlayAnimation();
+	ContactJudgment();
 }
 
 //移動処理
 void Player::Move()
-{
-	
-	const auto snowenemys = FindGOs<SnowEnemy>("snowEnemy");
-	for (auto snowEnemy : snowenemys)
-	{
-		if (!snowEnemy->m_isInited) continue;
-
-		//ポインタ参照には*がいる
-		if (m_playerCollisionObj->IsHit(snowEnemy->m_characterController))
-		{
-			// 当たり判定があったときの処理
-			snowEnemy->Damage(10);
-			m_position.y += m_jumpingPower;
-		}
-	}
+{	
 	//xzの移動速度を0.0fにする
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
@@ -146,6 +142,12 @@ void Player::Move()
 		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime()*4;
 	}
 
+	if(m_position.y<=-800.0f)
+	{
+		m_position = Vector3{ 500.0f,1600.0f,0.0f };		
+	}
+
+
 	if (g_pad[0]->IsTrigger(enButtonX))
 	{
 		int form=m_formState;
@@ -183,6 +185,68 @@ void Player::Rotate()
 	m_rotation.SetRotationYFromDirectionXZ(forward);
 	//絵描きさんに回転を教える
 	m_modelRender[m_formState].SetRotation(m_rotation);
+}
+
+void Player::ContactJudgment()
+{
+	
+	const auto snowenemys = FindGOs<SnowEnemy>("snowEnemy");
+	const auto ghostenemys = FindGOs<GhostEnemy>("ghostEnemy");
+	const auto mushroomenemys = FindGOs<MushroomEnemy>("mushroomEnemy");
+
+	//雪だるま型の敵との当たり判定	
+	for (auto snowEnemy : snowenemys)
+	{
+		if (!snowEnemy->m_isInited) continue;
+
+		//ポインタ参照には*がいる
+		if (m_playerCollisionObj->IsHit(snowEnemy->m_characterController))
+		{
+			// 当たり判定があったときの処理
+			snowEnemy->Damage(10);
+			m_position.y += m_jumpingPower;
+		}
+	}
+	//幽霊型の敵との当たり判定
+	for (auto ghostEnemys : ghostenemys)
+	{
+		if (!ghostEnemys->m_isInited) continue;
+
+		//ポインタ参照には*がいる
+		if (m_playerCollisionObj->IsHit(ghostEnemys->m_characterController))
+		{
+			// 当たり判定があったときの処理
+			ghostEnemys->Damage(10);
+			m_position.y += m_jumpingPower;
+		}
+	}
+	//キノコ型の敵との当たり判定
+	for (auto mushroomEnemys : mushroomenemys)
+	{
+		if (!mushroomEnemys->m_isInited) continue;
+		//ポインタ参照には*がいる
+		if (m_playerCollisionObj->IsHit(mushroomEnemys->m_characterController))
+		{
+			// 当たり判定があったときの処理
+			mushroomEnemys->Damage(10);
+			m_position.y += m_jumpingPower;
+		}
+	}
+	if (m_golemEnemy == nullptr)
+	{
+		return;
+	}
+	//ゴーレム型の敵との当たり判定
+	if(m_golemEnemy->m_isInited)
+	{
+		//ポインタ参照には*がいる
+		if (m_playerCollisionObj->IsHit(m_golemEnemy->m_characterController))
+		{
+			// 当たり判定があったときの処理
+			m_golemEnemy->Damage(10);
+			m_position.y += m_jumpingPower;
+		}
+	}
 }
 
 //アニメーションの再生

@@ -27,6 +27,8 @@
     <ClCompile Include="SnowBall.cpp" />
     <ClCompile Include="SnowBallManager.cpp" />
     <ClCompile Include="SnowEnemyManager.cpp" />
+    <ClCompile Include="MushroomEnemyManager.cpp" />
+    <ClCompile Include="GhostEnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -51,6 +53,8 @@
     <ClInclude Include="SnowBallManager.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="SnowEnemyManager.h" />
+    <ClInclude Include="MushroomEnemyManager.h" />
+    <ClInclude Include="GhostEnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

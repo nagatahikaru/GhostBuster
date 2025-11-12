@@ -1,6 +1,7 @@
 #pragma once
 
 class Item;
+class Player;
 
 class UI:public IGameObject
 {
@@ -11,9 +12,11 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
-	FontRender m_time;//時間表示
-	FontRender m_residue;//プレイヤー残基UI
-	SpriteRender m_itemColumn;//アイテム欄
+private:
+	FontRender m_timeUI;//時間表示
+	FontRender m_residueUI;//プレイヤー残基UI
+	SpriteRender m_playerfestureUI;//プレイヤー顔アイコン
+	SpriteRender m_itemColumnUI;//アイテム欄
 	SpriteRender m_itemSprite;//表示アイテム
 	SpriteRender m_map;//マップ表示
 	Item* m_item;//アイテム

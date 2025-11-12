@@ -5,6 +5,9 @@
 #include "BackGround.h"
 #include "SnowEnemyManager.h"
 #include "SnowBallManager.h"
+#include "MushroomEnemyManager.h"
+#include "GhostEnemyManager.h"
+#include "GolemEnemy.h"
 
 
 
@@ -29,6 +32,9 @@ bool Game::Start()
 	m_backGround = NewGO<BackGround>(0, "backGround");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_snowEnemyManager = NewGO<SnowEnemyManager>(0, "snowEnemyManager");
+	m_mushroomEnemyManager = NewGO<MushroomEnemyManager>(0, "mushroomEnemyManager");
+	m_ghostEnemyManager = NewGO<GhostEnemyManager>(0, "ghostEnemyManager");
+	m_golemEnemy = NewGO<GolemEnemy>(0, "golemEnemy");
 	//m_gameBGM = NewGO<SoundSource>(0, "gameBGM");
 	m_player = FindGO<Player>("player");
 	m_snowBallManager = NewGO<SnowBallManager>(0,"snowBallManager");
@@ -40,6 +46,8 @@ void Game::Update()
 {
 	GameClearProcess();	
 	GameOverProcess();
+	//“–‚½‚è”»’è‚ð•`‰æ‚·‚éB
+//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 }
 
 void Game::GameClearProcess()

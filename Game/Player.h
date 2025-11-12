@@ -4,6 +4,11 @@
 class GameCamera;
 class SnowEnemy;
 class SnowEnemyManager;
+class GhostEnemyManager;
+class GhostEnemy;
+class GolemEnemy;
+class MushroomEnemyManager;
+class MushroomEnemy;
 
 
 class Player:public IGameObject
@@ -16,6 +21,7 @@ public:
 	void Move();
 	void Rotate();
 	void PlayAnimation();	
+	void ContactJudgment();
 	void Damage(int damage);
 	void Render(RenderContext& rc);
 
@@ -36,7 +42,7 @@ public:
 	int m_residue=3;
 	CollisionObject* m_playerCollisionObj;
 private:
-	//ObjectPool<SnowEnemy> m_snowEnemyPool;
+	GolemEnemy* m_golemEnemy;
 	SnowEnemyManager* m_snwoEnemyManager;
 	enum EnAnimaationClip {
 		enAnimationClip_Idle,
