@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MushroomEnemy.h"
 #include "Player.h"
+#include "Enemy.h"
 
 MushroomEnemy::MushroomEnemy()
 {
@@ -9,30 +10,23 @@ MushroomEnemy::MushroomEnemy()
 
 MushroomEnemy::~MushroomEnemy()
 {
-	//m_characterController.RemoveRigidBoby();
+	
 }
 
 bool MushroomEnemy::Start()
 {
 	srand(time(nullptr));
-	m_mushroom.Init("Assets/modelData/Mushroom.tkm");	
+	m_mushroom.Init("Assets/modelData/Mushroom.tkm");
 	m_mushroom.SetPosition(m_position);	
-	m_player = FindGO<Player>("player");	
+	m_player = FindGO<Player>("player");
+	m_mushroomController.Init(25.0f, 80.0f, m_position);
 	m_hp = 10;
 	return true;
 }
 
-void MushroomEnemy::SetPosition(const Vector3& pos)
+void MushroomEnemy::OnSpawn(const Vector3& pos)
 {
-	if (!m_IsSpawn)
-	{
-		return;
-	}
-	m_position = pos;
-
-	m_characterController.Init(50.0f, 100.0f, m_position);
-	m_isInited = true;
-	m_IsSpawn = false;
+	Enemy::OnSpawn(pos, m_mushroomController);
 }
 
 void MushroomEnemy::Update()
@@ -50,29 +44,19 @@ void MushroomEnemy::Move()
 	Vector3 dif = m_player->m_position - m_position;
 	float distance = dif.Length();
 	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’èˆÈ‰º‚Ìê‡
-	//‹[‘Ô‚ğ‰ğ‚¢‚ÄUŒ‚‚ğ‚·‚é
-	if (distance <= 250.0f)
-	{
-		m_form = 1;
-	}
-	//‹[‘Ô‚µ‚Ä‚½‚ç“®‚©‚È‚¢
-	if (m_form == 0)
-	{
-		return;
-	}
-
 	if (distance >= 2000.0f)
 	{
-		m_form = 0;
+		//ˆê’èˆÈã—£‚ê‚½‚çœpœjs“®‚ğs‚¤
+		Wandering(m_mushroom);
 	}
 
-	m_speed = 100.0f;
+	// 	m_speed = 100.0f;
 	dif.Normalize();
 	m_moveSpeed = dif * m_speed;
 	m_moveSpeed.y -= 150.0f;
 
 	Atk();
-	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+	m_position = m_mushroomController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_mushroom.SetPosition(m_position);
 	m_mushroom.Update();
 	Rotation();
@@ -123,13 +107,7 @@ bool MushroomEnemy::CanAtk() {
 
 void MushroomEnemy::Damage(int damage)
 {
-	m_hp -= damage;
-	if (m_hp <= 0)
-	{
-		m_characterController.RemoveRigidBoby();
-		m_IsSpawn = true;
-		Deactivate();
-	}
+	Enemy::Damage(damage, m_mushroomController);
 }
 
 void MushroomEnemy::PlayAnimation()

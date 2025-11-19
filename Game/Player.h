@@ -3,12 +3,10 @@
 
 class GameCamera;
 class SnowEnemy;
-class SnowEnemyManager;
-class GhostEnemyManager;
 class GhostEnemy;
 class GolemEnemy;
-class MushroomEnemyManager;
 class MushroomEnemy;
+class Enemy;
 
 
 class Player:public IGameObject
@@ -42,8 +40,7 @@ public:
 	int m_residue=3;
 	CollisionObject* m_playerCollisionObj;
 private:
-	GolemEnemy* m_golemEnemy;
-	SnowEnemyManager* m_snwoEnemyManager;
+	GolemEnemy* m_golemEnemy;	
 	enum EnAnimaationClip {
 		enAnimationClip_Idle,
 		enAnimationClip_Walk,
@@ -59,7 +56,7 @@ private:
 	float m_initialVelocity = 10.0f;//初速度
 	float m_reset = 0.0f;	//リセット用
 	int m_jumpCount = 0;//ジャンプ回数
-	//int m_maxJumpCount = 3;//最大ジャンプ回数
+	
 	bool m_jumpFlag = false;//ジャンプフラグ
 	int m_playerAnimationState = 0;//Playerのアニメーション状態	
 	int m_form1 = 2;//チェック用

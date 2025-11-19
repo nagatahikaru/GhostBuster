@@ -1,18 +1,19 @@
 #pragma once
+#include "Enemy.h"
 
 class Player;
 class SnowBall;
 class SnowBallManager;
+class Enemy;
 
-class SnowEnemy:public IGameObject
+class SnowEnemy:public Enemy
 {
 public:
 	SnowEnemy();
 	~SnowEnemy()override;
 	bool Start();
 	void Update();
-	void SetPosition(const Vector3& pos);
-	bool CanAtk();
+	void OnSpawn(const Vector3& pos);
 	void Atk();
 	void Move();
 	void Rotation();
@@ -20,24 +21,14 @@ public:
 	void PlayAnimation();
 	void Render(RenderContext& rc);
 		
-	CharacterController m_characterController;//当たり判定
-	bool m_isInited = false;
-	bool m_IsSpawn = true;
+	CharacterController m_snowController;//当たり判定
+
 private:	
 	ModelRender m_snow[2];//雪だるまに擬態する敵
-	Vector3 m_position;
-	Vector3 m_moveSpeed;
-	Vector3 m_snowEnemyCollisionScale;
-	Player* m_player;
 	SnowBallManager* m_snowBallManager;	
-	Quaternion m_rotation;     //クォータニオン。
-	int m_form = 0;
-	int m_hp=0;
-	int m_posStert=0;
-	float m_speed = 0.0f;
+	int m_form = 0; //雪だるまの形態
 	FontRender m_distance;
-	float m_coolTime;
-	bool m_coolTimeFrag = false;
+
 	
 };
 

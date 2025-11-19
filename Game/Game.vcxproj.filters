@@ -29,6 +29,7 @@
     <ClCompile Include="SnowEnemyManager.cpp" />
     <ClCompile Include="MushroomEnemyManager.cpp" />
     <ClCompile Include="GhostEnemyManager.cpp" />
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -55,6 +56,7 @@
     <ClInclude Include="SnowEnemyManager.h" />
     <ClInclude Include="MushroomEnemyManager.h" />
     <ClInclude Include="GhostEnemyManager.h" />
+    <ClInclude Include="Enemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

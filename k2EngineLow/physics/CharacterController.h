@@ -85,6 +85,10 @@ namespace nsK2EngineLow {
 		* @brief	剛体を物理エンジンから削除。。
 		*/
 		void RemoveRigidBoby();
+
+		void SetCollisionActive(bool isActive);
+
+
 	private:
 		bool				m_isInited = false;				//!<初期化済み？
 		Vector3 			m_position;						//!<座標。
@@ -94,5 +98,6 @@ namespace nsK2EngineLow {
 		float				m_radius = 0.0f;				//!<カプセルコライダーの半径。
 		float				m_height = 0.0f;				//!<カプセルコライダーの高さ。
 		RigidBody			m_rigidBody;					//剛体。
+		bool m_isCollisionActive = false;			//!<衝突判定有効？
 	};
 }

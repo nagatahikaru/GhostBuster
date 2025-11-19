@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "SnowBall.h"
 #include "SnowBallManager.h"
+#include "Enemy.h"
 
 
 SnowEnemy::SnowEnemy()
@@ -13,8 +14,7 @@ SnowEnemy::SnowEnemy()
 
 SnowEnemy::~SnowEnemy()
 {
-	//m_characterController.RemoveRigidBoby();
-
+	
 }
 
 bool SnowEnemy::Start()
@@ -26,24 +26,21 @@ bool SnowEnemy::Start()
 	{
 		m_snow[i].SetPosition(m_position);
 	}
+	m_snowController.Init(25.0f, 80.0f, m_position);
 	m_player = FindGO<Player>("player");
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
-	m_hp = 10;
-
 	return true;
 }
 
-void SnowEnemy::SetPosition(const Vector3& pos)
+void SnowEnemy::OnSpawn(const Vector3& pos)
 {
-	if (!m_IsSpawn)
-	{
-		return;
-	}
-		m_position = pos;	
-		
-		m_characterController.Init(50.0f, 100.0f, m_position);
-		m_isInited = true;
-		m_IsSpawn = false;
+	m_snow[0].SetPosition(m_position);
+	m_snow[1].SetPosition(m_position);
+	m_hp = m_maxHp;
+	m_form = 0;
+	m_position = pos;
+	m_snowController.SetCollisionActive(true);
+	m_snowController.SetPosition(pos);
 }
 
 void SnowEnemy::Update()
@@ -83,7 +80,7 @@ void SnowEnemy::Move()
 	m_moveSpeed.y -= 150.0f;
 
 	Atk();
-	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
+	m_position = m_snowController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_snow[m_form].SetPosition(m_position);
 	m_snow[m_form].Update();
 	Rotation();
@@ -120,37 +117,9 @@ void SnowEnemy::Atk()
 	m_coolTimeFrag = true;
 }
 
-bool SnowEnemy::CanAtk() {
-	if (m_coolTimeFrag)
-	{
-		m_coolTime -= g_gameTime->GetFrameDeltaTime();
-		if (m_coolTime <= 0.0f)
-		{
-			m_coolTime = 0.0f;	
-			m_coolTimeFrag = false;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	Vector3 dif = m_position - m_player->m_position;
-	if (dif.Length() > 750.0f) {
-		return false;
-	}
-	return true;
-}
-
-
 void SnowEnemy::Damage(int damage)
 {
-	m_hp -= damage;
-	if (m_hp <= 0)
-	{
-		m_characterController.RemoveRigidBoby();
-		m_IsSpawn = true;
-		Deactivate();
-	}
+	Enemy::Damage(damage,m_snowController);
 }
 
 void SnowEnemy::PlayAnimation()

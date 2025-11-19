@@ -35,7 +35,7 @@ bool Game::Start()
 	m_mushroomEnemyManager = NewGO<MushroomEnemyManager>(0, "mushroomEnemyManager");
 	m_ghostEnemyManager = NewGO<GhostEnemyManager>(0, "ghostEnemyManager");
 	m_golemEnemy = NewGO<GolemEnemy>(0, "golemEnemy");
-	//m_gameBGM = NewGO<SoundSource>(0, "gameBGM");
+	m_gameBGM = NewGO<SoundSource>(0, "gameBGM");
 	m_player = FindGO<Player>("player");
 	m_snowBallManager = NewGO<SnowBallManager>(0,"snowBallManager");
 	
