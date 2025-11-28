@@ -1,7 +1,11 @@
 #pragma once
 #include "ObjectPool.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 class SnowEnemy;
+class InGameUI;
+
 
 enum { SnowEnemyBaseSpawnPosNum = 8};
 
@@ -24,5 +28,6 @@ private:
 	int m_randomNumber = 0;
 	Vector3 m_spawnPos;
 	Vector3 m_enemyBaseSpawnPos;
+	InGameUI* m_inGameUI;
 };
 

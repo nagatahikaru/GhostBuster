@@ -148,22 +148,22 @@ namespace nsK2Engine {
 			});
 			return isCollision;
 		}
-		//何故か反応しないので現在は使用不可。
-		/*/// <summary>
-		/// コリジョンオブジェクトとフィジックススタティックオブジェクトの当たり判定。
-		/// </summary>
-		/// <param name="physicsStaticObject">衝突判定したいフィジックススタティックオブジェクト。</param>
-		/// <returns>衝突したらtrue。</returns>
-		bool IsHit(PhysicsStaticObject& physicsStaticObject)
-		{
-			bool isCollision = false;
-			PhysicsWorld::GetInstance()->ContactTest(physicsStaticObject.GetbtCollisionObject(), [&](const btCollisionObject& contactObject) {
-				if (m_physicsGhostObject.IsSelf(contactObject) == true) {
-					isCollision = true;
-				}
-				});
-			return isCollision;
-		}*/
+		////何故か反応しないので現在は使用不可。
+		///// <summary>
+		///// コリジョンオブジェクトとフィジックススタティックオブジェクトの当たり判定。
+		///// </summary>
+		///// <param name="physicsStaticObject">衝突判定したいフィジックススタティックオブジェクト。</param>
+		///// <returns>衝突したらtrue。</returns>
+		//bool IsHit(PhysicsStaticObject& physicsStaticObject)
+		//{
+		//	bool isCollision = false;
+		//	PhysicsWorld::GetInstance()->ContactTest(physicsStaticObject.GetbtCollisionObject(), [&](const btCollisionObject& contactObject) {
+		//		if (m_physicsGhostObject.IsSelf(contactObject) == true) {
+		//			isCollision = true;
+		//		}
+		//		});
+		//	return isCollision;
+		//}
 		/// <summary>
 		/// ゴーストオブジェクトを取得。
 		/// </summary>

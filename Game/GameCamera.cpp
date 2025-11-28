@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameCamera.h"
 #include "Player.h"
+#include "UI/InGameUI/InGameUI.h"
 
 GameCamera::GameCamera()
 {
@@ -30,14 +31,17 @@ bool GameCamera::Start()
 
 	//カメラのニアクリップとファークリップを設定する //おそらく近平面と遠平面
 	g_camera3D->SetNear(1.0f);
-	g_camera3D->SetFar(50000.0f);
-
+	g_camera3D->SetFar(100000.0f);
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	return true;
 }
 
 void GameCamera::Update()
 {
-
+	if (m_inGameUI->m_blackout)
+	{
+		return;
+	}
 
 	//カメラの更新
 	//注視点を計算する

@@ -4,6 +4,24 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{42e85ba3-0de6-4844-ae94-f2e1fed81cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\TiterUI">
+      <UniqueIdentifier>{18b434f3-76dc-49e5-b8d8-b184954d6ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\InGameUI">
+      <UniqueIdentifier>{cdcc0f95-b961-4e01-bc42-3f40d5eea1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ResultUI">
+      <UniqueIdentifier>{77797ce9-2f36-4520-a4ce-eadeac074d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ClearUI">
+      <UniqueIdentifier>{6217964b-93d1-44e4-886b-8947e85890ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\OverUI">
+      <UniqueIdentifier>{93a4cd4d-6be2-4b09-a3e3-5981cfa90d68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -21,7 +39,6 @@
     <ClCompile Include="SnowEnemy.cpp" />
     <ClCompile Include="GhostEnemy.cpp" />
     <ClCompile Include="MushroomEnemy.cpp" />
-    <ClCompile Include="UI.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="GolemEnemy.cpp" />
     <ClCompile Include="SnowBall.cpp" />
@@ -30,6 +47,28 @@
     <ClCompile Include="MushroomEnemyManager.cpp" />
     <ClCompile Include="GhostEnemyManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameClear.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameTiter.cpp" />
+    <ClCompile Include="GameResult.cpp" />
+    <ClCompile Include="UI\UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\InGameUI\InGameUI.cpp">
+      <Filter>UI\InGameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ClearUI\ClearUI.cpp">
+      <Filter>UI\ClearUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\OverUI\OverUI.cpp">
+      <Filter>UI\OverUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\ResultUI\ResultUI.cpp">
+      <Filter>UI\ResultUI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\TiterUI\TiterUI.cpp">
+      <Filter>UI\TiterUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -47,7 +86,6 @@
     <ClInclude Include="SnowEnemy.h" />
     <ClInclude Include="GhostEnemy.h" />
     <ClInclude Include="MushroomEnemy.h" />
-    <ClInclude Include="UI.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="GolemEnemy.h" />
     <ClInclude Include="SnowBall.h" />
@@ -57,6 +95,28 @@
     <ClInclude Include="MushroomEnemyManager.h" />
     <ClInclude Include="GhostEnemyManager.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="GameClear.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GameTiter.h" />
+    <ClInclude Include="GameResult.h" />
+    <ClInclude Include="UI\UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\InGameUI\InGameUI.h">
+      <Filter>UI\InGameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\ClearUI\ClearUI.h">
+      <Filter>UI\ClearUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\OverUI\OverUI.h">
+      <Filter>UI\OverUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\ResultUI\ResultUI.h">
+      <Filter>UI\ResultUI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\TiterUI\TiterUI.h">
+      <Filter>UI\TiterUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include <string>
 #include <typeinfo>
@@ -16,14 +16,14 @@ public:
 
 
 //
-// ObjectPool �N���X
+// ObjectPool クラス
 // ------------------------
-// �ėp�I�ȃI�u�W�F�N�g�v�[���e���v���[�g�B
-// �p�ɂɐ����E�폜�����Q�[���I�u�W�F�N�g�i�e�E�G�E�G�t�F�N�g�Ȃǁj��
-// ���O�Ɋm�ہE�ė��p���邱�ƂŁA�p�t�H�[�}���X�����コ����ړI�Ŏg�p����B
+// 汎用的なオブジェクトプールテンプレート。
+// 頻繁に生成・削除されるゲームオブジェクト（弾・敵・エフェクトなど）を
+// 事前に確保・再利用することで、パフォーマンスを向上させる目的で使用する。
 //
-// T �� IGameObject ���p�������^��z��B
-// �g�p��F
+// T は IGameObject を継承した型を想定。
+// 使用例：
 //   ObjectPool<SnowBall> snowBallPool;
 //   snowBallPool.Init(12, "snowBall");
 //   auto ball = snowBallPool.GetInactive();
@@ -31,22 +31,22 @@ public:
 //
 template<typename T>
 class ObjectPool {
-	std::vector<T*> m_pool;	// �v�[�����̃I�u�W�F�N�g�ꗗ
+	std::vector<T*> m_pool;	// プール内のオブジェクト一覧
 	GenericFactory<T>m_factory;
 public:
 
 	//
 	// Init
 	// ------------------------
-	// �w�肳�ꂽ�������I�u�W�F�N�g�𐶐����A��A�N�e�B�u��Ԃɂ��ăv�[���Ɋi�[����B
+	// 指定された数だけオブジェクトを生成し、非アクティブ状態にしてプールに格納する。
 	//
-	// count : ��������I�u�W�F�N�g��
-	// name  : GameObject���iFindGO�ȂǂŎ��ʂ������ꍇ�Ɏg�p�j
+	// count : 生成するオブジェクト数
+	// name  : GameObject名（FindGOなどで識別したい場合に使用）
 	//
 	void Init(size_t count, const char* name = nullptr) {
 		for (size_t i = 0; i < count; ++i) {
 			auto obj =m_factory.Create(name);
-			obj->Deactivate();	// ������Ԃł͔�A�N�e�B�u
+			obj->Deactivate();	// 初期状態では非アクティブ
 			m_pool.push_back(obj);
 		}
 	}
@@ -54,13 +54,14 @@ public:
 	//
 	// GetInactive
 	// ------------------------
-	// �v�[��������u��A�N�e�B�u�ȃI�u�W�F�N�g�v��T���ĕԂ��B
-	// ���ׂĎg�p���̏ꍇ�AautoExpand �� true �Ȃ�V�K�������ăv�[���ɒǉ�����B
+	// プール内から「非アクティブなオブジェクト」を探して返す。
+	// すべて使用中の場合、autoExpand が true なら新規生成してプールに追加する。
 	//
-	// autoExpand : true�Ȃ�v�[���������g�����ĐV�K�I�u�W�F�N�g�𐶐�
-	// �߂�l     : �g�p�\�ȃI�u�W�F�N�g�|�C���^�i���݂��Ȃ��ꍇ��nullptr�j
+	// autoExpand : trueならプールを自動拡張して新規オブジェクトを生成
+	//			  :falseなら自動拡張をせず新規オブジェクトの生成はしない
+	// 戻り値     : 使用可能なオブジェクトポインタ（存在しない場合はnullptr）
 	//
-	T* GetInactive(bool autoExpand = true) {
+	T* GetInactive(bool autoExpand = false) {
 		for (auto obj : m_pool) {
 			if (!obj->IsActive())
 				return obj;
@@ -78,12 +79,13 @@ public:
 	//
 	// Spawn
 	// ------------------------
-	// �w�肵�����ԊԊu���ƂɃI�u�W�F�N�g�������I�Ɏ擾���A�A�N�e�B�u������B
-	// �o�ߎ��Ԃ͌Ăяo�����ŕێ�����ϐ����Q�Ɠn������B
+	// 敵やオブジェクトを時間で生成したいとき担当
+	// 指定した時間間隔ごとにオブジェクトを自動的に取得し、アクティブ化する。
+	// 経過時間は呼び出し元で保持する変数を参照渡しする。
 	//
-	// spawnInterval : �o���Ԋu�i�b�j
-	// elapsedTime   : �o�ߎ��ԁi�Ăяo�����ŊǗ�����^�C�}�[�j
-	// �߂�l        : �V���ɃA�N�e�B�u�����ꂽ�I�u�W�F�N�g�i�܂���nullptr�j
+	// spawnInterval : 出現間隔（秒）
+	// elapsedTime   : 経過時間（呼び出し元で管理するタイマー）
+	// 戻り値        : 新たにアクティブ化されたオブジェクト（またはnullptr）
 	//
 	T* Spawn(float spawnInterval, float& elapsedTime) {
 		elapsedTime += g_gameTime->GetFrameDeltaTime();
@@ -91,23 +93,40 @@ public:
 			auto obj = GetInactive();
 			if (obj) {
 				obj->Activate();
-				elapsedTime = 0.0f;  // ���ԃ��Z�b�g
-				return obj;          // �����i�ė��p�j�����I�u�W�F�N�g��Ԃ�
+				elapsedTime = 0.0f;  // 時間リセット
+				return obj;          // 生成（再利用）したオブジェクトを返す
 			}
 		}
-		return nullptr;  // �܂����ԂɒB���Ă��Ȃ��A�܂��͋󂫂��Ȃ�
+		return nullptr;  // まだ時間に達していない、または空きがない
 	}
+
+	/**
+	* AtkSpawn
+	* --------------------
+	* 攻撃用の生成を担当
+	* 呼び出された際にオブジェクトを自動的に取得し、アクティブ化する。
+	* 戻り値        : 新たにアクティブ化されたオブジェクト（またはnullptr）
+	*/
+	T* AtkSpawn() {
+		auto obj = GetInactive();
+		if (obj) {
+			obj->Activate();
+			return obj;
+		}
+		return nullptr;
+	}
+
 
 	// GetActive
 	// ------------------------
-	// �v�[�����̃I�u�W�F�N�g�̂����A���݃A�N�e�B�u�Ȃ��̂������W�߂ĕԂ��B
-	// �߂�l�� std::vector<T*> �ŁA�A�N�e�B�u�ȃI�u�W�F�N�g�̃|�C���^�ꗗ�B
-	// - obj �� nullptr �̏ꍇ�͖�������
-	// - obj->IsActive() �� false �̏ꍇ����������
+	// プール内のオブジェクトのうち、現在アクティブなものだけを集めて返す。
+	// 戻り値は std::vector<T*> で、アクティブなオブジェクトのポインタ一覧。
+	// - obj が nullptr の場合は無視する
+	// - obj->IsActive() が false の場合も無視する
 	//
-	// ����:
-	// - �߂�l�̓R�s�[����邽�߁A��ʂ̃I�u�W�F�N�g������ꍇ�̓R�X�g��������B
-	// - �Q�Ƃ�Ԃ��o�[�W�����ɂ���ƃR�s�[��������邪�A�O���������ĕύX����郊�X�N������B
+	// 注意:
+	// - 戻り値はコピーされるため、大量のオブジェクトがある場合はコストがかかる。
+	// - 参照を返すバージョンにするとコピーを避けられるが、外部から誤って変更されるリスクもある。
 	std::vector<T*> GetActive() const {
 		std::vector<T*> activeObjs;
 		for (auto obj : m_pool) {
@@ -116,12 +135,41 @@ public:
 		return activeObjs;
 	}
 
-
 	//
+	//Reclaim
+	//------------------------
+	// プール内の「死亡状態になったオブジェクト」を検出し、
+	// それらを非アクティブ化して再利用可能な状態に戻します。
+	// 
+	// 戻り値：
+	//   回収された（死亡 → 非アクティブになった）オブジェクトの一覧。
+	//   Manager 側でスコア加算・ドロップ生成などの処理を行う際に使用できます。
+	// 
+	// 使用例：
+	//   auto reclaimed = enemyPool.Reclaim();
+	//   for (auto e : reclaimed) {
+	//       score += e->GetScore();
+	//   }
+	//
+	// ※プールは “再利用” のみを担当し、
+	//   回収後のゲームロジック（スコア処理・削除演出など）は
+	//   Manager 側で行うことを想定しています。
+	//
+	std::vector<T*>Reclaim()const {
+		std::vector<T*> releasedObjs;
+		for (auto obj : m_pool) {
+			if (obj && obj->IsActive() && obj->IsDead()) {
+				obj->Deactivate();
+				releasedObjs.push_back(obj);
+			}
+		}
+		return releasedObjs;
+	}
+
 	// Clear
 	// ------------------------
-	// �v�[�����̑S�I�u�W�F�N�g���폜���A���������������B
-	// �Q�[���I������V�[���J�ڎ��ɌĂяo�����Ƃ�z��B
+	// プール内の全オブジェクトを削除し、メモリを解放する。
+	// ゲーム終了時やシーン遷移時に呼び出すことを想定。
 	//
 	void Clear() {
 		for (auto it = m_pool.rbegin(); it != m_pool.rend(); ++it) {

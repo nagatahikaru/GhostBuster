@@ -2,6 +2,7 @@
 #include "SnowEnemyManager.h"
 #include "SnowEnemy.h"
 #include "ObjectPool.h"
+#include "UI/InGameUI/InGameUI.h"
 
 
 namespace {
@@ -35,12 +36,22 @@ SnowEnemyManager::~SnowEnemyManager()
 bool SnowEnemyManager::Start()
 {
 	// オブジェクトプールの初期化
-	m_snowEnemyPool.Init(10, "snowEnemy");	
+	m_snowEnemyPool.Init(10, "snowEnemy");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	return true;
 }
 
 void SnowEnemyManager::Update()
 {
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
+	{
+		return;
+	}
 	//敵の再生処理
 	Regeneration();
 }

@@ -8,8 +8,7 @@ class Enemy:public IGameObject
 {
 	public:
 		Enemy();
-		virtual ~Enemy();
-		virtual void Damage(int amount,CharacterController& m_characterControlle);
+		virtual ~Enemy();		
 		virtual void Rotation(ModelRender& m_chracter);
 		virtual bool CanAtk();
 		virtual void OnSpawn(const Vector3& pos, CharacterController& m_characterController);
@@ -32,5 +31,7 @@ class Enemy:public IGameObject
 		bool randVec = false;
 		bool m_existence = false;
 		float m_wanderTime = 0.0f;
+		float m_buoyancy;
+		float m_jaumTime;
 };
 

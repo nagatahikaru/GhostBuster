@@ -1,8 +1,12 @@
 #pragma once
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 class Enemy;
 class Player;
+class InGameUI;
+
 
 class GolemEnemy:public Enemy
 {
@@ -23,5 +27,6 @@ public:
 	
 	private:
 	ModelRender m_golem;//ÉSÅ[ÉåÉÄ
+	InGameUI* m_inGameUI;
 };
 

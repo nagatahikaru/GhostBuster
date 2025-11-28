@@ -1,8 +1,10 @@
 #pragma once
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
 
 class Player;
 class Enemy;
+class InGameUI;
 
 class GhostEnemy:public Enemy
 {
@@ -21,6 +23,8 @@ public:
 	CharacterController m_ghostController;
 	private:
 	ModelRender m_ghost;//—H—ì‚Ì“G
+	InGameUI* m_inGameUI;
+	
 	
 };
 

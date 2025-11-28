@@ -4,7 +4,8 @@
 #include<InitGUID.h>
 #include<dxgidebug.h>
 #include <time.h>
-#include "Game.h"
+//#include "Game.h"
+#include "GameTiter.h"
 
 
 
@@ -38,7 +39,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//Gameクラスのオブジェクトを作成。
 	//NewGO<Player>(0);
-	NewGO<Game>(0, "game");
+	NewGO<GameTiter>(0, "gametiter");
 
 	//////////////////////////////////////
 	// 初期化を行うコードを書くのはここまで！！！

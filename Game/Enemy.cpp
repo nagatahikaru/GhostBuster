@@ -21,30 +21,6 @@ void Enemy::OnSpawn(const Vector3& pos, CharacterController& m_characterControll
 	m_characterController.SetPosition(pos);
 }
 
-
-//ダメージ処理
-//damage:与えるダメージ量
-//m_characterControlle:キャラクターコントローラー
-void Enemy::Damage(int damage,CharacterController& m_characterControlle)
-{
-	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
-	if(m_damageCoolTime<=0.0f)
-	{
-		m_damageCoolTime = 0.0f;
-	}
-	else
-	{
-		//クールタイム中はダメージを受けない
-		return;
-	}
-	m_hp -= damage;
-	if (m_hp <= 0)
-	{
-		m_characterControlle.SetCollisionActive(false);
-		Deactivate();
-	}
-}
-
 //回転処理
 //m_chracter:モデルレンダー
 void Enemy::Rotation(ModelRender& m_chracter)
@@ -90,12 +66,13 @@ void Enemy::Wandering(ModelRender& m_character)
 		//そのベクトルに向かって移動
 	// 基準点から半径250の円範囲内でランダムに出現位置を決定
 		float angle = (rand() % 360) * 3.1415f / 180.0f;
-		float radius = rand() % 250;
+		float radius = rand() % 750;
 		m_randPos.x += cosf(angle) * radius;
 		m_randPos.z += sinf(angle) * radius;
 		m_vec = m_randPos.Length();
 		m_randPos.Normalize();
 		m_wanderTime = rand() % 8 + 2.0f;
+		randVec = true;
 	}
 	m_rotation.SetRotationDegY(m_vec);
 	m_character.SetRotation(m_rotation);

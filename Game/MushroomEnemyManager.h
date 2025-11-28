@@ -1,7 +1,12 @@
 #pragma once
 #include "ObjectPool.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 class MushroomEnemy;
+class GameCamera;
+class InGameUI;
+
 
 enum { MushroomEnemyBaseSpawnPosNum = 8 };
 
@@ -22,5 +27,7 @@ private:
 	int m_randomNumber = 0;//ランダムナンバー
 	Vector3 m_spawnPos;//スポーン位置
 	Vector3 m_enemyBaseSpawnPos;//敵の基本スポーン位置
+	GameCamera* m_gameCamera;
+	InGameUI* m_inGameUI;
 };
 

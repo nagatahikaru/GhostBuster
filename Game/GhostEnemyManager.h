@@ -1,7 +1,8 @@
 #pragma once
-
+#include "UI/InGameUI/InGameUI.h"
 #include "ObjectPool.h"
 class GhostEnemy;
+class InGameUI;
 
 enum { GhostEnemyBaseSpawnPosNum = 8 };
 
@@ -22,5 +23,6 @@ private:
 	int m_randomNumber = 0;//ランダムナンバー
 	Vector3 m_spawnPos;//スポーン位置
 	Vector3 m_enemyBaseSpawnPos;//敵の基本スポーン位置
+	InGameUI* m_inGameUI;
 };
 

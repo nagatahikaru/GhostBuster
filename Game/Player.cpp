@@ -6,6 +6,8 @@
 #include "GolemEnemy.h"
 #include "MushroomEnemy.h"
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 Player::Player()
 {
@@ -19,7 +21,7 @@ Player::~Player()
 
 bool Player::Start()
 {
-	//アニメーションクリップの読み込み
+	//基本形態のアニメーションクリップの読み込み
 	m_animationClips[enAnimationClip_Idle].Load("Assets/animData/idle.tka");
 	m_animationClips[enAnimationClip_Idle].SetLoopFlag(true);
 	m_animationClips[enAnimationClip_Walk].Load("Assets/animData/walk.tka");
@@ -28,8 +30,15 @@ bool Player::Start()
 	m_animationClips[enAnimationClip_Run].SetLoopFlag(true);
 	m_animationClips[enAnimationClip_Jump].Load("Assets/animData/jump.tka");
 	m_animationClips[enAnimationClip_Jump].SetLoopFlag(false);
+	//大人形態のアニメーションクリップの読み込み
+
+	//魔女形態のアニメーションクリップの読み込み
+	
+	
+	
+	
 	//モデルの初期化
-	m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
+	m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル（エラー回避のための死亡形態）
 	m_modelRender[1].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
 	m_modelRender[2].Init("Assets/modelData/unityChanDX.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//大人化モデル
 	m_modelRender[3].Init("Assets/modelData/MagicalUnity.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisZ);//魔法少女モデル
@@ -45,7 +54,7 @@ bool Player::Start()
 		Quaternion::Identity,
 		m_playerCollisionScale);
 
-	m_formState = 1;
+	m_formState = m_form0;
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_characterController.SetCollisionActive(true);
 	m_gameCamera = FindGO<GameCamera>("gameCamera");
@@ -53,14 +62,25 @@ bool Player::Start()
 	const auto& ghostEnemys = FindGOs<GhostEnemy>("ghostEnemy");
 	const auto& mushroomEnemys = FindGOs<MushroomEnemy>("mushroomEnemy");
 	m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_residue = 3;
-	m_jumpingPower = 550.0f;
+	m_jumpingPower = 1000.0f;
+
 	return true;
 }
 
 //更新処理
 void Player::Update()
 {
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
+	{
+		return;
+	}
 	Move();
 	Rotate();
 	PlayAnimation();
@@ -69,11 +89,12 @@ void Player::Update()
 
 //移動処理
 void Player::Move()
-{	
+{
+
 	//xzの移動速度を0.0fにする
 	m_moveSpeed.x = 0.0f;
 	m_moveSpeed.z = 0.0f;
-
+	
 	//左スティックの入力量を取得
 	Vector3 stickL;
 	stickL.x = g_pad[0]->GetLStickXF();
@@ -126,19 +147,19 @@ void Player::Move()
 		m_moveSpeed.y = 0.0f;
 		m_playerAnimationState = 0;
 		m_jumpCount = 0;
+		m_enemyjumpCount = 0;
 	}
 	else//地面についていなかったら
 	{
 		//重力を発生させる
-		const float gravety = 200.0f;//重力の定数
-		m_moveSpeed.y -= gravety* g_gameTime->GetFrameDeltaTime()*4;
+		const float gravety = 50.0f;//重力の定数
+		m_moveSpeed.y -= gravety;
 	}
 
-	if(m_position.y<=-800.0f)
+	if(m_position.y<=-400.0f)
 	{
 		m_position = Vector3{ 500.0f,1600.0f,0.0f };		
 	}
-
 
 	if (g_pad[0]->IsTrigger(enButtonX))
 	{
@@ -154,7 +175,7 @@ void Player::Move()
 	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState)
 	{
 		
-		//上方向に250の初速を加える
+		//上方向に1000の初速を加える
 		m_moveSpeed.y += m_jumpingPower;
 	}
 	//キャラクターコントローラーを使って座標を移動させる
@@ -169,22 +190,22 @@ void Player::Move()
 //回転処理
 void Player::Rotate()
 {
-	//入力方向を持ってくる
 	Vector3 forward = m_moveSpeed;
-	forward.y = 0;
-	forward.Normalize();
-	//向きをセット
-	m_rotation.SetRotationYFromDirectionXZ(forward);
-	//絵描きさんに回転を教える
+	forward.y = 0.0f;
+
+	const float kEps = 0.001f;
+	if (forward.Length() > kEps) {
+		// 移動があるときだけ向きを更新する
+		forward.Normalize();
+		m_facingDir = forward; // last non-zero direction を保持
+	}
+	// m_facingDir を使って回転を作る（移動が無いときは前の向きを使う）
+	m_rotation.SetRotationYFromDirectionXZ(m_facingDir);
 	m_modelRender[m_formState].SetRotation(m_rotation);
 }
 
 void Player::ContactJudgment()
 {
-	//if()
-	//{
-	//	return;
-	//}
 	const auto snowenemys = FindGOs<SnowEnemy>("snowEnemy");
 	const auto ghostenemys = FindGOs<GhostEnemy>("ghostEnemy");
 	const auto mushroomenemys = FindGOs<MushroomEnemy>("mushroomEnemy");
@@ -200,7 +221,9 @@ void Player::ContactJudgment()
 			{
 				// 当たり判定があったときの処理
 				snowEnemy->Damage(10);
-				m_moveSpeed.y += m_jumpingPower;
+				m_enemyjumpCount++;
+				m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
+				
 			}
 		}
 	}
@@ -214,7 +237,9 @@ void Player::ContactJudgment()
 			{
 				// 当たり判定があったときの処理
 				ghostEnemy->Damage(10);
-				m_moveSpeed.y += m_jumpingPower;
+				m_enemyjumpCount++;
+				m_moveSpeed.y += m_jumpingPower/ m_enemyjumpCount;
+				
 			}
 		}
 	}
@@ -228,7 +253,9 @@ void Player::ContactJudgment()
 			{
 				// 当たり判定があったときの処理
 				mushroomEnemy->Damage(10);
-				m_moveSpeed.y += m_jumpingPower;
+				m_enemyjumpCount++;
+				m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
+				
 			}
 		}
 	}
@@ -246,7 +273,9 @@ void Player::ContactJudgment()
 		{
 			// 当たり判定があったときの処理
 			m_golemEnemy->Damage(10);
-			m_moveSpeed.y += m_jumpingPower;
+			m_enemyjumpCount++;
+			m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
+			
 		}
 	}	
 }
@@ -259,31 +288,31 @@ void Player::PlayAnimation()
 		//ジャンプの処理
 		if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
 		{
-			m_playerAnimationState = 3;
+			m_playerAnimationState = enAnimationClip_Jump;
 			m_jumpCount++;
 		}
 		//地面についていなかったら
 		if (!m_characterController.IsOnGround())
 		{
-			m_playerAnimationState = 3;
+			m_playerAnimationState = enAnimationClip_Jump;
 		}
 
-		if (m_playerAnimationState != 3) { // ジャンプ中は無視
+		if (m_playerAnimationState != enAnimationClip_Jump) { // ジャンプ中は無視
 			//ｘかｚの移動速度があったら（スティックの入力があったら）
 			if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
 			{
 				//歩きアニメーションを再生する
-				m_playerAnimationState = 1;
+				m_playerAnimationState = enAnimationClip_Walk;
 				//走るアニメーションを再生する
 				if (g_pad[0]->IsPress(enButtonB))
 				{
-					m_playerAnimationState = 2;
+					m_playerAnimationState = enAnimationClip_Run;
 				}
 			}
 			//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
 			else
 			{
-				m_playerAnimationState = 0;
+				m_playerAnimationState = enAnimationClip_Idle;
 			}
 		}
 	}
@@ -328,7 +357,7 @@ void Player::Damage(int damage)
 	m_formState -= damage;
 	if (m_formState == 0)
 	{
-		m_formState = 1;
+		m_formState = m_form0;
 		m_residue--;
 	}
 }
@@ -338,16 +367,17 @@ void Player::Render(RenderContext& rc)
 {
 	if (!m_gameCamera)
 	{
+		m_gameCamera = FindGO<GameCamera>("gameCamera");
 		return;
 	}
 
-	wchar_t be[129];
-	m_posRender.SetPosition(-896.0f, 200.0f, 0.0f);
-	m_posRender.SetColor(g_vec4White);
-	Vector3 pos = m_position;
-	swprintf(be, 129, L"pos:x=%.0f,y=%.0f,z=%.0f", pos.x,pos.y,pos.z);
-	m_posRender.SetText(be);
-	m_posRender.Draw(rc);
+	//wchar_t be[129];
+	//m_posRender.SetPosition(-896.0f, 200.0f, 0.0f);
+	//m_posRender.SetColor(g_vec4White);
+	//Vector3 pos = m_position;
+	//swprintf(be, 129, L"pos:x=%.0f,y=%.0f,z=%.0f", pos.x,pos.y,pos.z);
+	//m_posRender.SetText(be);
+	//m_posRender.Draw(rc);
 
 	//プレイヤーが描画される設定になっていたら描画する
 	if(m_gameCamera->m_playerRenderFlag)

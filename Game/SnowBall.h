@@ -1,7 +1,12 @@
 #pragma once
+#include "UI/InGameUI/InGameUI.h"
+
 
 class SnowEnemy;
 class Player;
+class InGameUI;
+class BackGround;
+
 
 class SnowBall:public IGameObject
 {	
@@ -19,6 +24,8 @@ public:
 
 
 private:
+	BackGround* m_backGroud;
+	InGameUI* m_inGameUI;
 	Player* m_player;
 	SnowEnemy* m_snowEnemy;
 	ModelRender m_snowBallModel;

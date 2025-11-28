@@ -1,10 +1,14 @@
 #pragma once
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 class Player;
 class SnowBall;
 class SnowBallManager;
 class Enemy;
+class InGameUI;
+
 
 class SnowEnemy:public Enemy
 {
@@ -28,7 +32,6 @@ private:
 	SnowBallManager* m_snowBallManager;	
 	int m_form = 0; //ê·ÇæÇÈÇ‹ÇÃå`ë‘
 	FontRender m_distance;
-
-	
+	InGameUI* m_inGameUI;	
 };
 

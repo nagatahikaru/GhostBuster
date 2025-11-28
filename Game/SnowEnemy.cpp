@@ -5,6 +5,7 @@
 #include "SnowBall.h"
 #include "SnowBallManager.h"
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
 
 
 SnowEnemy::SnowEnemy()
@@ -28,7 +29,9 @@ bool SnowEnemy::Start()
 	}
 	m_snowController.Init(25.0f, 80.0f, m_position);
 	m_player = FindGO<Player>("player");
+	m_hp = 10;
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	return true;
 }
 
@@ -45,7 +48,12 @@ void SnowEnemy::OnSpawn(const Vector3& pos)
 
 void SnowEnemy::Update()
 {
-	if (!m_player)
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
 	{
 		return;
 	}
@@ -56,34 +64,56 @@ void SnowEnemy::Update()
 void SnowEnemy::Move()
 {
 	Vector3 dif = m_player->m_position- m_position;
+	dif.y = 0;
 	float distance=dif.Length();
+	m_speed = 100.0f;
+	dif.Normalize();
+	m_moveSpeed = dif * m_speed;
+	if (!m_snowController.IsOnGround())
+	{
+		m_moveSpeed.y -= 200.0f;
+	}
+	else
+	{
+		m_jaumTime -= g_gameTime->GetFrameDeltaTime();
+		if(m_jaumTime<=0)
+		{
+			m_jaumTime = 0;
+		}
+	}
+	if (m_player->m_position.y > m_position.y + 100&& m_jaumTime <=0&&m_form==1)
+	{
+		m_moveSpeed.y += 1000.0f;
+		m_jaumTime=4.0f;
+	}
 	//ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’èˆÈ‰º‚Ìê‡
-	//‹[‘Ô‚ð‰ð‚¢‚ÄUŒ‚‚ð‚·‚é
+//‹[‘Ô‚ð‰ð‚¢‚ÄUŒ‚‚ð‚·‚é
 	if (distance <= 250.0f)
 	{
 		m_form = 1;
 	}
 	//‹[‘Ô‚µ‚Ä‚½‚ç“®‚©‚È‚¢
 	if (m_form == 0)
-	{
-		return;
+	{		
+		m_moveSpeed.x = 0;
+		m_moveSpeed.z = 0;
 	}
-
 	if (distance >= 2000.0f)
 	{
 		m_form = 0;
 	}
-
-	m_speed = 100.0f;
-	dif.Normalize();
-	m_moveSpeed = dif * m_speed;
-	m_moveSpeed.y -= 150.0f;
-
-	Atk();
+	if (distance <= 750 && m_form == 1)
+	{
+		Atk();
+	}
+	
 	m_position = m_snowController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_snow[m_form].SetPosition(m_position);
 	m_snow[m_form].Update();
-	Rotation();
+	if(m_form==1)
+	{
+		Rotation();
+	}
 	
 }
 
@@ -119,7 +149,22 @@ void SnowEnemy::Atk()
 
 void SnowEnemy::Damage(int damage)
 {
-	Enemy::Damage(damage,m_snowController);
+	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
+	if (m_damageCoolTime <= 0.0f)
+	{
+		m_damageCoolTime = 0.0f;
+	}
+	else
+	{
+		//ƒN[ƒ‹ƒ^ƒCƒ€’†‚Íƒ_ƒ[ƒW‚ðŽó‚¯‚È‚¢
+		return;
+	}
+	m_hp -= damage;
+	if (m_hp <= 0)
+	{
+		m_snowController.SetCollisionActive(false);
+		Deactivate();
+	}
 }
 
 void SnowEnemy::PlayAnimation()
@@ -130,14 +175,4 @@ void SnowEnemy::PlayAnimation()
 void SnowEnemy::Render(RenderContext& rc)
 {
 	m_snow[m_form].Draw(rc);
-
-	Vector3 dif = m_position - m_player->m_position;
-	float distance = dif.Length();
-	wchar_t be[129];
-	m_distance.SetPosition(-896.0f, 300.0f, 0.0f);
-	m_distance.SetColor(g_vec4White);
-	float Distance = distance;
-	swprintf(be, 129, L"Distance:%.0f", Distance);
-	m_distance.SetText(be);
-	m_distance.Draw(rc);
 }

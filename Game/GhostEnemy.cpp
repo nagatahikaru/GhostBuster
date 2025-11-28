@@ -2,6 +2,7 @@
 #include "GhostEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
 
 GhostEnemy::GhostEnemy()
 {
@@ -19,7 +20,9 @@ bool GhostEnemy::Start()
 	m_ghost.Init("Assets/modelData/Ghost.tkm");
 	m_ghost.SetPosition(m_position);
 	m_player = FindGO<Player>("player");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_ghostController.Init(30.0f, 80.0f, m_position);
+	m_hp = 10;
 	return true;
 }
 
@@ -30,10 +33,16 @@ void GhostEnemy::OnSpawn(const Vector3& pos)
 
 void GhostEnemy::Update()
 {
-	if (!m_player)
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
 	{
 		return;
-	}	
+	}
+
 	Move();
 	//PlayAnimation();
 }
@@ -55,7 +64,22 @@ void GhostEnemy::Move()
 	m_speed = 100.0f;
 	dif.Normalize();
 	m_moveSpeed = dif * m_speed;
-	m_moveSpeed.y -= 150.0f;
+	m_moveSpeed.y -= 200.0f;
+	if (m_player->m_position.y + 100.0 > m_position.y&& m_jaumTime <=0)
+	{
+		m_buoyancy = 1000.0f;
+		m_jaumTime =4.0f;
+	}
+	else
+	{
+		m_buoyancy = 190.0f;
+		m_jaumTime -= g_gameTime->GetFrameDeltaTime();
+		if (m_jaumTime <= 0)
+		{
+			m_jaumTime = 0;
+		}
+	}
+	m_moveSpeed.y += m_buoyancy;
 
 	Atk();
 	m_position = m_ghostController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -66,7 +90,22 @@ void GhostEnemy::Move()
 
 void GhostEnemy::Damage(int amount)
 {
-	Enemy::Damage(amount, m_ghostController);
+	//m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
+	//if (m_damageCoolTime <= 0.0f)
+	//{
+	//	m_damageCoolTime = 0.0f;
+	//}
+	//else
+	//{
+	//	//クールタイム中はダメージを受けない
+	//	return;
+	//}
+	m_hp -= amount;
+	if (m_hp <= 0)
+	{
+		m_ghostController.SetCollisionActive(false);
+		Deactivate();
+	}
 }
 
 

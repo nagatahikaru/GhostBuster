@@ -1,8 +1,11 @@
 #pragma once
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 class Enemy;
 class Player;
+class InGameUI;
 
 class MushroomEnemy:public Enemy
 {
@@ -24,5 +27,6 @@ public:
 	
 private:
 	ModelRender m_mushroom;//ƒLƒmƒR‚Ì“G
+	InGameUI* m_inGameUI;
 };
 

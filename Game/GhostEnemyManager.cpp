@@ -2,6 +2,8 @@
 #include "GhostEnemyManager.h"
 #include "GhostEnemy.h"
 #include "ObjectPool.h"
+#include "UI/InGameUI/InGameUI.h"
+
 
 namespace {
 	const Vector3 ENEMY_BASE_SPAWN_POS[GhostEnemyBaseSpawnPosNum] = {
@@ -35,12 +37,21 @@ bool GhostEnemyManager::Start()
 {
 	// オブジェクトプールの初期化
 	m_ghostEnemyPool.Init(10, "ghostEnemy");
-
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	return true;
 }
 
 void GhostEnemyManager::Update()
 {
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
+	{
+		return;
+	}
 	//敵の再生処理
 	Regeneration();
 }

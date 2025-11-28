@@ -2,6 +2,8 @@
 #include "MushroomEnemyManager.h"
 #include "MushroomEnemy.h"
 #include "ObjectPool.h"
+#include "GameCamera.h"
+#include "UI/InGameUI/InGameUI.h"
 
 
 namespace {
@@ -36,11 +38,21 @@ bool MushroomEnemyManager::Start()
 {
 	// オブジェクトプールの初期化
 	m_mushroomEnemyPool.Init(10, "mushroomEnemy");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	return true;
 }
 
 void MushroomEnemyManager::Update()
 {
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}
+	if (m_inGameUI->m_blackout)
+	{
+		return;
+	}
 	//敵の再生処理
 	Regeneration();
 }

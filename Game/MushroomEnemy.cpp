@@ -2,6 +2,7 @@
 #include "MushroomEnemy.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "UI/InGameUI/InGameUI.h"
 
 MushroomEnemy::MushroomEnemy()
 {
@@ -19,6 +20,7 @@ bool MushroomEnemy::Start()
 	m_mushroom.Init("Assets/modelData/Mushroom.tkm");
 	m_mushroom.SetPosition(m_position);	
 	m_player = FindGO<Player>("player");
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_mushroomController.Init(25.0f, 80.0f, m_position);
 	m_hp = 10;
 	return true;
@@ -31,7 +33,12 @@ void MushroomEnemy::OnSpawn(const Vector3& pos)
 
 void MushroomEnemy::Update()
 {
-	if (!m_player)
+	if (!m_inGameUI)
+	{
+		m_inGameUI = FindGO<InGameUI>("inGameUI");
+		return;
+	}	
+	if (m_inGameUI->m_blackout)
 	{
 		return;
 	}
@@ -42,6 +49,7 @@ void MushroomEnemy::Update()
 void MushroomEnemy::Move()
 {
 	Vector3 dif = m_player->m_position - m_position;
+	dif.y = 0;
 	float distance = dif.Length();
 	//プレイヤーとの距離が一定以下の場合
 	if (distance >= 2000.0f)
@@ -49,11 +57,29 @@ void MushroomEnemy::Move()
 		//一定以上離れたら徘徊行動を行う
 		Wandering(m_mushroom);
 	}
-
-	// 	m_speed = 100.0f;
+	m_speed = 100.0f;
 	dif.Normalize();
 	m_moveSpeed = dif * m_speed;
-	m_moveSpeed.y -= 150.0f;
+
+
+
+	if (!m_mushroomController.IsOnGround())
+	{
+		m_moveSpeed.y-=20.0f;
+	}
+	else
+	{
+		m_jaumTime -= g_gameTime->GetFrameDeltaTime();
+		if (m_jaumTime <= 0)
+		{
+			m_jaumTime = 0;
+		}
+	}
+	if (m_player->m_position.y > m_position.y + 100 && m_jaumTime <= 0)
+	{
+		m_moveSpeed.y += 500.0f;
+		m_jaumTime = 4.0f;
+	}
 
 	Atk();
 	m_position = m_mushroomController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
@@ -107,7 +133,22 @@ bool MushroomEnemy::CanAtk() {
 
 void MushroomEnemy::Damage(int damage)
 {
-	Enemy::Damage(damage, m_mushroomController);
+	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
+	if (m_damageCoolTime <= 0.0f)
+	{
+		m_damageCoolTime = 0.0f;
+	}
+	else
+	{
+		//クールタイム中はダメージを受けない
+		return;
+	}
+	m_hp -= damage;
+	if (m_hp <= 0)
+	{
+		m_mushroomController.SetCollisionActive(false);
+		Deactivate();
+	}
 }
 
 void MushroomEnemy::PlayAnimation()

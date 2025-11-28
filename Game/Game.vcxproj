@@ -227,7 +227,11 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameLoad.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GameResult.cpp" />
+    <ClCompile Include="GameTiter.cpp" />
     <ClCompile Include="GhostEnemy.cpp" />
     <ClCompile Include="GhostEnemyManager.cpp" />
     <ClCompile Include="GolemEnemy.cpp" />
@@ -248,14 +252,23 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UI\ClearUI\ClearUI.cpp" />
+    <ClCompile Include="UI\InGameUI\InGameUI.cpp" />
+    <ClCompile Include="UI\OverUI\OverUI.cpp" />
+    <ClCompile Include="UI\ResultUI\ResultUI.cpp" />
+    <ClCompile Include="UI\TiterUI\TiterUI.cpp" />
+    <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameLoad.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GameResult.h" />
+    <ClInclude Include="GameTiter.h" />
     <ClInclude Include="GhostEnemy.h" />
     <ClInclude Include="GhostEnemyManager.h" />
     <ClInclude Include="GolemEnemy.h" />
@@ -273,7 +286,12 @@
     <ClInclude Include="SnowMan.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
-    <ClInclude Include="UI.h" />
+    <ClInclude Include="UI\ClearUI\ClearUI.h" />
+    <ClInclude Include="UI\InGameUI\InGameUI.h" />
+    <ClInclude Include="UI\OverUI\OverUI.h" />
+    <ClInclude Include="UI\ResultUI\ResultUI.h" />
+    <ClInclude Include="UI\TiterUI\TiterUI.h" />
+    <ClInclude Include="UI\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

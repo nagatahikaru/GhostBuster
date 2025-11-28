@@ -2,6 +2,8 @@
 #include "SnowBall.h"
 #include "SnowEnemy.h"
 #include "Player.h"
+#include "UI/InGameUI/InGameUI.h"
+#include "BackGround.h"
 
 
 SnowBall::SnowBall()
@@ -22,7 +24,8 @@ bool SnowBall::Start()
 	m_snowBallModel.Init("Assets/modelData/SnowBall.tkm");
 	m_player = FindGO<Player>("player");
 	m_snowEnemy = FindGO<SnowEnemy>("snowEnemy");
-	
+	m_inGameUI = FindGO<InGameUI>("inGameUI");
+	m_backGroud = FindGO<BackGround>("backGround");
 	m_ballcollisionObj = new CollisionObject;
 
 	m_ballcollisionObj->CreateSphere(
@@ -44,8 +47,9 @@ void SnowBall::Fire(const Vector3& pos, const Vector3& dir, float speed, const Q
 
 void SnowBall::Update()
 {
-	if (!m_isActive) return;
+	if (!m_isActive|| m_inGameUI->m_blackout) return;
 	Move();
+	
 }
 
 void SnowBall::Atk()
@@ -71,6 +75,7 @@ void SnowBall::Move()
 	m_ballcollisionObj->SetPosition(m_position);
 	m_ballcollisionObj->SetRotation(Quaternion::Identity);
 	m_ballcollisionObj->Update();
+	Deceleration();
 }
 
 //Œ¸‘¬ˆ—
@@ -79,6 +84,10 @@ void SnowBall::Deceleration()
 	int magnification = 200;
 	m_speed -= g_gameTime->GetFrameDeltaTime() * magnification;
 	if (m_speed <= 0.0f)
+	{
+		Deactivate();
+	}
+	if (m_ballcollisionObj->IsHit(m_backGroud->m_physicsStaticObject))
 	{
 		Deactivate();
 	}
