@@ -7,6 +7,7 @@
 #include "CapsuleCollider.h"
 #include "RigidBody.h"
 
+
 namespace nsK2EngineLow {
 	/*!
 	* @brief	キャラクタコントローラー。
@@ -82,10 +83,15 @@ namespace nsK2EngineLow {
 			return &m_rigidBody;
 		}
 		/*!
-		* @brief	剛体を物理エンジンから削除。。
+		* @brief	剛体を物理エンジンから削除。
 		*/
 		void RemoveRigidBoby();
 
+
+		/*!
+		* @brief	コリジョンが有効か設定。
+		*@param[in]	isActive	有効にする場合はtrue、無効
+		*/
 		void SetCollisionActive(bool isActive);
 
 

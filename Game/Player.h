@@ -12,23 +12,53 @@ class Enemy;
 class InGameUI;
 
 
-class Player:public IGameObject
+class Player
 {
-public:
+private:
 	Player();
-	~Player()override;
+	~Player();
+	static Player* m_instance;
+public:
+	static Player* GetInstance()
+	{		
+		return m_instance;
+	}
+
+	static void CreateInstance()
+	{
+		if (m_instance == nullptr)
+		{
+			m_instance = new Player();
+		}
+	}
+
+	static void DeleteInstance()
+	{
+		if (m_instance != nullptr)
+		{
+			delete m_instance;
+			m_instance = nullptr;
+		}
+	}
 	bool Start();
 	void Update();
 	void Move();
 	void Rotate();
 	void PlayAnimation();
-	void ContactJudgment();
 	void Damage(int damage);
 	void Render(RenderContext& rc);
 
 	const Vector3& GetPosition() const
 	{
 		return m_position;
+	}
+	const Vector3& GetPlayerDir()const
+	{
+		return m_facingDir;
+	}
+	const CollisionObject*GetPlayerCollisionObject() const
+	{
+		return m_playerCollisionObj;
 	}
 
 	//ここからメンバー変数
@@ -37,12 +67,11 @@ public:
 	Vector3 m_position;//座標。
 	Vector3 m_moveSpeed;
 	CharacterController m_characterController;
-	Quaternion m_rotation;
-	GameCamera* m_gameCamera;
+	Quaternion m_rotation;	
 	int m_formState;//Playerの形態状態
 	int m_residue=3;
+	int itemStatus = 0;//アイテム所持状況
 	CollisionObject* m_playerCollisionObj;
-private:
 	InGameUI* m_inGameUI;
 	Vector3 m_facingDir = Vector3(0.0f, 0.0f, 1.0f); // 初期向き
 	GolemEnemy* m_golemEnemy;	
@@ -69,5 +98,35 @@ private:
 	int m_form2 = 3;
 	float m_jumpingPower = 0.0f;
 	bool sperd = false;
+	bool m_playerRenderFlag = true; //プレイヤーの描画フラグ
+	bool m_backout = true; //ブラックアウトフラグ
+	int m_score = 0; //スコア
+};
+
+
+class PlayerTest:public IGameObject
+{
+public:
+	PlayerTest() 
+	{ 
+		Player::CreateInstance(); 
+	}
+	~PlayerTest()
+	{
+		Player::DeleteInstance();
+	}
+	bool Start() 
+	{
+		Player::GetInstance()->Start(); 
+		return true;
+	}
+	void Update()
+	{
+		Player::GetInstance()->Update(); 
+	}
+	void Render(RenderContext& rc) 
+	{
+		Player::GetInstance()->Render(rc);
+	}
 };
 

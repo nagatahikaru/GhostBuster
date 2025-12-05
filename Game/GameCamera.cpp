@@ -17,8 +17,7 @@ bool GameCamera::Start()
 {
 	//注視点から視点までのベクトルを設定
 	m_toCameraPos.Set(0.0f, 125.0f, -350.0f);
-	//プレイヤーのインスタンスを探す
-	m_player = FindGO<Player>("player");
+	//プレイヤーのインスタンスを探す	
 
 	//ばねカメラの初期化
 	m_springCamera.Init(
@@ -26,9 +25,8 @@ bool GameCamera::Start()
 		1000.0f,			//カメラの移動速度の最大値。
 		true,				//カメラと地形とのあたり判定を取るかどうかのフラグ。trueだとあたり判定を行う。
 		5.0f				//カメラに設定される球体コリジョンの半径。第３引数がtrueの時に有効になる。
-
 	);
-
+	m_player = Player::GetInstance();
 	//カメラのニアクリップとファークリップを設定する //おそらく近平面と遠平面
 	g_camera3D->SetNear(1.0f);
 	g_camera3D->SetFar(100000.0f);
@@ -94,11 +92,11 @@ void GameCamera::Update()
 
 	if (m_springCamera.GetCamera()->GetTargetToPositionLength() < 50.0f)
 	{
-		m_playerRenderFlag = false; //プレイヤーを透明にする
+		m_player->m_playerRenderFlag = false; //プレイヤーを透明にする
 	}
 	else
 	{
-		m_playerRenderFlag = true; //プレイヤーを不透明にする
+		m_player->m_playerRenderFlag = true; //プレイヤーを不透明にする
 	}
 	if (m_springCamera.GetCamera()->GetTargetToPositionLength()>=200.0f)
 	{

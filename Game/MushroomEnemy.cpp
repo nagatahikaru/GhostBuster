@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
+#include "BulletCallback.h"
 
 MushroomEnemy::MushroomEnemy()
 {
@@ -19,7 +20,7 @@ bool MushroomEnemy::Start()
 	srand(time(nullptr));
 	m_mushroom.Init("Assets/modelData/Mushroom.tkm");
 	m_mushroom.SetPosition(m_position);	
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_mushroomController.Init(25.0f, 80.0f, m_position);
 	m_hp = 10;
@@ -43,6 +44,8 @@ void MushroomEnemy::Update()
 		return;
 	}
 	Move();
+	Tach(m_mushroomController);
+
 	//PlayAnimation();
 }
 
@@ -128,27 +131,6 @@ bool MushroomEnemy::CanAtk() {
 		return false;
 	}
 	return true;
-}
-
-
-void MushroomEnemy::Damage(int damage)
-{
-	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
-	if (m_damageCoolTime <= 0.0f)
-	{
-		m_damageCoolTime = 0.0f;
-	}
-	else
-	{
-		//クールタイム中はダメージを受けない
-		return;
-	}
-	m_hp -= damage;
-	if (m_hp <= 0)
-	{
-		m_mushroomController.SetCollisionActive(false);
-		Deactivate();
-	}
 }
 
 void MushroomEnemy::PlayAnimation()

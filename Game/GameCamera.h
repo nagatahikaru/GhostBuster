@@ -14,7 +14,7 @@ public:
 	void Update();
 
 
-	bool m_playerRenderFlag = true; //プレイヤーの描画フラグ
+	
 
 
 private:

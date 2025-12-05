@@ -17,6 +17,7 @@ class GameClera;
 class GameLoad;
 class InGameUI;
 class GameClear;
+class GameTiter;
 
 
 //Gameシーンを管理するクラス。
@@ -48,5 +49,6 @@ private:
 	GameClera* m_gameclera;
 	GameLoad* m_gameLoad;
 	InGameUI* m_inGameUI;
+	GameTiter* m_gameTiter;
 };
 

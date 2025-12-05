@@ -8,7 +8,7 @@
 #include "Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
 
-
+ Player* Player::m_instance = nullptr;
 Player::Player()
 {
 	
@@ -16,7 +16,7 @@ Player::Player()
 
 Player::~Player()
 {
-
+	m_playerCollisionObj->SetIsEnableAutoDelete(true);
 }
 
 bool Player::Start()
@@ -52,17 +52,10 @@ bool Player::Start()
 	m_playerCollisionObj->CreateBox(
 		m_position,
 		Quaternion::Identity,
-		m_playerCollisionScale);
-
+		m_playerCollisionScale);	
 	m_formState = m_form0;
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_characterController.SetCollisionActive(true);
-	m_gameCamera = FindGO<GameCamera>("gameCamera");
-	const auto& enemys = FindGOs<SnowEnemy>("snowenemy");
-	const auto& ghostEnemys = FindGOs<GhostEnemy>("ghostEnemy");
-	const auto& mushroomEnemys = FindGOs<MushroomEnemy>("mushroomEnemy");
-	m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
-	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_residue = 3;
 	m_jumpingPower = 1000.0f;
 
@@ -72,19 +65,13 @@ bool Player::Start()
 //更新処理
 void Player::Update()
 {
-	if (!m_inGameUI)
-	{
-		m_inGameUI = FindGO<InGameUI>("inGameUI");
-		return;
-	}
-	if (m_inGameUI->m_blackout)
+	if (m_backout)
 	{
 		return;
 	}
 	Move();
 	Rotate();
 	PlayAnimation();
-	ContactJudgment();
 }
 
 //移動処理
@@ -204,81 +191,6 @@ void Player::Rotate()
 	m_modelRender[m_formState].SetRotation(m_rotation);
 }
 
-void Player::ContactJudgment()
-{
-	const auto snowenemys = FindGOs<SnowEnemy>("snowEnemy");
-	const auto ghostenemys = FindGOs<GhostEnemy>("ghostEnemy");
-	const auto mushroomenemys = FindGOs<MushroomEnemy>("mushroomEnemy");
-
-
-	//雪だるま型の敵との当たり判定	
-	for (auto snowEnemy : snowenemys)
-	{
-		if(snowEnemy->m_existence==true)
-		{
-			//ポインタ参照には*がいる
-			if (m_playerCollisionObj->IsHit(snowEnemy->m_snowController))
-			{
-				// 当たり判定があったときの処理
-				snowEnemy->Damage(10);
-				m_enemyjumpCount++;
-				m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
-				
-			}
-		}
-	}
-	//幽霊型の敵との当たり判定
-	for (auto ghostEnemy : ghostenemys)
-	{
-		if(ghostEnemy->m_existence==true)
-		{
-			//ポインタ参照には*がいる
-			if (m_playerCollisionObj->IsHit(ghostEnemy->m_ghostController))
-			{
-				// 当たり判定があったときの処理
-				ghostEnemy->Damage(10);
-				m_enemyjumpCount++;
-				m_moveSpeed.y += m_jumpingPower/ m_enemyjumpCount;
-				
-			}
-		}
-	}
-	//キノコ型の敵との当たり判定
-	for (auto mushroomEnemy : mushroomenemys)
-	{
-		if(mushroomEnemy->m_existence==true)
-		{
-			//ポインタ参照には*がいる
-			if (m_playerCollisionObj->IsHit(mushroomEnemy->m_mushroomController))
-			{
-				// 当たり判定があったときの処理
-				mushroomEnemy->Damage(10);
-				m_enemyjumpCount++;
-				m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
-				
-			}
-		}
-	}
-	//ゴーレム型の敵が存在しなかったら抜ける
-	if (m_golemEnemy == nullptr)
-	{
-		return;
-	}
-
-	//ゴーレム型の敵との当たり判定
-	if(m_golemEnemy->m_existence==true)
-	{
-		//ポインタ参照には*がいる
-		if (m_playerCollisionObj->IsHit(m_golemEnemy->m_golemController))
-		{
-			// 当たり判定があったときの処理
-			m_golemEnemy->Damage(10);
-			m_enemyjumpCount++;
-			m_moveSpeed.y += m_jumpingPower / m_enemyjumpCount;
-			
-		}
-	}	
-}
 
 //アニメーションの再生
 void Player::PlayAnimation()
@@ -365,22 +277,16 @@ void Player::Damage(int damage)
 
 void Player::Render(RenderContext& rc)
 {
-	if (!m_gameCamera)
-	{
-		m_gameCamera = FindGO<GameCamera>("gameCamera");
-		return;
-	}
-
-	//wchar_t be[129];
-	//m_posRender.SetPosition(-896.0f, 200.0f, 0.0f);
-	//m_posRender.SetColor(g_vec4White);
-	//Vector3 pos = m_position;
-	//swprintf(be, 129, L"pos:x=%.0f,y=%.0f,z=%.0f", pos.x,pos.y,pos.z);
-	//m_posRender.SetText(be);
-	//m_posRender.Draw(rc);
+	wchar_t be[129];
+	m_posRender.SetPosition(-896.0f, 200.0f, 0.0f);
+	m_posRender.SetColor(g_vec4White);
+	Vector3 pos = m_position;
+	swprintf(be, 129, L"pos:x=%.0f,y=%.0f,z=%.0f", pos.x,pos.y,pos.z);
+	m_posRender.SetText(be);
+	m_posRender.Draw(rc);
 
 	//プレイヤーが描画される設定になっていたら描画する
-	if(m_gameCamera->m_playerRenderFlag)
+	if(m_playerRenderFlag)
 	{
 		//現在の形態状態のモデルレンダーを描画する
 		m_modelRender[m_formState].Draw(rc);

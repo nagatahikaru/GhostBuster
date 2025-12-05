@@ -22,6 +22,7 @@ bool TiterUI::Start()
 	m_spriteRender.Update();
 	m_transparency = 0.0;
 	m_blinking = 1.0f;
+	m_blinkingfrag = false;
 	return true;
 }
 
@@ -57,7 +58,7 @@ void TiterUI::Direction()
 			m_fadeIn = true; // 次はフェードインへ
 		}
 	}
-	if (g_pad[0]->IsPress(enButtonA))
+	if (m_blinkingfrag)
 	{
 		//画面転換するときに点滅速度を加速する
 		m_blinking = 15;

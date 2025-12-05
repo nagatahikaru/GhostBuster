@@ -21,7 +21,6 @@ public:
 	void Atk();
 	void Move();
 	void Rotation();
-	void Damage(int damage);
 	void PlayAnimation();
 	void Render(RenderContext& rc);
 		

@@ -19,7 +19,7 @@ bool GhostEnemy::Start()
 	srand(time(nullptr));
 	m_ghost.Init("Assets/modelData/Ghost.tkm");
 	m_ghost.SetPosition(m_position);
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_ghostController.Init(30.0f, 80.0f, m_position);
 	m_hp = 10;
@@ -41,29 +41,28 @@ void GhostEnemy::Update()
 	if (m_inGameUI->m_blackout)
 	{
 		return;
-	}
-
+	}	
 	Move();
-	//PlayAnimation();
+	Tach(m_ghostController);
 }
 
 void GhostEnemy::Move()
 {
 
-	Vector3 dif = m_player->m_position - m_position;
-	float distance = dif.Length();
+	m_direction = m_player->m_position - m_position;
+	m_distance = m_direction.Length();
 	//プレイヤーとの距離が一定以下の場合
 	//擬態を解いて攻撃をする
 
-	if (distance >= 2000.0f)
+	if (m_distance >= 2000.0f)
 	{
 		//一定以上離れたら徘徊行動を行う
 		Wandering(m_ghost);
 	}
 
 	m_speed = 100.0f;
-	dif.Normalize();
-	m_moveSpeed = dif * m_speed;
+	m_direction.Normalize();
+	m_moveSpeed = m_direction * m_speed;
 	m_moveSpeed.y -= 200.0f;
 	if (m_player->m_position.y + 100.0 > m_position.y&& m_jaumTime <=0)
 	{
@@ -88,27 +87,6 @@ void GhostEnemy::Move()
 	Rotation(m_ghost);
 }
 
-void GhostEnemy::Damage(int amount)
-{
-	//m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
-	//if (m_damageCoolTime <= 0.0f)
-	//{
-	//	m_damageCoolTime = 0.0f;
-	//}
-	//else
-	//{
-	//	//クールタイム中はダメージを受けない
-	//	return;
-	//}
-	m_hp -= amount;
-	if (m_hp <= 0)
-	{
-		m_ghostController.SetCollisionActive(false);
-		Deactivate();
-	}
-}
-
-
 void GhostEnemy::Atk()
 {
 	if (!CanAtk()) {
@@ -125,6 +103,17 @@ void GhostEnemy::PlayAnimation()
 }
 
 void GhostEnemy::Render(RenderContext& rc)
-{
+{	
+	if(m_damageCoolTime<=0)
+	{
+		int blinkSpeed = m_blinking0;
+		m_blinking0 = m_blinking1;
+		m_blinking1 = blinkSpeed;
+	}
+	if(m_blinking0==0||m_blinking0==1)
+	{
+		//点滅中は描画しない
+		return;
+	}
 	m_ghost.Draw(rc);
 }

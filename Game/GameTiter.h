@@ -21,6 +21,6 @@ private:
 	float m_standby=2.0f;
 	SpriteRender m_gameTiterSprite;
 	FontRender m_font;
-
+	float m_waitTime;//“ü—Í‘Ò‹@ŽžŠÔ
 };
 

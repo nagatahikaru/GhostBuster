@@ -1,6 +1,6 @@
 #pragma once
 
-class Player;
+class PlayerTest;
 class BackGround;
 class SnowEnemy;
 class SnowBallManager;
@@ -19,7 +19,7 @@ class GameLoad :public IGameObject
 	void Update() override;
 	void Render(RenderContext& rc);
 	
-	Player* m_player = nullptr;
+	PlayerTest* m_player = nullptr;
 	//SoundSource* m_gameBGM;   //ƒQ[ƒ€’†‚ÌBGM
 	//GameClear* m_gameclear;   //ƒQ[ƒ€ƒNƒŠƒA
 	BackGround* m_backGround; //”wŒi	

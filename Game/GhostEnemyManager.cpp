@@ -53,7 +53,18 @@ void GhostEnemyManager::Update()
 		return;
 	}
 	//“G‚ÌÄ¶ˆ—
-	Regeneration();
+	Regeneration();	
+}
+
+void GhostEnemyManager::Reclaim()
+{
+	//“GŽ€–SŽž‚Ì‰ñŽûˆ—
+	auto reclaimed = m_ghostEnemyPool.Reclaim();
+	
+	for (auto enemy : reclaimed) {
+		// —áFƒXƒRƒA‰ÁŽZˆ—
+		m_inGameUI->AddScore(30);
+	}	
 }
 
 

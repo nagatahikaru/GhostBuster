@@ -37,7 +37,7 @@ void GameLoad::Update()
 {
 	if (m_loadFlag)
 	{
-	m_player=NewGO<Player>(0, "player");	
+	m_player=NewGO<PlayerTest>(0, "player");	
 	m_snowEnemyManager=NewGO<SnowEnemyManager>(0, "snowEnemyManager");
 	m_mushroomEnemyManager=NewGO<MushroomEnemyManager>(0, "mushroomEnemyManager");
 	m_ghostEnemyManager=NewGO<GhostEnemyManager>(0, "ghostEnemyManager");

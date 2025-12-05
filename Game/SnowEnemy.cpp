@@ -28,7 +28,7 @@ bool SnowEnemy::Start()
 		m_snow[i].SetPosition(m_position);
 	}
 	m_snowController.Init(25.0f, 80.0f, m_position);
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_hp = 10;
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
@@ -58,6 +58,8 @@ void SnowEnemy::Update()
 		return;
 	}
 	Move();	
+	Tach(m_snowController);
+
 	//PlayAnimation();
 }
 
@@ -145,26 +147,6 @@ void SnowEnemy::Atk()
 	m_snowBallManager->Fire(pos, dir, rot);
 	m_coolTime = 3.5f;
 	m_coolTimeFrag = true;
-}
-
-void SnowEnemy::Damage(int damage)
-{
-	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
-	if (m_damageCoolTime <= 0.0f)
-	{
-		m_damageCoolTime = 0.0f;
-	}
-	else
-	{
-		//クールタイム中はダメージを受けない
-		return;
-	}
-	m_hp -= damage;
-	if (m_hp <= 0)
-	{
-		m_snowController.SetCollisionActive(false);
-		Deactivate();
-	}
 }
 
 void SnowEnemy::PlayAnimation()

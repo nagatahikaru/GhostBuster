@@ -5,6 +5,7 @@
 #include "k2EngineLowPreCompile.h"
 #include "CharacterController.h"
 
+
 namespace nsK2EngineLow {
 	namespace {
 		void Vector3CopyFrom(Vector3& vDst, btVector3& vSrc)

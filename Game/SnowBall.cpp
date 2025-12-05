@@ -22,7 +22,7 @@ SnowBall::~SnowBall()
 bool SnowBall::Start()
 {
 	m_snowBallModel.Init("Assets/modelData/SnowBall.tkm");
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_snowEnemy = FindGO<SnowEnemy>("snowEnemy");
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_backGroud = FindGO<BackGround>("backGround");
@@ -84,10 +84,6 @@ void SnowBall::Deceleration()
 	int magnification = 200;
 	m_speed -= g_gameTime->GetFrameDeltaTime() * magnification;
 	if (m_speed <= 0.0f)
-	{
-		Deactivate();
-	}
-	if (m_ballcollisionObj->IsHit(m_backGroud->m_physicsStaticObject))
 	{
 		Deactivate();
 	}

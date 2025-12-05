@@ -11,6 +11,7 @@
 #include "GameOver.h"
 #include "GameClear.h"
 #include "GameLoad.h"
+#include "GameTiter.h"
 #include "UI/InGameUI/InGameUI.h"
 
 
@@ -21,7 +22,7 @@ Game::Game()
 
 Game::~Game()
 {
-	DeleteGO(m_player);
+	Player::DeleteInstance();
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_backGround);
 	DeleteGO(m_snowEnemyManager);
@@ -42,7 +43,7 @@ bool Game::Start()
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_backGround = NewGO<BackGround>(0, "backGround");
 	m_inGameUI = NewGO<InGameUI>(0, "inGameUI");
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_snowEnemyManager = FindGO<SnowEnemyManager>("snowEnemyManager");
 	m_mushroomEnemyManager = FindGO<MushroomEnemyManager>("mushroomEnemyManager");
 	m_ghostEnemyManager = FindGO<GhostEnemyManager>("ghostEnemyManager");
@@ -66,7 +67,7 @@ void Game::Update()
 	
 
 	//当たり判定を描画する。
-//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 }
 
 void Game::GameClearProcess()
@@ -85,21 +86,30 @@ void Game::GameClearProcess()
 void Game::GameOverProcess()
 {
 	//ゲームオーバー処理
-	//オーバー条件：残基が0以下
-	//ゲームオーバー後はゲームをリトライするか選べるようにする
+	//オーバー条件：残基が0以下 	
+	if(m_player->m_residue<=0||m_inGameUI->m_nowTime<=0.0f)
+	{
+		NewGO<GameOver>(0, "gameover");
+		DeleteGO(this);
+		return;
+	}
+	//ポーズ時にゲームをリトライするか終了するか選べるようにする
 	if(m_inGameUI->m_blackout)
 	{
-		if(g_pad[0]->IsPress(enButtonDown))
+
+
+		if (g_pad[0]->IsTrigger(enButtonA) && m_inGameUI->m_sceneMovement == true)
 		{
-			NewGO<GameOver>(0, "gameover");
-			DeleteGO(this);
+			PostQuitMessage(0);
+			return;
 		}
-		if (g_pad[0]->IsPress(enButtonUp))
+		if (g_pad[0]->IsTrigger(enButtonA) && m_inGameUI->m_sceneMovement == false)
 		{
-			NewGO<GameLoad>(0, "gameload");			
+			NewGO<GameTiter>(0, "gametiter");			
 			DeleteGO(this);
+			return;
 		}		
-		return;
+		
 	}
 }
 

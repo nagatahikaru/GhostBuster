@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "BulletCallback.h"
 
-Enemy::Enemy()
-{
-}
+
 Enemy::~Enemy()
 {
 }
@@ -56,6 +55,27 @@ bool Enemy::CanAtk() {
 	return true;
 }
 
+
+void Enemy::Tach(CharacterController& characterController)
+{
+	startPos = m_player->GetPosition();
+	// 例えば一定の距離を使う or プレイヤーからの有効距離を取得する
+	const float sweepLength = 1.0f; // 適切な値に変更
+	endPos = m_player->GetPosition() + (m_player->GetPlayerDir() * sweepLength);
+
+	// ゼロ長スイープを防ぐガード
+	btVector3 btStart(startPos.x, startPos.y, startPos.z);
+	btVector3 btEnd(endPos.x, endPos.y, endPos.z);
+	if ((btEnd - btStart).fuzzyZero()) {
+		return; // 何もしないか別処理
+	}
+
+	PhysicsWorld::GetInstance()->ConvexSweepTest(collider, startPos, endPos, callback);
+	if (callback.m_isHit) { // isalnum は不適切（文字判定）
+		Damage(10, characterController);
+	}
+}
+
 //徘徊処理
 void Enemy::Wandering(ModelRender& m_character)
 {
@@ -82,5 +102,31 @@ void Enemy::Wandering(ModelRender& m_character)
 	if (m_wanderTime <= 0)
 	{
 		randVec = false;
+	}
+}
+
+//ダメージ処理
+void Enemy::Damage(const int&amount, CharacterController& characterController)
+{
+	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();	
+
+	if (m_damageCoolTime <= 0.0f)
+	{
+		m_damageCoolTime = 0.0f;
+	}
+	else
+	{
+		//クールタイム中はダメージを受けない
+		return;
+	}
+	m_player->m_enemyjumpCount++;
+	m_player->m_moveSpeed.y += m_player->m_jumpingPower / m_player->m_enemyjumpCount;
+
+	m_hp -= amount;
+	if (m_hp <= 0)
+	{
+		characterController.SetCollisionActive(false);
+		
+		Deactivate();
 	}
 }

@@ -6,6 +6,8 @@ class InGameUI;
 
 enum { GhostEnemyBaseSpawnPosNum = 8 };
 
+
+
 class GhostEnemyManager:public IGameObject
 {
 public:
@@ -14,6 +16,9 @@ public:
 	bool Start()override;
 	void Update()override;
 	void Regeneration();
+	void Reclaim();
+
+
 
 private:
 	ObjectPool<GhostEnemy> m_ghostEnemyPool;

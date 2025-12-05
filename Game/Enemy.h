@@ -1,20 +1,31 @@
 #pragma once
+#include "Player.h"
+#include "BulletCallback.h"
 
-class Player;
+
 
 //敵の基底クラス
 
 class Enemy:public IGameObject
 {
 	public:
-		Enemy();
-		virtual ~Enemy();		
+		Enemy() 
+		{
+			m_player = Player::GetInstance();
+			collider.Create(Vector3(25.0f,75.0f,1.0f));
+		}
+		virtual ~Enemy();
 		virtual void Rotation(ModelRender& m_chracter);
 		virtual bool CanAtk();
 		virtual void OnSpawn(const Vector3& pos, CharacterController& m_characterController);
 		virtual void Wandering(ModelRender& m_character);
+		virtual void Damage(const int&damage, CharacterController&characterController);
+		virtual void Tach(CharacterController& characterController);
 
-//private:
+		Vector3 startPos;
+		Vector3 endPos;
+		BulletCallback callback;//当たり判定コールバック
+		BoxCollider collider;//当たり判定用ボックスコライダー
 		Vector3 m_position;
 		Vector3 m_moveSpeed;
 		Player* m_player;
@@ -32,6 +43,6 @@ class Enemy:public IGameObject
 		bool m_existence = false;
 		float m_wanderTime = 0.0f;
 		float m_buoyancy;
-		float m_jaumTime;
+		float m_jaumTime;		
 };
 

@@ -20,7 +20,6 @@ public:
 	void Atk();
 	void Move();
 	void Rotation();
-	void Damage(int damage);
 	void PlayAnimation();
 
 	CharacterController m_mushroomController;//“–‚½‚è”»’è

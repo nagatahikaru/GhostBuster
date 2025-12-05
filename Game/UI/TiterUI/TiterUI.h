@@ -21,6 +21,7 @@ public:
 	void Render(RenderContext& rc)override;
 
 
+	bool m_blinkingfrag=false;
 private:
 	float m_transparency;
 	float m_blinking;

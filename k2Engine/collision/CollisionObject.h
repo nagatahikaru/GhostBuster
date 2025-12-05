@@ -14,11 +14,11 @@ namespace nsK2Engine {
 		bool Start();
 		void Update();
 		/// <summary>
-	/// ボックス形状のゴーストオブジェクトを作成。
-	/// </summary>
-	/// <param name="pos">座標。</param>
-	/// <param name="rot">回転。</param>
-	/// <param name="size">サイズ。</param>
+		/// ボックス形状のゴーストオブジェクトを作成。
+		/// </summary>
+		/// <param name="pos">座標。</param>
+		/// <param name="rot">回転。</param>
+		/// <param name="size">サイズ。</param>
 		void CreateBox(Vector3 pos, Quaternion rot, Vector3 size)
 		{
 			m_physicsGhostObject.CreateBox(pos, rot, size);

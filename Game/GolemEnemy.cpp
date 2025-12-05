@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
+#include "BulletCallback.h"
 
 GolemEnemy::GolemEnemy()
 {
@@ -18,7 +19,7 @@ bool GolemEnemy::Start()
 	srand(time(nullptr));
 	m_golem.Init("Assets/modelData/Golem.tkm");
 	m_golem.SetPosition(m_position);
-	m_player = FindGO<Player>("player");
+	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_golemController.Init(50.0f, 100.0f, m_position);
 	m_golemController.SetCollisionActive(true);
@@ -39,6 +40,8 @@ void GolemEnemy::Update()
 		return;
 	}
 	Move();
+	Tach(m_golemController);
+
 }
 
 void GolemEnemy::Move()
