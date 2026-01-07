@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "Player.h"
-#include "BulletCallback.h"
+//#include "BulletCallback.h"
 
 
 Enemy::~Enemy()
@@ -55,26 +55,38 @@ bool Enemy::CanAtk() {
 	return true;
 }
 
-
-void Enemy::Tach(CharacterController& characterController)
+void Enemy::Tach(CollisionObject& collisionObject,Vector3&pos,int hp)
 {
-	startPos = m_player->GetPosition();
-	// 例えば一定の距離を使う or プレイヤーからの有効距離を取得する
-	const float sweepLength = 1.0f; // 適切な値に変更
-	endPos = m_player->GetPosition() + (m_player->GetPlayerDir() * sweepLength);
-
-	// ゼロ長スイープを防ぐガード
-	btVector3 btStart(startPos.x, startPos.y, startPos.z);
-	btVector3 btEnd(endPos.x, endPos.y, endPos.z);
-	if ((btEnd - btStart).fuzzyZero()) {
-		return; // 何もしないか別処理
+	if(collisionObject.IsHit(m_player->m_playerCollisionObj)&&m_player->m_position.y<=pos.y)
+	{
+		m_player->Damage(1.0f);
 	}
-
-	PhysicsWorld::GetInstance()->ConvexSweepTest(collider, startPos, endPos, callback);
-	if (callback.m_isHit) { // isalnum は不適切（文字判定）
-		Damage(10, characterController);
+	if (collisionObject.IsHit(m_player->m_playerCollisionObj) && m_player->m_position.y >= pos.y)
+	{
+		hp-=1;
 	}
 }
+
+
+//void Enemy::Tach(CharacterController& characterController)
+//{
+//	startPos = m_player->GetPosition();
+//	// 例えば一定の距離を使う or プレイヤーからの有効距離を取得する
+//	const float sweepLength = 1.0f; // 適切な値に変更
+//	endPos = m_player->GetPosition() + (m_player->GetPlayerDir() * sweepLength);
+//
+//	// ゼロ長スイープを防ぐガード
+//	btVector3 btStart(startPos.x, startPos.y, startPos.z);
+//	btVector3 btEnd(endPos.x, endPos.y, endPos.z);
+//	if ((btEnd - btStart).fuzzyZero()) {
+//		return; // 何もしないか別処理
+//	}
+//
+//	PhysicsWorld::GetInstance()->ConvexSweepTest(collider, startPos, endPos, callback);
+//	if (callback.m_isHit) { // isalnum は不適切（文字判定）
+//		Damage(10, characterController);
+//	}
+//}
 
 //徘徊処理
 void Enemy::Wandering(ModelRender& m_character)

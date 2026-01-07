@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameTiter.h"
 #include "UI/TiterUI/TiterUI.h"
-#include "GameLoad.h"
+#include "StageSelection.h"
 
 GameTiter::GameTiter()
 {
@@ -40,7 +40,7 @@ void GameTiter::Update()
 	}
 	if (m_standby<=0)
 	{
-		NewGO<GameLoad>(0, "gameload");
+		NewGO<StageSelection>(0, "stageselection");
 		DeleteGO(this);
 		return;
 	}

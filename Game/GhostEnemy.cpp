@@ -11,7 +11,11 @@ GhostEnemy::GhostEnemy()
 
 GhostEnemy::~GhostEnemy()
 {
-
+	if (m_ghostCollisionObject != nullptr)
+	{
+		delete m_ghostCollisionObject;
+		m_ghostCollisionObject = nullptr;
+	}
 }
 
 bool GhostEnemy::Start()
@@ -22,6 +26,12 @@ bool GhostEnemy::Start()
 	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_ghostController.Init(30.0f, 80.0f, m_position);
+	m_ghostCollsitinoScalr = Vector3(30.0f, 80.0f, 30.0f);
+	m_ghostCollisionObject = new CollisionObject;
+	m_ghostCollisionObject->CreateBox(
+		m_position,
+		Quaternion::Identity,
+		m_ghostCollsitinoScalr);
 	m_hp = 10;
 	return true;
 }
@@ -43,7 +53,7 @@ void GhostEnemy::Update()
 		return;
 	}	
 	Move();
-	Tach(m_ghostController);
+	Tach(*m_ghostCollisionObject,m_position,m_hp);
 }
 
 void GhostEnemy::Move()
@@ -81,6 +91,9 @@ void GhostEnemy::Move()
 	m_moveSpeed.y += m_buoyancy;
 
 	Atk();
+	m_ghostCollisionObject->SetPosition(m_position);
+	m_ghostCollisionObject->SetRotation(Quaternion::Identity);
+	m_ghostCollisionObject->Update();
 	m_position = m_ghostController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_ghost.SetPosition(m_position);
 	m_ghost.Update();

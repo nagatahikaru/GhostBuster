@@ -62,10 +62,10 @@ namespace nsUI {
 		constexpr float LIMIT = 120.0f;	//120•b
 
 		const Vector3 POS[enTime_num] = {
-			{  900.0f, 400.0f, 0.0f },	//1•b
-			{  840.0f, 400.0f, 0.0f },	//10•b
-			{  720.0f, 400.0f, 0.0f },	//60•b
-			{  660.0f, 400.0f, 0.0f }	//600•b
+			{  960.0f, 490.0f, 0.0f },	//1•b
+			{  860.0f, 490.0f, 0.0f },	//10•b
+			{  660.0f, 490.0f, 0.0f },	//60•b
+			{  560.0f, 490.0f, 0.0f }	//600•b
 		};
 
 
@@ -77,7 +77,7 @@ namespace nsUI {
 		};
 
 
-		const Vector3 SCALE = { 45.0f, 75.0f, 1.0f };
+		const Vector3 SCALE = { 100.0f, 100.0f, 1.0f };
 	}
 
 
@@ -91,9 +91,9 @@ namespace nsUI {
 		constexpr int MAX = 999;
 
 		const Vector3 POS[enResidue_num] = {
-			{-660.0f,465.0f,0.0f},
-			{-735.0f,465.0f,0.0f},
-			{-810.0f,465.0f,0.0f}
+			{-570.0f,445.0f,0.0f},
+			{-670.0f,445.0f,0.0f},
+			{-770.0f,445.0f,0.0f}
 		};
 
 		const int COUNT[enResidue_num] = {
@@ -102,19 +102,19 @@ namespace nsUI {
 			HUN_COUNT
 		};
 
-		const Vector3 SCALE = { 150.0f, 150.0f, 1.0f };
+		const Vector3 SCALE = { 100.0f, 100.0f, 1.0f };
 	}
 
 
 	//ƒXƒRƒAUI—p–¼‘O‹óŠÔ
 	namespace nsScore {
 		const Vector3 POS[enMaxScoreDigit] = {
-			{  600.0f, 400.0f, 0.0f },	//1
-			{  560.0f, 400.0f, 0.0f },	//10
-			{  520.0f, 400.0f, 0.0f },	//100
-			{  480.0f, 400.0f, 0.0f },	//1,000
-			{  440.0f, 400.0f, 0.0f },	//10,000
-			{  400.0f, 400.0f, 0.0f },	//10,0000
+			{  960.0f, 390.0f, 0.0f },	//1
+			{  860.0f, 390.0f, 0.0f },	//10
+			{  760.0f, 390.0f, 0.0f },	//100
+			{  660.0f, 390.0f, 0.0f },	//1,000
+			{  560.0f, 390.0f, 0.0f },	//10,000
+			{  460.0f, 390.0f, 0.0f },	//10,0000
 		};
 
 		const int DIGIT[enMaxScoreDigit] = {
@@ -129,7 +129,7 @@ namespace nsUI {
 		static const int MIN = 0;
 		static const int MAX = 999999;
 
-		const Vector3 SCALE = { 45.0f, 75.0f, 1.0f };
+		const Vector3 SCALE = { 100.0f, 100.0f, 1.0f };
 
 		//ŠeƒXƒRƒAƒ^ƒCƒv‚²‚Æ‚Ì“¾“_
 		const int TYPE[enScoreType_Num] = {

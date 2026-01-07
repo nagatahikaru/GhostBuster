@@ -15,7 +15,11 @@ SnowEnemy::SnowEnemy()
 
 SnowEnemy::~SnowEnemy()
 {
-	
+	if (m_snowCollisionObject != nullptr)
+	{
+		delete m_snowCollisionObject;
+		m_snowCollisionObject = nullptr;
+	}
 }
 
 bool SnowEnemy::Start()
@@ -32,6 +36,12 @@ bool SnowEnemy::Start()
 	m_hp = 10;
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
+	m_snowCollisionScalr = Vector3(25.0f, 80.0, 25.0f);
+	m_snowCollisionObject = new CollisionObject;
+	m_snowCollisionObject->CreateBox(
+		m_position,
+		Quaternion::Identity,
+		m_snowCollisionScalr);
 	return true;
 }
 
@@ -58,7 +68,7 @@ void SnowEnemy::Update()
 		return;
 	}
 	Move();	
-	Tach(m_snowController);
+	Tach(*m_snowCollisionObject,m_position,m_hp);
 
 	//PlayAnimation();
 }
@@ -108,7 +118,9 @@ void SnowEnemy::Move()
 	{
 		Atk();
 	}
-	
+	m_snowCollisionObject->SetPosition(m_position);
+	m_snowCollisionObject->SetRotation(Quaternion::Identity);
+	m_snowCollisionObject->Update();
 	m_position = m_snowController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_snow[m_form].SetPosition(m_position);
 	m_snow[m_form].Update();

@@ -224,6 +224,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="DropItems.cpp" />
+    <ClCompile Include="DropItemsManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -245,6 +247,8 @@
     <ClCompile Include="SnowEnemy.cpp" />
     <ClCompile Include="SnowEnemyManager.cpp" />
     <ClCompile Include="SnowMan.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="StageSelection.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -261,6 +265,8 @@
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="BulletCallback.h" />
+    <ClInclude Include="DropItems.h" />
+    <ClInclude Include="DropItemsManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
@@ -283,6 +289,8 @@
     <ClInclude Include="SnowEnemy.h" />
     <ClInclude Include="SnowEnemyManager.h" />
     <ClInclude Include="SnowMan.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="StageSelection.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="UI\ClearUI\ClearUI.h" />

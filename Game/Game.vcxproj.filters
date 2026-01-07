@@ -100,6 +100,18 @@
     <Filter Include="Object\GameCamera">
       <UniqueIdentifier>{2a16588c-0aac-43d7-80a7-92c4cffbd214}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Manager\DropItemsManager">
+      <UniqueIdentifier>{2154712c-62f2-4c3c-81eb-7b13d0bf1547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Item\DropItems">
+      <UniqueIdentifier>{3fe28367-4e49-4e1b-8f3a-9fd9687c81e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\StageSelection">
+      <UniqueIdentifier>{ba0c8761-f603-4b54-b6a8-2f188b1f4292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\SoundManager">
+      <UniqueIdentifier>{d36a9b06-2464-44f7-bfe3-529bbdd3d94f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -187,6 +199,18 @@
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>Object\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItemsManager.cpp">
+      <Filter>Manager\DropItemsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DropItems.cpp">
+      <Filter>Object\Item\DropItems</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelection.cpp">
+      <Filter>Scene\StageSelection</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -279,6 +303,18 @@
     </ClInclude>
     <ClInclude Include="BulletCallback.h">
       <Filter>Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItemsManager.h">
+      <Filter>Manager\DropItemsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="DropItems.h">
+      <Filter>Object\Item\DropItems</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelection.h">
+      <Filter>Scene\StageSelection</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

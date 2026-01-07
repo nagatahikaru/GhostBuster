@@ -22,15 +22,19 @@ Game::Game()
 
 Game::~Game()
 {
-	Player::DeleteInstance();
+	
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_backGround);
 	DeleteGO(m_snowEnemyManager);
 	DeleteGO(m_mushroomEnemyManager);
 	DeleteGO(m_ghostEnemyManager);
-	DeleteGO(m_golemEnemy);
+	if (m_backGround->m_stageSelect == 4)
+	{
+		DeleteGO(m_golemEnemy);
+	}
 	DeleteGO(m_snowBallManager);
 	DeleteGO(m_inGameUI);
+	DeleteGO(m_playerTest);
 }
 
 bool Game::Start()
@@ -39,15 +43,18 @@ bool Game::Start()
 	sky->SetLuminance(0.2f);              // スカイの輝度を設定
 	sky->SetScale(2000.0f);               // スカイのスケールを設定
 	sky->SetType(enSkyCubeType_DayToon_4);// スカイのタイプを設定
-
+	m_playerTest = FindGO<PlayerTest>("player");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
-	m_backGround = NewGO<BackGround>(0, "backGround");
+	m_backGround = FindGO<BackGround>("backGround");
 	m_inGameUI = NewGO<InGameUI>(0, "inGameUI");
 	m_player = Player::GetInstance();
 	m_snowEnemyManager = FindGO<SnowEnemyManager>("snowEnemyManager");
 	m_mushroomEnemyManager = FindGO<MushroomEnemyManager>("mushroomEnemyManager");
 	m_ghostEnemyManager = FindGO<GhostEnemyManager>("ghostEnemyManager");
-	m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
+	if (m_backGround->m_stageSelect == 4)
+	{
+		m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
+	}
 	//m_gameBGM = FindGO<SoundSource>("gameBGM");
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
 
@@ -67,7 +74,7 @@ void Game::Update()
 	
 
 	//当たり判定を描画する。
-PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 }
 
 void Game::GameClearProcess()

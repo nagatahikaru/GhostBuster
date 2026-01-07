@@ -22,6 +22,7 @@ public:
 	void PlayAnimation();	
 	//当たり判定CharacterController
 	CharacterController m_ghostController;
+	CollisionObject* m_ghostCollisionObject;
 	private:
 	ModelRender m_ghost;//幽霊の敵
 	InGameUI* m_inGameUI;
@@ -30,6 +31,7 @@ public:
 	Vector3 m_direction;//プレイヤーへの方向ベクトル
 	int m_blinking0=0;//点滅用カウンター
 	int m_blinking1 = 1;//点滅用カウンター
+	Vector3 m_ghostCollsitinoScalr;
 
 
 

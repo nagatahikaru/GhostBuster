@@ -6,7 +6,7 @@
 
 namespace {
 	std::string FILE_PATH = ("Assets/sprite/Number/");
-	std::string FILE_PATH_DDS = (".DDS");
+	std::string FILE_PATH_TKA = (".DDS");
 	std::string NUMBER_FILE_PATH[10] = {
 		"0","1","2","3","4","5","6","7","8","9"
 	};
@@ -17,12 +17,12 @@ namespace {
 
 	inline std::string GetNumberFilePath(const int number)
 	{
-		return FILE_PATH+NUMBER_FILE_PATH[number]+ FILE_PATH_DDS;
+		return FILE_PATH+NUMBER_FILE_PATH[number]+ FILE_PATH_TKA;
 	}
 
 	inline std::string GetItemFilePath(const int itemType)
 	{
-		return FILE_PATH + ITEM_FILE_PATH[itemType] + FILE_PATH_DDS;
+		return FILE_PATH + ITEM_FILE_PATH[itemType] + FILE_PATH_TKA;
 	}
 
 	/**
@@ -158,8 +158,8 @@ bool InGameUI::Start()
 
 	//コロンの初期化
 	UpdateSpriteInfo(&m_koronSprite,
-		Vector3(785.0f, 400.0f, 0.0f),
-		Vector3(45.0f, 75.0f, 1.0f),
+		Vector3(760.0f, 490.0f, 0.0f),
+		Vector3(100.0f, 100.0f, 1.0f),
 		("Assets/sprite/koron.DDS"));
 
 	//プレイヤー顔アイコンの初期化

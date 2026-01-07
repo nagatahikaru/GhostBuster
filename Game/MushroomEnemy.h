@@ -23,7 +23,8 @@ public:
 	void PlayAnimation();
 
 	CharacterController m_mushroomController;//“–‚½‚è”»’è
-	
+	CollisionObject* m_mushroomCollisionObject;
+	Vector3 m_mushroomCollisionScalr;
 private:
 	ModelRender m_mushroom;//ƒLƒmƒR‚Ì“G
 	InGameUI* m_inGameUI;

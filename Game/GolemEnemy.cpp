@@ -12,6 +12,11 @@ GolemEnemy::GolemEnemy()
 
 GolemEnemy::~GolemEnemy()
 {
+	if (m_golemCollisionObject != nullptr)
+	{
+		delete m_golemCollisionObject;
+		m_golemCollisionObject = nullptr;
+	}
 }
 
 bool GolemEnemy::Start()
@@ -23,6 +28,12 @@ bool GolemEnemy::Start()
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_golemController.Init(50.0f, 100.0f, m_position);
 	m_golemController.SetCollisionActive(true);
+	m_golemCollisionScalr = Vector3(50.0f, 100.0, 50.0f);
+	m_golemCollisionObject = new CollisionObject;
+	m_golemCollisionObject->CreateBox(
+		m_position,
+		Quaternion::Identity,
+		m_golemCollisionScalr);
 	m_existence = true;
 	m_hp = 50;
 	return true;
@@ -40,7 +51,7 @@ void GolemEnemy::Update()
 		return;
 	}
 	Move();
-	Tach(m_golemController);
+	Tach(*m_golemCollisionObject,m_position,m_hp);
 
 }
 
@@ -86,6 +97,9 @@ void GolemEnemy::Move()
 	}	
 
 	Atk();
+	m_golemCollisionObject->SetPosition(m_position);
+	m_golemCollisionObject->SetRotation(Quaternion::Identity);
+	m_golemCollisionObject->Update();
 	m_position = m_golemController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_golem.SetPosition(m_position);
 	m_golem.Update();

@@ -12,7 +12,11 @@ MushroomEnemy::MushroomEnemy()
 
 MushroomEnemy::~MushroomEnemy()
 {
-	
+	if (m_mushroomCollisionObject != nullptr)
+	{
+		delete m_mushroomCollisionObject;
+		m_mushroomCollisionObject = nullptr;
+	}
 }
 
 bool MushroomEnemy::Start()
@@ -23,6 +27,12 @@ bool MushroomEnemy::Start()
 	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_mushroomController.Init(25.0f, 80.0f, m_position);
+	m_mushroomCollisionScalr = Vector3(25.0f, 80.0, 25.0f);
+	m_mushroomCollisionObject = new CollisionObject;
+	m_mushroomCollisionObject->CreateBox(
+		m_position,
+		Quaternion::Identity,
+		m_mushroomCollisionScalr);
 	m_hp = 10;
 	return true;
 }
@@ -44,7 +54,7 @@ void MushroomEnemy::Update()
 		return;
 	}
 	Move();
-	Tach(m_mushroomController);
+	Tach(*m_mushroomCollisionObject,m_position,m_hp);
 
 	//PlayAnimation();
 }
@@ -85,6 +95,9 @@ void MushroomEnemy::Move()
 	}
 
 	Atk();
+	m_mushroomCollisionObject->SetPosition(m_position);
+	m_mushroomCollisionObject->SetRotation(Quaternion::Identity);
+	m_mushroomCollisionObject->Update();
 	m_position = m_mushroomController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_mushroom.SetPosition(m_position);
 	m_mushroom.Update();

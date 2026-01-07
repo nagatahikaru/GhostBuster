@@ -8,6 +8,7 @@
 #include "GhostEnemyManager.h"
 #include "GolemEnemy.h"
 #include "Game.h"
+#include "BackGround.h"
 
 GameLoad::GameLoad()
 {
@@ -18,6 +19,7 @@ GameLoad::~GameLoad()
 }
 bool GameLoad::Start()
 {
+	m_backGround = FindGO<BackGround>("backGround");
 
 	m_gameLoadSprite.Init("Assets/sprite/GameLoad_2.DDS", 1920.0f, 1080.0f);
 
@@ -41,7 +43,10 @@ void GameLoad::Update()
 	m_snowEnemyManager=NewGO<SnowEnemyManager>(0, "snowEnemyManager");
 	m_mushroomEnemyManager=NewGO<MushroomEnemyManager>(0, "mushroomEnemyManager");
 	m_ghostEnemyManager=NewGO<GhostEnemyManager>(0, "ghostEnemyManager");
-	m_golemEnemy=NewGO<GolemEnemy>(0, "golemEnemy");
+	if(m_backGround->m_stageSelect==4)
+	{
+		m_golemEnemy = NewGO<GolemEnemy>(0, "golemEnemy");
+	}
 	//m_gameBGM = NewGO<SoundSource>(0, "gameBGM");
 	m_snowBallManager=NewGO<SnowBallManager>(0, "snowBallManager");
 	m_loadFlag = false;

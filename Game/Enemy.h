@@ -1,6 +1,6 @@
 #pragma once
 #include "Player.h"
-#include "BulletCallback.h"
+//#include "BulletCallback.h"
 
 
 
@@ -12,7 +12,7 @@ class Enemy:public IGameObject
 		Enemy() 
 		{
 			m_player = Player::GetInstance();
-			collider.Create(Vector3(25.0f,75.0f,1.0f));
+			//collider.Create(Vector3(25.0f,75.0f,1.0f));
 		}
 		virtual ~Enemy();
 		virtual void Rotation(ModelRender& m_chracter);
@@ -20,12 +20,14 @@ class Enemy:public IGameObject
 		virtual void OnSpawn(const Vector3& pos, CharacterController& m_characterController);
 		virtual void Wandering(ModelRender& m_character);
 		virtual void Damage(const int&damage, CharacterController&characterController);
-		virtual void Tach(CharacterController& characterController);
+		//virtual void Tach(CharacterController& characterController);
+		virtual void Tach(CollisionObject& collisionObject,Vector3&pos,int hp);
+
 
 		Vector3 startPos;
 		Vector3 endPos;
-		BulletCallback callback;//当たり判定コールバック
-		BoxCollider collider;//当たり判定用ボックスコライダー
+		//BulletCallback callback;//当たり判定コールバック
+		//BoxCollider collider;//当たり判定用ボックスコライダー
 		Vector3 m_position;
 		Vector3 m_moveSpeed;
 		Player* m_player;

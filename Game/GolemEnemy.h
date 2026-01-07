@@ -24,7 +24,8 @@ public:
 	
 
 	CharacterController m_golemController;//“–‚½‚è”»’è
-	
+	CollisionObject* m_golemCollisionObject;
+	Vector3 m_golemCollisionScalr;
 	private:
 	ModelRender m_golem;//ƒS[ƒŒƒ€
 	InGameUI* m_inGameUI;

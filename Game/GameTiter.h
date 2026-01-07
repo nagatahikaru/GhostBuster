@@ -3,7 +3,7 @@
 
 
 class TiterUI;
-class GameLoad;
+class StageSelection;
 
 class GameTiter : public IGameObject
 {
@@ -15,7 +15,7 @@ public:
 	void Render(RenderContext& rc);
 
 	TiterUI* m_titerUI;
-	GameLoad* m_gameLoad;
+	StageSelection* m_stageSelection;
 private:
 	bool m_conversion=false;
 	float m_standby=2.0f;

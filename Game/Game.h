@@ -4,6 +4,7 @@
 
 
 class Player;
+class PlayerTest;
 class GameCamera;
 class BackGround;
 class SnowEnemy;
@@ -36,6 +37,7 @@ public:
 private:
 	// "*"がある時は->で　それ以外の時は"."で"*"を使わない
 	Player* m_player;         //プレイヤー
+	PlayerTest* m_playerTest;
 	GameCamera* m_gameCamera; //ゲームカメラ
 	//SoundSource* m_gameBGM;   //ゲーム中のBGM
 	GameClear* m_gameclear;   //ゲームクリア

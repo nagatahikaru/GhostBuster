@@ -32,6 +32,7 @@ public:
 		}
 	}
 
+
 	static void DeleteInstance()
 	{
 		if (m_instance != nullptr)
@@ -62,13 +63,13 @@ public:
 	}
 
 	//ここからメンバー変数
-	ModelRender m_modelRender[4];//モデルレンダー。
+	ModelRender m_modelRender/*[4]*/;//モデルレンダー。
 	//Hands On1　座標データを追加する。
 	Vector3 m_position;//座標。
 	Vector3 m_moveSpeed;
 	CharacterController m_characterController;
 	Quaternion m_rotation;	
-	int m_formState;//Playerの形態状態
+	float m_formState;//Playerの形態状態
 	int m_residue=3;
 	int itemStatus = 0;//アイテム所持状況
 	CollisionObject* m_playerCollisionObj;
@@ -80,11 +81,37 @@ public:
 		enAnimationClip_Walk,
 		enAnimationClip_Run,
 		enAnimationClip_Jump,
+		enAnimationClip_Clear,
+		enAnimationClip_Death,
+		enAnimationClip_Pain,
 		enAnimationClip_Num
 	};
+	//enum EnDXAnimationClip {
+	//	enDXAnimationClip_Idle,
+	//	enDXAnimationClip_Walk,
+	//	enDXAnimationClip_Run,
+	//	enDXAnimationClip_Jump,
+	//	enDXAnimationClip_Clear,
+	//	enDXAnimationClip_Death,
+	//	enDXAnimationClip_Pain,
+	//	enDXAnimationClip_Num
+	//};
+	//enum EnWitchAnimationClip {
+	//	enWitchAnimationClip_Idle,
+	//	enWitchAnimationClip_Walk,
+	//	enWitchAnimationClip_Run,
+	//	enWitchAnimationClip_Jump,
+	//	enWitchAnimationClip_Clear,
+	//	enWitchAnimationClip_Death,
+	//	enWitchAnimationClip_Pain,
+	//	enWitchAnimationClip_Num
+	//};
+
 	FontRender m_posRender;
 	Vector3 m_playerCollisionScale;	
 	AnimationClip m_animationClips[enAnimationClip_Num];
+	//AnimationClip m_dxAnimationClips[enDXAnimationClip_Num];
+	//AnimationClip m_witchAnimationClips[enWitchAnimationClip_Num];
 	float m_time = 0.0f;//時間
 	float m_acceleration = 1.5f;//加速度
 	float m_initialVelocity = 10.0f;//初速度
@@ -113,6 +140,7 @@ public:
 	}
 	~PlayerTest()
 	{
+
 		Player::DeleteInstance();
 	}
 	bool Start() 
@@ -122,11 +150,15 @@ public:
 	}
 	void Update()
 	{
-		Player::GetInstance()->Update(); 
+		Player* player = Player::GetInstance();
+		if (player==nullptr)return;
+		player->Update(); 
 	}
 	void Render(RenderContext& rc) 
 	{
-		Player::GetInstance()->Render(rc);
+		Player* player = Player::GetInstance();
+		if (player == nullptr)return;
+		player->Render(rc);
 	}
 };
 

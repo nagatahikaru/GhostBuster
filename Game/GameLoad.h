@@ -1,4 +1,5 @@
 #pragma once
+#include "BackGround.h"
 
 class PlayerTest;
 class BackGround;
@@ -9,6 +10,7 @@ class MushroomEnemyManager;
 class GhostEnemyManager;
 class GolemEnemy;
 class Game;
+
 
 class GameLoad :public IGameObject
 {
@@ -29,6 +31,7 @@ class GameLoad :public IGameObject
 	GhostEnemyManager* m_ghostEnemyManager;//—H—ìŒ^‚Ì“G
 	GolemEnemy* m_golemEnemy;//ƒS[ƒŒƒ€Œ^‚Ì“G
 	Game* m_game;
+	
 
 
 private:

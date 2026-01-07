@@ -25,7 +25,8 @@ public:
 	void Render(RenderContext& rc);
 		
 	CharacterController m_snowController;//“–‚½‚è”»’è
-
+	CollisionObject* m_snowCollisionObject;
+	Vector3 m_snowCollisionScalr;
 private:	
 	ModelRender m_snow[2];//á‚¾‚é‚Ü‚É‹[‘Ô‚·‚é“G
 	SnowBallManager* m_snowBallManager;	
