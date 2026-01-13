@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "BackGround.h"
 
+
 GameLoad::GameLoad()
 {
 }
@@ -30,8 +31,6 @@ bool GameLoad::Start()
 
 	m_unity1SpriteRender.Init("Assets/sprite/Sign_Okay.DDS", 200.0f, 200.0f);
 	m_unity1SpriteRender.SetPosition(Vector3(-50.0f, -125.0f, 0.0f));
-	//SoundManager* soundManager = FindGO<SoundManager>("soundManager");       //
-	//m_GameLoadBGM = soundManager->PlayingSound(Sound::enSound_LoadBGM, true, 1.0f);//
 	
 	return true;
 }

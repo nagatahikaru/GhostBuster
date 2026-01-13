@@ -21,7 +21,7 @@ class Enemy:public IGameObject
 		virtual void Wandering(ModelRender& m_character);
 		virtual void Damage(const int&damage, CharacterController&characterController);
 		//virtual void Tach(CharacterController& characterController);
-		virtual void Tach(CollisionObject& collisionObject,Vector3&pos,int hp);
+		virtual void Tach(CollisionObject& collisionObject, CharacterController& characterController,bool hitFlag);
 
 
 		Vector3 startPos;

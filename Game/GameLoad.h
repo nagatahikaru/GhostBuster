@@ -12,6 +12,7 @@ class GolemEnemy;
 class Game;
 
 
+
 class GameLoad :public IGameObject
 {
 	public:
@@ -30,6 +31,7 @@ class GameLoad :public IGameObject
 	MushroomEnemyManager* m_mushroomEnemyManager;//ƒLƒmƒRŒ^‚Ì“G
 	GhostEnemyManager* m_ghostEnemyManager;//—H—ìŒ^‚Ì“G
 	GolemEnemy* m_golemEnemy;//ƒS[ƒŒƒ€Œ^‚Ì“G
+
 	Game* m_game;
 	
 

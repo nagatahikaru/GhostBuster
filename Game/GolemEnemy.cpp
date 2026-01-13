@@ -24,11 +24,12 @@ bool GolemEnemy::Start()
 	srand(time(nullptr));
 	m_golem.Init("Assets/modelData/Golem.tkm");
 	m_golem.SetPosition(m_position);
+	m_golem.SetScale(Vector3(3.0f, 3.0f, 3.0f));
 	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
-	m_golemController.Init(50.0f, 100.0f, m_position);
+	m_golemController.Init(150.0f, 300.0f, m_position);
 	m_golemController.SetCollisionActive(true);
-	m_golemCollisionScalr = Vector3(50.0f, 100.0, 50.0f);
+	m_golemCollisionScalr = Vector3(225.0f, 900.0, 225.0f);
 	m_golemCollisionObject = new CollisionObject;
 	m_golemCollisionObject->CreateBox(
 		m_position,
@@ -51,7 +52,7 @@ void GolemEnemy::Update()
 		return;
 	}
 	Move();
-	Tach(*m_golemCollisionObject,m_position,m_hp);
+	Tach(*m_golemCollisionObject, m_golemController,false);
 
 }
 
@@ -124,6 +125,7 @@ void GolemEnemy::Atk()
 	//UŒ‚ˆ—
 	//Œ»İ‚ÌˆÊ’u‘O•û‚É“Ëi
 
+	Tach(*m_golemCollisionObject, m_golemController, true);
 }
 
 

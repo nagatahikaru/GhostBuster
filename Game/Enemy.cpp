@@ -55,18 +55,30 @@ bool Enemy::CanAtk() {
 	return true;
 }
 
-void Enemy::Tach(CollisionObject& collisionObject,Vector3&pos,int hp)
-{
-	if(collisionObject.IsHit(m_player->m_playerCollisionObj)&&m_player->m_position.y<=pos.y)
-	{
-		m_player->Damage(1.0f);
-	}
-	if (collisionObject.IsHit(m_player->m_playerCollisionObj) && m_player->m_position.y >= pos.y)
-	{
-		hp-=1;
-	}
-}
 
+//当たり判定処理
+//collisionObject:当たり判定オブジェクト
+//characterController:キャラクターコントローラー
+//HitFlag:当たり判定フラグ
+//HitFlagがtrueならプレイヤーにダメージ、falseなら敵にダメージ
+//Enemyクラスを継承したクラスでオーバーライドして使用
+void Enemy::Tach(CollisionObject& collisionObject, CharacterController& characterController, bool HitFlag)
+{
+    if (m_player == nullptr) return;
+
+    if (HitFlag) {
+        // 引数 collisionObject がプレイヤーの当たり判定に当たったか？
+        if (collisionObject.IsHit(m_player->m_playerCollisionObj)) {
+            m_player->Damage(1);
+			HitFlag = false;
+        }
+    } else {
+        // プレイヤーの当たり判定が渡されたオブジェクトに当たったか？
+        if (m_player->m_playerCollisionObj->IsHit(&collisionObject)) {
+            Damage(1, characterController);
+        }
+    }
+}
 
 //void Enemy::Tach(CharacterController& characterController)
 //{
@@ -96,7 +108,8 @@ void Enemy::Wandering(ModelRender& m_character)
 	if (!randVec)
 	{
 		//そのベクトルに向かって移動
-	// 基準点から半径250の円範囲内でランダムに出現位置を決定
+		// 基準点から半径250の円範囲内でランダムに出現位置を決定
+		//ランダムな角度と距離を生成
 		float angle = (rand() % 360) * 3.1415f / 180.0f;
 		float radius = rand() % 750;
 		m_randPos.x += cosf(angle) * radius;
@@ -114,7 +127,7 @@ void Enemy::Wandering(ModelRender& m_character)
 	if (m_wanderTime <= 0)
 	{
 		randVec = false;
-	}
+	}	
 }
 
 //ダメージ処理

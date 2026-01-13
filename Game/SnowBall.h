@@ -18,6 +18,8 @@ public:
 	void Atk();
 	void Move();
 	void Deceleration();
+	void Dorop(Vector3& pos);
+	void DropMove();
 	void Fire(const Vector3& pos, const Vector3& dir, float speed, const Quaternion& rot);
 	void Render(RenderContext& rc);
 
@@ -37,5 +39,7 @@ private:
 	Quaternion m_rotation;     //クォータニオン
 	float m_speed=0.0f;
 	float m_gravity = 0.1f;	
+	bool m_dropFlag = false;//雪玉を落とすフラグ
+
 };
 

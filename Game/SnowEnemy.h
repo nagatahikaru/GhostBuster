@@ -22,6 +22,7 @@ public:
 	void Move();
 	void Rotation();
 	void PlayAnimation();
+	void DoropItem();
 	void Render(RenderContext& rc);
 		
 	CharacterController m_snowController;//“–‚½‚è”»’è

@@ -26,7 +26,7 @@ bool GhostEnemy::Start()
 	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_ghostController.Init(30.0f, 80.0f, m_position);
-	m_ghostCollsitinoScalr = Vector3(30.0f, 80.0f, 30.0f);
+	m_ghostCollsitinoScalr = Vector3(75.0f, 300.0f, 75.0f);
 	m_ghostCollisionObject = new CollisionObject;
 	m_ghostCollisionObject->CreateBox(
 		m_position,
@@ -53,7 +53,7 @@ void GhostEnemy::Update()
 		return;
 	}	
 	Move();
-	Tach(*m_ghostCollisionObject,m_position,m_hp);
+	Tach(*m_ghostCollisionObject,m_ghostController,false);
 }
 
 void GhostEnemy::Move()
@@ -92,7 +92,10 @@ void GhostEnemy::Move()
 
 	Atk();
 	m_ghostCollisionObject->SetPosition(m_position);
-	m_ghostCollisionObject->SetRotation(Quaternion::Identity);
+	if (m_distance < 2000.0f)
+	{
+		m_ghostCollisionObject->SetRotation(Quaternion::Identity);
+	}
 	m_ghostCollisionObject->Update();
 	m_position = m_ghostController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_ghost.SetPosition(m_position);
@@ -108,6 +111,7 @@ void GhostEnemy::Atk()
 	//攻撃処理
 	//現在の位置前方に突進
 	
+	Tach(*m_ghostCollisionObject, m_ghostController, true);
 }
 
 void GhostEnemy::PlayAnimation()
@@ -117,16 +121,5 @@ void GhostEnemy::PlayAnimation()
 
 void GhostEnemy::Render(RenderContext& rc)
 {	
-	if(m_damageCoolTime<=0)
-	{
-		int blinkSpeed = m_blinking0;
-		m_blinking0 = m_blinking1;
-		m_blinking1 = blinkSpeed;
-	}
-	if(m_blinking0==0||m_blinking0==1)
-	{
-		//点滅中は描画しない
-		return;
-	}
 	m_ghost.Draw(rc);
 }

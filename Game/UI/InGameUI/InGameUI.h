@@ -27,7 +27,9 @@ enum EnResidue {
 
 enum EnItem {
 	enItem_none,
-	enItem_snowball,	
+	enItem_snowball,
+	enItem_star,
+	enItem_mushroom,
 	enItem_num
 };
 
@@ -147,7 +149,9 @@ namespace nsUI {
 	namespace nsItem {
 		const Vector3 POS[enItem_num] = {
 			{ -900.0f, -400.0f, 0.0f },//なし
-			{ -900.0f, -400.0f, 0.0f } //雪玉
+			{ -900.0f, -400.0f, 0.0f },//雪玉
+			{ -900.0f, -400.0f, 0.0f },//星
+			{-900.0f, -400.0f, 0.0f } //本
 		};
 
 		static const int NONE = 0;
@@ -263,8 +267,11 @@ private:
 	SpriteRender m_map;								//マップ表示
 	float m_black=1.0f;								//黒色
 	float m_transparency=0.5f;						//透明度
-	float m_overFrameTransparency=0.5;				//GameEndFrameColor
-	float m_lordFrameTransparency=0.5;				//GameLordFrameColor
+	float m_overFrameTransparency=1.0f;				//GameEndFrameColor
+	float m_lordFrameTransparency=0.5f;				//GameLordFrameColor
 	float m_cyan;									//シアン色
+	float m_blue= 0.81960784313f;					//青色
+	float m_red=0.0f;								//赤色
+	float m_green= 0.63137254902f;					//緑色
 };
 

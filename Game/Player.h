@@ -10,6 +10,7 @@ class GolemEnemy;
 class MushroomEnemy;
 class Enemy;
 class InGameUI;
+class SnowBallManager;
 
 
 class Player
@@ -46,7 +47,9 @@ public:
 	void Move();
 	void Rotate();
 	void PlayAnimation();
+	void SnowAtk();
 	void Damage(int damage);
+	void Atk();
 	void Render(RenderContext& rc);
 
 	const Vector3& GetPosition() const
@@ -63,55 +66,34 @@ public:
 	}
 
 	//ここからメンバー変数
-	ModelRender m_modelRender/*[4]*/;//モデルレンダー。
+	ModelRender m_modelRender[4];//モデルレンダー。
 	//Hands On1　座標データを追加する。
 	Vector3 m_position;//座標。
 	Vector3 m_moveSpeed;
 	CharacterController m_characterController;
 	Quaternion m_rotation;	
-	float m_formState;//Playerの形態状態
+	int m_formState;//Playerの形態状態
 	int m_residue=3;
-	int itemStatus = 0;//アイテム所持状況
+	int m_itemStatus = 0;//アイテム所持状況
 	CollisionObject* m_playerCollisionObj;
 	InGameUI* m_inGameUI;
 	Vector3 m_facingDir = Vector3(0.0f, 0.0f, 1.0f); // 初期向き
 	GolemEnemy* m_golemEnemy;	
+	SnowBallManager* m_snowBallManager;
 	enum EnAnimaationClip {
-		enAnimationClip_Idle,
-		enAnimationClip_Walk,
-		enAnimationClip_Run,
-		enAnimationClip_Jump,
-		enAnimationClip_Clear,
-		enAnimationClip_Death,
-		enAnimationClip_Pain,
-		enAnimationClip_Num
+		enAnimationClip_Idle,//待機
+		enAnimationClip_Walk,//歩き
+		enAnimationClip_Run,//走り
+		enAnimationClip_Jump,//ジャンプ
+		enAnimationClip_Clear,//クリア
+		enAnimationClip_Death,//死亡
+		enAnimationClip_Pain,//ダメージ
+		enAnimationClip_Num//アニメーションクリップ数
 	};
-	//enum EnDXAnimationClip {
-	//	enDXAnimationClip_Idle,
-	//	enDXAnimationClip_Walk,
-	//	enDXAnimationClip_Run,
-	//	enDXAnimationClip_Jump,
-	//	enDXAnimationClip_Clear,
-	//	enDXAnimationClip_Death,
-	//	enDXAnimationClip_Pain,
-	//	enDXAnimationClip_Num
-	//};
-	//enum EnWitchAnimationClip {
-	//	enWitchAnimationClip_Idle,
-	//	enWitchAnimationClip_Walk,
-	//	enWitchAnimationClip_Run,
-	//	enWitchAnimationClip_Jump,
-	//	enWitchAnimationClip_Clear,
-	//	enWitchAnimationClip_Death,
-	//	enWitchAnimationClip_Pain,
-	//	enWitchAnimationClip_Num
-	//};
 
-	FontRender m_posRender;
-	Vector3 m_playerCollisionScale;	
-	AnimationClip m_animationClips[enAnimationClip_Num];
-	//AnimationClip m_dxAnimationClips[enDXAnimationClip_Num];
-	//AnimationClip m_witchAnimationClips[enWitchAnimationClip_Num];
+	FontRender m_posRender;//座標表示用
+	Vector3 m_playerCollisionScale;	//プレイヤーの当たり判定スケール
+	AnimationClip m_animationClips[enAnimationClip_Num];//アニメーションクリップ
 	float m_time = 0.0f;//時間
 	float m_acceleration = 1.5f;//加速度
 	float m_initialVelocity = 10.0f;//初速度
@@ -120,14 +102,15 @@ public:
 	int m_enemyjumpCount = 0;
 	bool m_jumpFlag = false;//ジャンプフラグ
 	int m_playerAnimationState = 0;//Playerのアニメーション状態	
-	int m_form0 = 1;
-	int m_form1 = 2;
-	int m_form2 = 3;
-	float m_jumpingPower = 0.0f;
-	bool sperd = false;
+	int m_form0 = 1;//形態状態
+	int m_form1 = 2;//形態状態
+	int m_form2 = 3;//形態状態
+	float m_jumpingPower = 0.0f;//ジャンプ力
+	bool sperd = false;//スピードアップフラグ
 	bool m_playerRenderFlag = true; //プレイヤーの描画フラグ
 	bool m_backout = true; //ブラックアウトフラグ
 	int m_score = 0; //スコア
+	float m_damageCoolTime = 0.0f; //ダメージクールタイム
 };
 
 

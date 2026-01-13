@@ -8,8 +8,7 @@
 #include "MushroomEnemyManager.h"
 #include "GhostEnemyManager.h"
 #include "GolemEnemy.h"
-#include "GameOver.h"
-#include "GameClear.h"
+#include "GameResult.h"
 #include "GameLoad.h"
 #include "GameTiter.h"
 #include "UI/InGameUI/InGameUI.h"
@@ -23,16 +22,14 @@ Game::Game()
 Game::~Game()
 {
 	
+
 	DeleteGO(m_gameCamera);
 	DeleteGO(m_backGround);
 	DeleteGO(m_snowEnemyManager);
+	if (m_cachedStage == 4) { DeleteGO(m_golemEnemy); }
+	DeleteGO(m_snowBallManager);
 	DeleteGO(m_mushroomEnemyManager);
 	DeleteGO(m_ghostEnemyManager);
-	if (m_backGround->m_stageSelect == 4)
-	{
-		DeleteGO(m_golemEnemy);
-	}
-	DeleteGO(m_snowBallManager);
 	DeleteGO(m_inGameUI);
 	DeleteGO(m_playerTest);
 }
@@ -46,18 +43,19 @@ bool Game::Start()
 	m_playerTest = FindGO<PlayerTest>("player");
 	m_gameCamera = NewGO<GameCamera>(0, "gameCamera");
 	m_backGround = FindGO<BackGround>("backGround");
+	m_cachedStage = (m_backGround) ? m_backGround->m_stageSelect : 0;
 	m_inGameUI = NewGO<InGameUI>(0, "inGameUI");
 	m_player = Player::GetInstance();
 	m_snowEnemyManager = FindGO<SnowEnemyManager>("snowEnemyManager");
 	m_mushroomEnemyManager = FindGO<MushroomEnemyManager>("mushroomEnemyManager");
 	m_ghostEnemyManager = FindGO<GhostEnemyManager>("ghostEnemyManager");
-	if (m_backGround->m_stageSelect == 4)
+	if (m_cachedStage == 4)
 	{
 		m_golemEnemy = FindGO<GolemEnemy>("golemEnemy");
 	}
 	//m_gameBGM = FindGO<SoundSource>("gameBGM");
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
-
+	m_directionTime = 8.0f;
 	//auto* pointLight = g_sceneLight->NewPointLight();
 	//pointLight->SetPosition(Vector3(500.0f, 900.0f, 0.0f));
 	//pointLight->SetColor(10.0f, 0.1f, 0.1f);
@@ -74,7 +72,7 @@ void Game::Update()
 	
 
 	//当たり判定を描画する。
-//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+	//PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 }
 
 void Game::GameClearProcess()
@@ -83,8 +81,13 @@ void Game::GameClearProcess()
 	//クリア条件：仮　残基が5以上　想定：星(虹色に光る)を3つ集める
 	if(m_player->m_residue >= 5)
 	{
-		NewGO<GameClear>(0, "gameclear");		
-		DeleteGO(this);
+		m_player->m_playerAnimationState = Player::enAnimationClip_Clear;
+		m_directionTime -= g_gameTime->GetFrameDeltaTime();
+		if(m_directionTime<=0.0f)
+		{
+			NewGO<GameResult>(0, "gameresult");
+			DeleteGO(this);
+		}
 		return;
 	}
 
@@ -96,8 +99,13 @@ void Game::GameOverProcess()
 	//オーバー条件：残基が0以下 	
 	if(m_player->m_residue<=0||m_inGameUI->m_nowTime<=0.0f)
 	{
-		NewGO<GameOver>(0, "gameover");
-		DeleteGO(this);
+		m_player->m_playerAnimationState = Player::enAnimationClip_Death;
+		m_directionTime -= g_gameTime->GetFrameDeltaTime();
+		if(m_directionTime<=0.0f)
+		{
+			NewGO<GameResult>(0, "gameresult");
+			DeleteGO(this);
+		}
 		return;
 	}
 	//ポーズ時にゲームをリトライするか終了するか選べるようにする

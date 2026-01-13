@@ -13,11 +13,8 @@ class SnowEnemyManager;
 class MushroomEnemyManager;
 class GhostEnemyManager;
 class GolemEnemy;
-class GameOver;
-class GameClera;
 class GameLoad;
 class InGameUI;
-class GameClear;
 class GameTiter;
 
 
@@ -40,17 +37,17 @@ private:
 	PlayerTest* m_playerTest;
 	GameCamera* m_gameCamera; //ƒQ[ƒ€ƒJƒƒ‰
 	//SoundSource* m_gameBGM;   //ƒQ[ƒ€’†‚ÌBGM
-	GameClear* m_gameclear;   //ƒQ[ƒ€ƒNƒŠƒA
 	BackGround* m_backGround; //”wŒi	
 	SnowEnemyManager* m_snowEnemyManager;//á‚¾‚é‚ÜŒ^‚Ì“G
 	SnowBallManager* m_snowBallManager;//á‹Ê
 	MushroomEnemyManager* m_mushroomEnemyManager;//ƒLƒmƒRŒ^‚Ì“G
 	GhostEnemyManager* m_ghostEnemyManager;//—H—ìŒ^‚Ì“G
 	GolemEnemy* m_golemEnemy;//ƒS[ƒŒƒ€Œ^‚Ì“G
-	GameOver* m_gameOver;
-	GameClera* m_gameclera;
 	GameLoad* m_gameLoad;
 	InGameUI* m_inGameUI;
 	GameTiter* m_gameTiter;
+	float m_directionTime=0.0f; //‰‰oŠÔ
+	int m_cachedStage = 0;
 };
+
 

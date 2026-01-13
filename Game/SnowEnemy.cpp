@@ -13,6 +13,7 @@ SnowEnemy::SnowEnemy()
 
 }
 
+//デストラクタ
 SnowEnemy::~SnowEnemy()
 {
 	if (m_snowCollisionObject != nullptr)
@@ -22,8 +23,10 @@ SnowEnemy::~SnowEnemy()
 	}
 }
 
+//初期化処理
 bool SnowEnemy::Start()
 {
+	//乱数初期化
 	srand(time(nullptr));
 	m_snow[0].Init("Assets/modelData/SnowMan.tkm");
 	m_snow[1].Init("Assets/modelData/SnoEnemy.tkm");
@@ -36,7 +39,7 @@ bool SnowEnemy::Start()
 	m_hp = 10;
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
-	m_snowCollisionScalr = Vector3(25.0f, 80.0, 25.0f);
+	m_snowCollisionScalr = Vector3(75.0f,  300.0, 75.0f);
 	m_snowCollisionObject = new CollisionObject;
 	m_snowCollisionObject->CreateBox(
 		m_position,
@@ -45,6 +48,7 @@ bool SnowEnemy::Start()
 	return true;
 }
 
+//スポーン処理
 void SnowEnemy::OnSpawn(const Vector3& pos)
 {
 	m_snow[0].SetPosition(m_position);
@@ -56,6 +60,7 @@ void SnowEnemy::OnSpawn(const Vector3& pos)
 	m_snowController.SetPosition(pos);
 }
 
+//更新処理
 void SnowEnemy::Update()
 {
 	if (!m_inGameUI)
@@ -68,11 +73,12 @@ void SnowEnemy::Update()
 		return;
 	}
 	Move();	
-	Tach(*m_snowCollisionObject,m_position,m_hp);
+	Tach(*m_snowCollisionObject, m_snowController,false);
 
 	//PlayAnimation();
 }
 
+//移動処理
 void SnowEnemy::Move()
 {
 	Vector3 dif = m_player->m_position- m_position;
@@ -99,7 +105,7 @@ void SnowEnemy::Move()
 		m_jaumTime=4.0f;
 	}
 	//プレイヤーとの距離が一定以下の場合
-//擬態を解いて攻撃をする
+	//擬態を解いて攻撃をする
 	if (distance <= 250.0f)
 	{
 		m_form = 1;
@@ -161,11 +167,31 @@ void SnowEnemy::Atk()
 	m_coolTimeFrag = true;
 }
 
+//アイテムドロップ
+void SnowEnemy::DoropItem()
+{
+	if (m_hp <= 0)
+	{
+		//アイテムドロップ処理
+		int randNum = rand() % 100;
+		if(randNum < 30)
+		{
+			//30%の確率で雪玉をドロップ
+			SnowBall* snowBall = FindGO<SnowBall>("snowBall");
+			//雪玉をドロップ
+			snowBall->Fire(m_position + Vector3(0.0f, 50.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f), 0.0f, Quaternion::Identity);
+
+		}
+	}
+}
+
+//アニメーション設定
 void SnowEnemy::PlayAnimation()
 {
 
 }
 
+//描画処理
 void SnowEnemy::Render(RenderContext& rc)
 {
 	m_snow[m_form].Draw(rc);

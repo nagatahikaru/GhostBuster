@@ -27,7 +27,7 @@ bool MushroomEnemy::Start()
 	m_player = Player::GetInstance();
 	m_inGameUI = FindGO<InGameUI>("inGameUI");
 	m_mushroomController.Init(25.0f, 80.0f, m_position);
-	m_mushroomCollisionScalr = Vector3(25.0f, 80.0, 25.0f);
+	m_mushroomCollisionScalr = Vector3(75.0f,300.0, 75.0f);
 	m_mushroomCollisionObject = new CollisionObject;
 	m_mushroomCollisionObject->CreateBox(
 		m_position,
@@ -54,7 +54,8 @@ void MushroomEnemy::Update()
 		return;
 	}
 	Move();
-	Tach(*m_mushroomCollisionObject,m_position,m_hp);
+	Tach(*m_mushroomCollisionObject, m_mushroomController,false);
+	
 
 	//PlayAnimation();
 }
@@ -123,6 +124,7 @@ void MushroomEnemy::Atk()
 	//UŒ‚ˆ—
 	//Œ»İ‚ÌˆÊ’u‘O•û‚É“Ëi
 
+	Tach(*m_mushroomCollisionObject, m_mushroomController, true);
 }
 
 bool MushroomEnemy::CanAtk() {

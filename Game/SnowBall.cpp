@@ -49,7 +49,7 @@ void SnowBall::Update()
 {
 	if (!m_isActive|| m_inGameUI->m_blackout) return;
 	Move();
-	
+	DropMove();
 }
 
 void SnowBall::Atk()
@@ -60,6 +60,10 @@ void SnowBall::Atk()
 
 void SnowBall::Move()
 {
+	if (m_dropFlag)
+	{
+		return;
+	}
 	float dt = g_gameTime->GetFrameDeltaTime();
 	m_position += m_direction * m_speed * dt;
 	
@@ -86,6 +90,35 @@ void SnowBall::Deceleration()
 	if (m_speed <= 0.0f)
 	{
 		Deactivate();
+	}
+}
+
+void SnowBall::Dorop(Vector3&pos)
+{
+	m_position = pos;
+	Activate();
+	Quaternion rot;
+	m_snowBallModel.SetPosition(m_position);
+	m_snowBallModel.SetRotation(rot);
+	m_dropFlag = true;
+}
+
+void SnowBall::DropMove()
+{
+	if (!m_dropFlag)return;
+	Vector3 pos = m_player->m_position - m_position;
+	float dir =pos.Length();
+	if (dir >= 100.0f)
+	{
+		m_player->m_itemStatus = 1;//アイテム所持状況を1にする
+		Deactivate();
+		m_dropFlag = false;
+	}
+	//地面に着地したら非アクティブにする
+	if (dir<=1000.0f)
+	{
+		Deactivate();
+		m_dropFlag = false;
 	}
 }
 

@@ -11,8 +11,8 @@ namespace {
 		"0","1","2","3","4","5","6","7","8","9"
 	};
 
-	std::string ITEM_FILE_PATH[2] = {
-		"None","Snowball"
+	std::string ITEM_FILE_PATH[4] = {
+		"None","Snowball","Star","Book"
 	};
 
 	inline std::string GetNumberFilePath(const int number)
@@ -231,7 +231,7 @@ void InGameUI::PlayerResidueUI()
 	}
 }
 
-
+//スコア加算
 void InGameUI::AddScore(int score)
 {
 	m_nowScore = m_player->m_score;
@@ -257,8 +257,14 @@ void InGameUI::AddScore(int score)
 //アイテム欄表示
 void InGameUI::ItemUI()
 {
-	m_nowItem = m_player->itemStatus;
-
+	m_nowItem = m_player->m_itemStatus;
+	int fileNum = m_itemUI[m_nowItem].nowItem;
+	UpdateSpriteInfo(
+		&m_itemUI[m_nowItem].spriteRender
+		, nsUI::nsItem::POS[m_nowItem]
+		, nsUI::nsItem::SCALE
+		, GetNumberFilePath(fileNum)
+	);
 	m_itemColumnUI.Update();
 }
 
@@ -342,19 +348,21 @@ void InGameUI::Selection()
 	}
 	if (GetAsyncKeyState(VK_UP)||g_pad[0]->IsTrigger(enButtonUp))
 	{
-		m_overFrameTransparency = 1.0f;
-		m_lordFrameTransparency = 0.5f;
+		float emptiness = m_overFrameTransparency;
+		m_overFrameTransparency = m_lordFrameTransparency;
+		m_lordFrameTransparency = emptiness;
 		m_sceneMovement = true;
 	}
 	if (GetAsyncKeyState(VK_DOWN)||g_pad[0]->IsTrigger(enButtonDown))
 	{
-		m_overFrameTransparency = 0.5f;
-		m_lordFrameTransparency = 1.0f;
+		float emptiness = m_lordFrameTransparency;
+		m_lordFrameTransparency = m_overFrameTransparency;
+		m_overFrameTransparency = emptiness;
 		m_sceneMovement = false;
 	}
 
-	Vector4 OverFrameColor(m_cyan, m_cyan, m_cyan, m_overFrameTransparency);
-	Vector4 LordFrameColor(m_cyan, m_cyan, m_cyan, m_lordFrameTransparency);
+	Vector4 OverFrameColor(m_red, m_blue, m_green, m_overFrameTransparency);
+	Vector4 LordFrameColor(m_red, m_blue, m_green, m_lordFrameTransparency);
 
 	m_overSelectionFrame.SetMulColor(OverFrameColor);
 	m_lordSelectionFrame.SetMulColor(LordFrameColor);

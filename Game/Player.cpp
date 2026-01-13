@@ -8,12 +8,11 @@
 #include "MushroomEnemy.h"
 #include "Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
+#include "SnowBallManager.h"
 
 
 namespace {
 	std::string FILE_PATH_GIRL = ("Assets/animData/girl/");
-	//std::string FILE_PATH_ADULT = ("Assets/animData/adult/");
-	//std::string FILE_PATH_WITCH = ("Assets/animData/witch/");
 	std::string FILE_PATH_TKA = (".tka");
 	std::string FILE_PATH_ANIMATION[7]= {
 		"idle",
@@ -26,18 +25,7 @@ namespace {
 	};
 	inline std::string GetAnimationFilePath(const int animationState,const int m_formState)
 	{
-		switch (m_formState)
-		{
-		case 1:
-			return FILE_PATH_GIRL + FILE_PATH_ANIMATION[animationState] + FILE_PATH_TKA;
-		//case 2:
-		//	return FILE_PATH_ADULT + FILE_PATH_ANIMATION[animationState] + FILE_PATH_TKA;
-		//case 3:
-		//	return FILE_PATH_WITCH + FILE_PATH_ANIMATION[animationState] + FILE_PATH_TKA;
-		default:
-			return "";
-
-		}
+		return FILE_PATH_GIRL + FILE_PATH_ANIMATION[animationState] + FILE_PATH_TKA;
 	}
 };
 
@@ -67,29 +55,38 @@ bool Player::Start()
 	//m_formStateが0か1なら基本形態のアニメーションクリップを読み込み
 	//m_formStateが2なら大人形態のアニメーションクリップを読み込み
 	//m_formStateが3なら魔女形態のアニメーションクリップを読み込み
-	for (int j = 0; j < 7; j++)
+	for (int j = enAnimationClip_Idle; j < enAnimationClip_Jump; j++)
+	{			
+		m_animationClips[j].Load(GetAnimationFilePath(j, 1).c_str()); // girl
+		m_animationClips[j].SetLoopFlag(true);
+	}
+
+	for (int j = enAnimationClip_Jump; j < enAnimationClip_Num; j++)
 	{
 		m_animationClips[j].Load(GetAnimationFilePath(j, 1).c_str()); // girl
-		m_animationClips[j].BuildKeyFramesAndAnimationEvents();
-		//m_dxAnimationClips[j].Load(GetAnimationFilePath(j, 2).c_str()); // adult
-		//m_dxAnimationClips[j].BuildKeyFramesAndAnimationEvents();
-		//m_witchAnimationClips[j].Load(GetAnimationFilePath(j, 3).c_str()); // witch
-		//m_witchAnimationClips[j].BuildKeyFramesAndAnimationEvents();
+		m_animationClips[j].SetLoopFlag(false);
 	}
 	
 
 
 	//モデルの初期化
-	//m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル（エラー回避のための死亡形態）
-	m_modelRender/*[1]*/.Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
-	//m_modelRender[2].Init("Assets/modelData/unityChanDX.tkm"/*, m_dxAnimationClips, enDXAnimationClip_Num, enModelUpAxisZ*/);//大人化モデル
-	//m_modelRender[3].Init("Assets/modelData/MagicalUnity.tkm"/*, m_witchAnimationClips, enWitchAnimationClip_Num, enModelUpAxisZ*/);//魔法少女モデル
+	m_modelRender[0].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル（エラー回避のための死亡形態）
+	m_modelRender[1].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//子供モデル
+	m_modelRender[2].Init("Assets/modelData/unityChan.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//大人化モデル(サイズを1.5倍に変更)
+	m_modelRender[3].Init("Assets/modelData/unityChan_hw.tkm", m_animationClips, enAnimationClip_Num, enModelUpAxisY);//魔法少女モデル（サイズを1.5倍に変更)
 	m_position = Vector3{ 500.0f,1600.0f,0.0f };
-	//for(int i=0;i<3;i++)
-	//{
-		m_modelRender/*[i]*/.SetPosition(m_position);
-	//}	
-	m_playerCollisionScale = Vector3(25.0f, 10.0f, 25.0f);
+	//モデルの位置設定
+	for(int i=0;i<4;i++)
+	{
+		m_modelRender[i].SetPosition(m_position);
+	}	
+	//モデルのスケール変更
+	for (int i = 2; i < 4; i++)
+	{
+		m_modelRender[i].SetScale(Vector3(1.5f, 1.5f, 1.5f));
+	}
+	//当たり判定オブジェクトの作成
+	m_playerCollisionScale = Vector3(40.0f, 20.0f, 40.0f);
 	m_playerCollisionObj = new CollisionObject;
 	m_playerCollisionObj->CreateBox(
 		m_position,
@@ -101,7 +98,7 @@ bool Player::Start()
 	m_characterController.SetCollisionActive(true);
 	m_residue = 3;
 	m_jumpingPower = 1000.0f;
-
+	m_snowBallManager = FindGO<SnowBallManager>("SnowBallManager");
 	return true;
 }
 
@@ -112,9 +109,37 @@ void Player::Update()
 	{
 		return;
 	}
-	Move();
-	Rotate();
-	PlayAnimation();
+	Move();//移動処理
+	Rotate();//回転処理
+	PlayAnimation();//アニメーション再生
+	Atk();//攻撃処理
+	//ダメージクールタイムの減算
+	m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
+}
+
+void Player::Atk()
+{
+	if (m_itemStatus == 1&&g_pad[0]->IsTrigger(enButtonX))//アイテム所持状態が雪玉の場合
+	{
+		SnowAtk();//雪玉攻撃処理
+	}
+}
+
+//雪玉攻撃処理
+void Player::SnowAtk()
+{
+	// 敵の向き（前方向ベクトル）
+	Vector3 dir(0, 0, 1);      // Z+方向を基準の前向きにする
+	Quaternion rot = m_rotation;
+	rot.Apply(dir);
+	dir.Normalize(); // 念のため正規化
+
+	// 敵の位置(少し前にずらすと自然)
+	Vector3 pos = m_position + dir * 10.0f + Vector3(0.0f, 10.0f, 0);
+
+	// 発射命令
+	m_snowBallManager->Fire(pos, dir, rot);
+	m_itemStatus = 0; // アイテム使用後、アイテム所持状態をリセット
 }
 
 //移動処理
@@ -186,11 +211,33 @@ void Player::Move()
 		m_moveSpeed.y -= gravety;
 	}
 
-	if(m_position.y<=-400.0f)
+	
+	if(m_position.y<=-1000.0f)
 	{
-		m_position = Vector3{ 500.0f,1600.0f,0.0f };		
+		// リスポーン位置へ戻す
+		m_position = Vector3{ 500.0f, 1600.0f, 0.0f };
+
+		// 物理／制御系と同期する
+		m_characterController.SetPosition(m_position);
+
+		// 速度やジャンプ状態をリセット
+		m_moveSpeed = Vector3::Zero;
+		m_jumpCount = 0;
+		m_enemyjumpCount = 0;
+
+		// 衝突オブジェクト／モデル位置を更新
+		if (m_playerCollisionObj)
+		{
+			m_playerCollisionObj->SetPosition(m_position);
+			m_playerCollisionObj->Update();
+		}
+		m_modelRender[m_formState].SetPosition(m_position);
+
+		// アニメーション状態を初期化（必要に応じて）
+		m_playerAnimationState = enAnimationClip_Idle;
 	}
 
+	//形態変化の処理(デバック用処理)
 	if (g_pad[0]->IsTrigger(enButtonX))
 	{
 		int form=m_formState;
@@ -202,19 +249,23 @@ void Player::Move()
 	//ジャンプの処理
 	//Jボタンを押したときジャンプのカウントが最大でなければジャンプする
 	//形態によってジャンプできる回数は変化する
-	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_form2)
+	// 修正: ジャンプ回数のインクリメントとアニメーション切替をここで行い、重複を防ぐ
+	if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState)
 	{
-		
-		//上方向に1000の初速を加える
+		//上方向に初速を加える
 		m_moveSpeed.y += m_jumpingPower;
+		// ジャンプ回数を増やす（重要：一元管理）
+		m_jumpCount++;
+		// アニメーションはジャンプにする
+		m_playerAnimationState = enAnimationClip_Jump;
 	}
 	//キャラクターコントローラーを使って座標を移動させる
 	m_position = m_characterController.Execute(m_moveSpeed, g_gameTime->GetFrameDeltaTime());
 	m_playerCollisionObj->SetPosition(m_position);
 	m_playerCollisionObj->SetRotation(Quaternion::Identity);
 	m_playerCollisionObj->Update();
-	m_modelRender/*[m_formState]*/.SetPosition(m_position);
-	m_modelRender/*[m_formState]*/.Update();
+	m_modelRender[m_formState].SetPosition(m_position);
+	m_modelRender[m_formState].Update();
 }
 
 //回転処理
@@ -231,60 +282,86 @@ void Player::Rotate()
 	}
 	// m_facingDir を使って回転を作る（移動が無いときは前の向きを使う）
 	m_rotation.SetRotationYFromDirectionXZ(m_facingDir);
-	m_modelRender/*[m_formState]*/.SetRotation(m_rotation);
+	m_modelRender[m_formState].SetRotation(m_rotation);
 }
 
 
 //アニメーションの再生
 void Player::PlayAnimation()
 {
-	if(m_formState<=1)
-	{
-		//ジャンプの処理
-		if (g_pad[0]->IsTrigger(enButtonA) && m_jumpCount < m_formState) // Aボタンが押されたら
-		{
-			m_playerAnimationState = enAnimationClip_Jump;
-			m_jumpCount++;
-		}
-		//地面についていなかったら
-		if (!m_characterController.IsOnGround())
-		{
-			m_playerAnimationState = enAnimationClip_Jump;
-		}
 
-		if (m_playerAnimationState != enAnimationClip_Jump) { // ジャンプ中は無視
-			//ｘかｚの移動速度があったら（スティックの入力があったら）
-			if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+	// ジャンプ入力の処理は Move() に統合したためここでは扱わない
+
+	// 地面についていなかったら強制的にジャンプアニメーションへ
+	if (!m_characterController.IsOnGround())
+	{
+		m_playerAnimationState = enAnimationClip_Jump;
+	}
+
+	if (m_playerAnimationState != enAnimationClip_Jump) { // ジャンプ中は無視
+		//ｘかｚの移動速度があったら（スティックの入力があったら）
+		if (fabsf(m_moveSpeed.x) >= 0.001f || fabsf(m_moveSpeed.z) >= 0.001f)
+		{
+			//歩きアニメーションを再生する
+			m_playerAnimationState = enAnimationClip_Walk;
+			//走るアニメーションを再生する
+			if (g_pad[0]->IsPress(enButtonB))
 			{
-				//歩きアニメーションを再生する
-				m_playerAnimationState = enAnimationClip_Walk;
-				//走るアニメーションを再生する
-				if (g_pad[0]->IsPress(enButtonB))
-				{
-					m_playerAnimationState = enAnimationClip_Run;
-				}
+				m_playerAnimationState = enAnimationClip_Run;
 			}
-			//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
-			else
-			{
-				m_playerAnimationState = enAnimationClip_Idle;
-			}
+		}
+		//ｘとｚの移動速度が無かったら（スティックの入力が無かったら）
+		else
+		{
+			m_playerAnimationState = enAnimationClip_Idle;
 		}
 	}
-	//現在の形態状態のモデルレンダーでアニメーションを再生する
-	m_modelRender/*[m_formState]*/.PlayAnimation(m_playerAnimationState);
 
+	//現在の形態状態のモデルレンダーでアニメーションを再生する
+	m_modelRender[m_formState].PlayAnimation(m_playerAnimationState);
 }
+
 //ダメージ処理
 void Player::Damage(int damage)
 {
-	//形態ダウン
-	m_formState -= damage;
-	if (m_formState == 0)
+	if(m_damageCoolTime>=0.0f)
 	{
-		m_formState = 1.0f;
-		m_modelRender.SetScale(Vector3(m_formState, m_formState, m_formState));
-		m_residue--;
+		return; // クールタイム中はダメージを受けない
+	}
+	else
+	{		
+		//形態ダウン
+		m_formState -= damage;
+		//形態が0以下になったら1に固定
+		//m_formStateが1のときにさらにダメージを受けたら形態は変化しない
+		//ただし、残り形残基は減少する
+		//形態が0以下になったら1に固定
+		if (m_formState == 0)
+		{
+			m_formState = 1;
+			m_position = Vector3{500.0f,1600.0f,0.0f};
+			// 物理／制御系と同期する
+			m_characterController.SetPosition(m_position);
+
+			// 速度やジャンプ状態をリセット
+			m_moveSpeed = Vector3::Zero;
+			m_jumpCount = 0;
+			m_enemyjumpCount = 0;
+
+			// 衝突オブジェクト／モデル位置を更新
+			if (m_playerCollisionObj)
+			{
+				m_playerCollisionObj->SetPosition(m_position);
+				m_playerCollisionObj->Update();
+			}
+			m_modelRender[m_formState].SetPosition(m_position);
+
+			// アニメーション状態を初期化（必要に応じて）
+			m_playerAnimationState = enAnimationClip_Idle;
+			//m_modelRender.SetScale(Vector3(m_formState, m_formState, m_formState));
+			m_residue--;
+		}
+		m_damageCoolTime = 1.0f; // ダメージクールタイムをリセット
 	}
 }
 
@@ -303,6 +380,6 @@ void Player::Render(RenderContext& rc)
 	if(m_playerRenderFlag)
 	{
 		//現在の形態状態のモデルレンダーを描画する
-		m_modelRender/*[m_formState]*/.Draw(rc);
+		m_modelRender[m_formState].Draw(rc);
 	}
 }

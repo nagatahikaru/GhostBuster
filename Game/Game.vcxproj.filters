@@ -16,12 +16,6 @@
     <Filter Include="UI\ResultUI">
       <UniqueIdentifier>{77797ce9-2f36-4520-a4ce-eadeac074d8d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\ClearUI">
-      <UniqueIdentifier>{6217964b-93d1-44e4-886b-8947e85890ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\OverUI">
-      <UniqueIdentifier>{93a4cd4d-6be2-4b09-a3e3-5981cfa90d68}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{4fccbf0a-21c3-4c56-836e-287e4f1aa410}</UniqueIdentifier>
     </Filter>
@@ -45,12 +39,6 @@
     </Filter>
     <Filter Include="Scene\InGame">
       <UniqueIdentifier>{5d09a4d9-670c-4c15-8baa-a2af7df18a36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GameOver">
-      <UniqueIdentifier>{14c7a7ef-c186-4640-ac1f-3f9278a78668}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GameClear">
-      <UniqueIdentifier>{b2c2f77e-af03-4e78-b539-491996b19174}</UniqueIdentifier>
     </Filter>
     <Filter Include="Scene\GameResult">
       <UniqueIdentifier>{2f13a383-f9b2-4879-bb17-3dc81d7450bc}</UniqueIdentifier>
@@ -112,6 +100,9 @@
     <Filter Include="Manager\SoundManager">
       <UniqueIdentifier>{d36a9b06-2464-44f7-bfe3-529bbdd3d94f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Item\Star">
+      <UniqueIdentifier>{eb137ff1-8a80-4958-91f1-bcbfff4ff7ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -125,12 +116,6 @@
     <ClCompile Include="UI\InGameUI\InGameUI.cpp">
       <Filter>UI\InGameUI</Filter>
     </ClCompile>
-    <ClCompile Include="UI\ClearUI\ClearUI.cpp">
-      <Filter>UI\ClearUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\OverUI\OverUI.cpp">
-      <Filter>UI\OverUI</Filter>
-    </ClCompile>
     <ClCompile Include="UI\ResultUI\ResultUI.cpp">
       <Filter>UI\ResultUI</Filter>
     </ClCompile>
@@ -143,14 +128,8 @@
     <ClCompile Include="Game.cpp">
       <Filter>Scene\InGame</Filter>
     </ClCompile>
-    <ClCompile Include="GameClear.cpp">
-      <Filter>Scene\GameClear</Filter>
-    </ClCompile>
     <ClCompile Include="GameLoad.cpp">
       <Filter>Scene\GameLoad</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>Scene\GameOver</Filter>
     </ClCompile>
     <ClCompile Include="GameTiter.cpp">
       <Filter>Scene\Titer</Filter>
@@ -212,6 +191,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Manager\SoundManager</Filter>
     </ClCompile>
+    <ClCompile Include="Star.cpp">
+      <Filter>Object\Item\Star</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -226,12 +208,6 @@
     <ClInclude Include="UI\InGameUI\InGameUI.h">
       <Filter>UI\InGameUI</Filter>
     </ClInclude>
-    <ClInclude Include="UI\ClearUI\ClearUI.h">
-      <Filter>UI\ClearUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\OverUI\OverUI.h">
-      <Filter>UI\OverUI</Filter>
-    </ClInclude>
     <ClInclude Include="UI\ResultUI\ResultUI.h">
       <Filter>UI\ResultUI</Filter>
     </ClInclude>
@@ -244,14 +220,8 @@
     <ClInclude Include="Game.h">
       <Filter>Scene\InGame</Filter>
     </ClInclude>
-    <ClInclude Include="GameClear.h">
-      <Filter>Scene\GameClear</Filter>
-    </ClInclude>
     <ClInclude Include="GameLoad.h">
       <Filter>Scene\GameLoad</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOver.h">
-      <Filter>Scene\GameOver</Filter>
     </ClInclude>
     <ClInclude Include="GameTiter.h">
       <Filter>Scene\Titer</Filter>
@@ -315,6 +285,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Star.h">
+      <Filter>Object\Item\Star</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
