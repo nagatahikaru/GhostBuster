@@ -160,8 +160,7 @@ namespace nsK2EngineLow {
 			Matrix mBone;
 			mBone = bonePtr->GetInvBindPoseMatrix() * bonePtr->GetWorldMatrix();
 			m_boneMatrixs[boneNo] = mBone;
-			boneNo++;			
+			boneNo++;
 		}
-
 	}
 }

@@ -92,12 +92,7 @@ namespace nsK2EngineLow {
 		*/
 		void RemoveRigidBody(RigidBody& rb)
 		{
-			btRigidBody* body = rb.GetBody();
-			if (body == nullptr) {
-				// 何もしない（防御的）
-				return;
-			}
-			m_dynamicWorld->removeRigidBody(body);
+			m_dynamicWorld->removeRigidBody(rb.GetBody());
 		}
 		
 		void ConvexSweepTest(
@@ -117,20 +112,7 @@ namespace nsK2EngineLow {
 		/// <param name="convexStart">コライダーの開始座標</param>
 		/// <param name="rayEnd">コライダーの終了座標</param>
 		/// <returns>trueがかえってきたら当たっている。</returns>
-		bool ConvexSweepTest(ICollider& collider, const Vector3& rayStart, 
-			const Vector3& rayEnd) const;
-
-
-		/// <summary>
-		/// 物理ワールドに対して、凸型コライダーSweepテストを行う。
-		/// </summary>
-		/// <param name="collider">コライダー</param>
-		/// <param name="rayStart">コライダーの開始座標</param>
-		/// <param name="rayEnd">コライダーの終了座標</param>
-		/// <param name="resultCallbaxk">コールバック</param>
-		void ConvexSweepTest(ICollider& collider, const Vector3& rayStart,
-			const Vector3& rayEnd, btCollisionWorld::ConvexResultCallback& resultCallbaxk) const;
-
+		bool ConvexSweepTest(ICollider& collider, const Vector3& rayStart, const Vector3& rayEnd) const;
 		/// <summary>
 		/// レイテストを実施。
 		/// </summary>

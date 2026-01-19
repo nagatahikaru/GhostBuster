@@ -45,15 +45,6 @@ namespace nsK2EngineLow {
 		{
 			return m_height;
 		}
-
-		///<summary>
-		///アクティブ状態の遷移
-		/// </summary>
-		/// <returns></returns>
-		//void SetActiveState(bool isActive) override
-		//{
-		//	//カプセルコライダーはアクティブ・非アクティブの概念が無いため、何もしない
-		//}
 	private:
 		std::unique_ptr<btCapsuleShape>	m_shape;
 		float m_radius = 0.0f;
