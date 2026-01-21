@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GolemEnemy.h"
-#include "Player.h"
-#include "Enemy.h"
+#include "Player/Player.h"
+#include "Enemy/Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
 #include "BulletCallback.h"
 

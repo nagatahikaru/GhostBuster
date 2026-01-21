@@ -1,5 +1,5 @@
 #pragma once
-#include "Enemy.h"
+#include "Enemy/Enemy.h"
 #include "UI/InGameUI/InGameUI.h"
 
 class Player;
