@@ -27,7 +27,7 @@ namespace PlayerVariable
 	//0:Death, 1:Normal, 2:Adult, 3:Witch、4:Num
 	//呼び出しかた
 	// 例:PlayerVariable::FormState::SpeedUp
-	namespace FormState{
+	namespace FormState {
 		enum {
 			Death = 0,
 			Normal = 1,
@@ -43,10 +43,10 @@ namespace PlayerVariable
 	const uint8_t RESET_JUMP_COUNT = 0; //リセットジャンプ回数
 	const float  NONE_SPEED = 0.0f; //スピードアップなし
 	const uint8_t VECTOR_SIZE = 10; //ベクトルサイズ
-	
+
 	namespace Transform
 	{
-		const Vector3 INITIAL_COORDINATE = Vector3( 500.0f,1500.0f,0.0f );//初期座標
+		const Vector3 INITIAL_COORDINATE = Vector3(500.0f, 1500.0f, 0.0f);//初期座標
 		const float GRAVITY = 50.0f; //重力
 		const uint8_t ACCELERATION_TIME = 5;//加速時間
 		const float BASICS_SPEED = 400.0f; //基本速度

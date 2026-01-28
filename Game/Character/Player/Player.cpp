@@ -4,59 +4,9 @@
 #include "Manager/SnowBallManager/SnowBallManager.h"
 
 
-//Playerの変数をまとめる名前空間
-namespace 
-{
-	//Playerのアイテム所持状況
-	//アイテム所持状況
-	//0:なし、1:スノーボール、2:スター、3:キノコ、4:本
-	//0:None, 1:SnowBall, 2:Star, 3:Mushroom, 4:Book
-	//呼び出しかた
-	// 例:ItemStatus::SnowBall
-	namespace ItemStatus
-	{
-		enum {
-			None = 0,
-			SnowBall = 1,
-			Star = 2,
-			Mushroom = 3,
-			Book = 4
-		};
-	}
 
-	//Playerの形態状態
-	//0:死亡形態、1:通常形態、2:大人形態、3:魔女形態、4:形態数
-	//0:Death, 1:Normal, 2:Adult, 3:Witch、4:Num
-	//呼び出しかた
-	// 例:PlayerVariable::FormState::SpeedUp
-	namespace FormState {
-		enum {
-			Death = 0,
-			Normal = 1,
-			Adult = 2,
-			Witch = 3,
-			Num = 4
-		};
-	}
 
-	const uint8_t INITIAL_RESIDUE = 3; //初期残基数
-	const float MAX_JUMP_POWER = 1000.0f; //最大ジャンプ力
-	const float RESET_TIME = 0.0f; //リセット時間
-	const uint8_t RESET_JUMP_COUNT = 0; //リセットジャンプ回数
-	const float  NONE_SPEED = 0.0f; //スピードアップなし
-	const uint8_t VECTOR_SIZE = 10; //ベクトルサイズ
-
-	namespace Transform
-	{
-		const Vector3 INITIAL_COORDINATE = Vector3(500.0f, 1500.0f, 0.0f);//初期座標
-		const float GRAVITY = 50.0f; //重力
-		const uint8_t ACCELERATION_TIME = 5;//加速時間
-		const float BASICS_SPEED = 400.0f; //基本速度
-		const Vector3 VECTOR_UP = Vector3(0.0f, 1.0f, 0.0f); //上方向ベクトル
-		const Vector3 INITIAL_SCALE = Vector3(1.5f, 1.5f, 1.5f); //初期スケール
-		const Vector3 COLLISION_SCALE = Vector3(50.0f, 35.0f, 50.0f); //当たり判定スケール
-	}
-
+namespace {
 	std::string FILE_PATH_GIRL = ("Assets/animData/girl/");
 	std::string FILE_PATH_MODELDATA = ("Assets/modelData/");	
 	std::string FILE_PATH_DDS = (".tka");
@@ -121,7 +71,7 @@ namespace
 
 
 
-Player* Player::m_instance = nullptr;
+ Player* Player::m_instance = nullptr;
 Player::Player()
 {
 	
@@ -154,29 +104,29 @@ bool Player::Start()
 	}
 	
 	//モデルレンダーの初期化
-	for (int i = FormState::Death; i < FormState::Num; i++)
+	for (int i = PlayerVariable::FormState::Death; i < PlayerVariable::FormState::Num; i++)
 	{		
 		InitModelRender(
 			&m_modelRender[i],
 			m_animationClips,
 			enAnimationClip_Num,
-			Transform::INITIAL_COORDINATE,
-			(i == FormState::Normal) ? Vector3(1.0f, 1.0f, 1.0f) : Transform::INITIAL_SCALE,
+			PlayerVariable::Transform::INITIAL_COORDINATE,
+			(i == PlayerVariable::FormState::Normal) ? Vector3(1.0f, 1.0f, 1.0f) : PlayerVariable::Transform::INITIAL_SCALE,
 			GetModelFilePath(i));			
 	}
 	//当たり判定オブジェクトの作成
-	m_playerCollisionScale = Transform::COLLISION_SCALE;
+	m_playerCollisionScale = PlayerVariable::Transform::COLLISION_SCALE;
 	m_playerCollisionObj = new CollisionObject;
 	m_playerCollisionObj->CreateBox(
 		m_position,
 		Quaternion::Identity,
 		m_playerCollisionScale);
 
-	m_jumpingPower = MAX_JUMP_POWER;
-	m_formState = FormState::Normal;
+	m_jumpingPower = PlayerVariable::MAX_JUMP_POWER;
+	m_formState = PlayerVariable::FormState::Normal;
 	m_characterController.Init(25.0f, 75.0f, m_position);
 	m_characterController.SetCollisionActive(true);
-	m_residue = INITIAL_RESIDUE;
+	m_residue = PlayerVariable::INITIAL_RESIDUE;
 	//SnowBallManagerの取得
 	m_snowBallManager = FindGO<SnowBallManager>("snowBallManager");
 
@@ -199,13 +149,13 @@ void Player::Update()
 
 	//アイテム使用処理
 	//アイテムを持っていて、かつ死亡アニメーション中でなければ
-	if (m_itemStatus!=ItemStatus::None &&
+	if (m_itemStatus!=PlayerVariable::ItemStatus::None &&
 		m_playerAnimationState != enAnimationClip_Death)
 	{
 		ItemUse();
 	}
 
-	if (m_damageCoolTime >= RESET_TIME)
+	if (m_damageCoolTime >= PlayerVariable::RESET_TIME)
 	{
 		//ダメージクールタイムの減算
 		m_damageCoolTime -= g_gameTime->GetFrameDeltaTime();
@@ -222,27 +172,27 @@ void Player::ItemUse()
 	{
 		switch (m_itemStatus)
 		{
-		case ItemStatus::None :				 //アイテム所持状態が無しの場合
+		case PlayerVariable::ItemStatus::None :				 //アイテム所持状態が無しの場合
 			break;
 
-		case ItemStatus::SnowBall:			 //アイテム所持状態が雪玉の場合
+		case PlayerVariable::ItemStatus::SnowBall:			 //アイテム所持状態が雪玉の場合
 			SnowAtk();										 //雪玉攻撃処理
-			m_itemStatus = ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
+			m_itemStatus = PlayerVariable::ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
 			break;
 
-		case ItemStatus::Star:				 //残基Upアイテムの場合
+		case PlayerVariable::ItemStatus::Star:				 //残基Upアイテムの場合
 			m_residue++;									 //残基を1増やす
-			m_itemStatus = ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
+			m_itemStatus = PlayerVariable::ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
 			break;
 
-		case ItemStatus::Mushroom:			 //大人化アイテムの場合
-			m_formState = FormState::Adult;  // 大人化形態に変化
-			m_itemStatus = ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
+		case PlayerVariable::ItemStatus::Mushroom:			 //大人化アイテムの場合
+			m_formState = PlayerVariable::FormState::Adult;  // 大人化形態に変化
+			m_itemStatus = PlayerVariable::ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
 			break;
 
-		case ItemStatus::Book:				 //魔女化アイテムの場合
-			m_formState = FormState::Witch;	 // 魔女化形態に変化
-			m_itemStatus = ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
+		case PlayerVariable::ItemStatus::Book:				 //魔女化アイテムの場合
+			m_formState = PlayerVariable::FormState::Witch;	 // 魔女化形態に変化
+			m_itemStatus = PlayerVariable::ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
 			break;
 
 		default:
@@ -255,11 +205,11 @@ void Player::ItemUse()
 void Player::SnowAtk(){
 	// 敵の位置(少し前にずらすと自然)
 	// 発射位置をプレイヤーの前方に設定
-	Vector3 pos = m_position + m_facingDir * VECTOR_SIZE + Transform::VECTOR_UP;
+	Vector3 pos = m_position + m_facingDir * PlayerVariable::VECTOR_SIZE + PlayerVariable::Transform::VECTOR_UP;
 
 	// 発射命令
 	m_snowBallManager->Fire(pos, m_facingDir, m_rotation);
-	m_itemStatus = ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
+	m_itemStatus = PlayerVariable::ItemStatus::None; // アイテム使用後、アイテム所持状態をリセット
 }
 
 //移動処理
@@ -272,8 +222,8 @@ void Player::Move()
 	}
 
 	//xzの移動速度を0.0fにする
-	m_moveSpeed.x = NONE_SPEED;
-	m_moveSpeed.z = NONE_SPEED;
+	m_moveSpeed.x = PlayerVariable::NONE_SPEED;
+	m_moveSpeed.z = PlayerVariable::NONE_SPEED;
 	
 	//左スティックの入力量を取得
 	Vector3 stickL;
@@ -284,12 +234,12 @@ void Player::Move()
 	Vector3 forward = g_camera3D->GetForward();
 	Vector3 right = g_camera3D->GetRight();
 	//ｙ方向には移動させない
-	forward.y = NONE_SPEED;
-	right.y = NONE_SPEED;
+	forward.y = PlayerVariable::NONE_SPEED;
+	right.y = PlayerVariable::NONE_SPEED;
 
 	//左スティックの入力量と200.0fを乗算
-	right *= stickL.x * Transform::BASICS_SPEED;
-	forward *= stickL.y * Transform::BASICS_SPEED;
+	right *= stickL.x * PlayerVariable::Transform::BASICS_SPEED;
+	forward *= stickL.y * PlayerVariable::Transform::BASICS_SPEED;
 
 	//移動速度にスティックの入力量を加算する。
 	m_moveSpeed += right + forward;
@@ -299,14 +249,14 @@ void Player::Move()
 	{
 		m_moveSpeed.x *= m_time; // Bボタンが押されている間、時間経過で加速していく
 		m_moveSpeed.z *= m_time; // Bボタンが押されている間、時間経過で加速していく
-		if (m_time <= Transform::ACCELERATION_TIME)
+		if (m_time <= PlayerVariable::Transform::ACCELERATION_TIME)
 		{
 			m_time += g_gameTime->GetFrameDeltaTime(); // 経過時間を更新
 			sperd = true;
 		}
 		if(sperd)
 		{
-			m_time = Transform::ACCELERATION_TIME;
+			m_time = PlayerVariable::Transform::ACCELERATION_TIME;
 		}		
 	}
 	else
@@ -324,7 +274,7 @@ void Player::Move()
 	if (m_characterController.IsOnGround())
 	{
 		//重力をなくす
-		m_moveSpeed.y = NONE_SPEED;
+		m_moveSpeed.y = PlayerVariable::NONE_SPEED;
 		m_playerAnimationState = enAnimationClip_Idle;
 		m_jumpCount = 0;			
 	}
@@ -332,14 +282,14 @@ void Player::Move()
 	{
 		//重力を発生させる
 		
-		m_moveSpeed.y -= Transform::GRAVITY;
+		m_moveSpeed.y -= PlayerVariable::Transform::GRAVITY;
 	}
 
 	
 	if(m_position.y<=-1000.0f)
 	{
 		// リスポーン位置へ戻す
-		m_position = Transform::INITIAL_COORDINATE;
+		m_position = PlayerVariable::Transform::INITIAL_COORDINATE;
 
 		// 物理／制御系と同期する
 		m_characterController.SetPosition(m_position);
@@ -443,7 +393,7 @@ void Player::PlayAnimation()
 //ダメージ処理
 void Player::Damage(int damage)
 {
-	if(m_damageCoolTime>=RESET_TIME)
+	if(m_damageCoolTime>=PlayerVariable::RESET_TIME)
 	{
 		return; // クールタイム中はダメージを受けない
 	}
@@ -457,12 +407,12 @@ void Player::Damage(int damage)
 		//m_formStateが1のときにさらにダメージを受けたら形態は変化しない
 		//ただし、残り形残基は減少する
 		//形態が0以下になったら1に固定
-		if (m_formState == FormState::Death)
+		if (m_formState == PlayerVariable::FormState::Death)
 		{			
-			m_formState = FormState::Normal;
+			m_formState = PlayerVariable::FormState::Normal;
 
 			// リスポーン位置へ戻す
-			m_position = Transform::INITIAL_COORDINATE;
+			m_position = PlayerVariable::Transform::INITIAL_COORDINATE;
 			// 物理／制御系と同期する
 			m_characterController.SetPosition(m_position);
 
