@@ -103,6 +103,12 @@
     <Filter Include="Object\Item\Star">
       <UniqueIdentifier>{eb137ff1-8a80-4958-91f1-bcbfff4ff7ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{cb7c8257-106c-4774-8a84-e167902e0230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor">
+      <UniqueIdentifier>{fa81f05d-8a9d-4b37-95f0-c4c5c5724398}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system\system.cpp">
@@ -193,6 +199,12 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Object\BackGround\BackGround.cpp">
       <Filter>Object\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Actor.cpp">
+      <Filter>src\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Transform.cpp">
+      <Filter>src\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +300,12 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Object\BackGround\BackGround.h">
       <Filter>Object\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Actor.h">
+      <Filter>src\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Transform.h">
+      <Filter>src\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

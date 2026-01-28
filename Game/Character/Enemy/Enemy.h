@@ -21,11 +21,13 @@ class Enemy:public IGameObject
 	//m_chracter:モデルレンダー
 	virtual void Rotation(ModelRender& m_chracter);
 	
-	//攻撃可能か判定
-	//戻り値:true:攻撃可能、false:攻撃不可
-	//プレイヤーとの距離が一定以上の場合は攻撃しない
-	//クールタイム中は攻撃しない
-	//Enemyクラスを継承したクラスでオーバーライドして使用
+	/** 
+	 * 攻撃可能か判定
+	 * 戻り値:true:攻撃可能、false:攻撃不可
+	 * プレイヤーとの距離が一定以上の場合は攻撃しない
+	 * クールタイム中は攻撃しない
+	 * Enemyクラスを継承したクラスでオーバーライドして使用
+	 */	
 	virtual bool CanAtk();
 
 	//生成時設定リセット
@@ -59,11 +61,7 @@ class Enemy:public IGameObject
 	virtual void Tach(CollisionObject& collisionObject, CharacterController& characterController,bool hitFlag,int *ItemTipy);
 		
 
-
-	//Vector3 startPos;//移動開始位置
-	//Vector3 endPos;//移動開始位置、終了位置
-	//BulletCallback callback;//当たり判定コールバック
-	//BoxCollider collider;//当たり判定用ボックスコライダー
+private:
 	Vector3 m_position;//座標
 	Vector3 m_moveSpeed;//移動速度
 	Player* m_player;//プレイヤーのインスタンス

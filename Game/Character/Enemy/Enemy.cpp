@@ -85,10 +85,10 @@ void Enemy::Tach(CollisionObject& collisionObject,
 	else
 	{
 		// 引数 collisionObject がプレイヤーの当たり判定に当たったか？
-		//if (collisionObject.IsHit(m_player->m_playerCollisionObj)) {
-		//	m_player->Damage(m_damage);
-		//	HitFlag = false;
-		//}
+		if (collisionObject.IsHit(m_player->m_characterController)) {
+			m_player->Damage(m_damage);
+			HitFlag = false;
+		}
     }
 }
 
