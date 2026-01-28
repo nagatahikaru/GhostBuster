@@ -155,7 +155,7 @@ public:
 	//   回収後のゲームロジック（スコア処理・削除演出など）は
 	//   Manager 側で行うことを想定しています。
 	//
-	std::vector<T*>Reclaim() {		
+	std::vector<T*>Reclaim() const{		
 		std::vector<T*> releasedObjs;
 		for (auto obj : m_pool) {
 			if (obj && obj->IsActive() && obj->IsDead()) {

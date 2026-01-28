@@ -5,7 +5,7 @@
 #include<dxgidebug.h>
 #include <time.h>
 //#include "Game.h"
-#include "GameTiter.h"
+#include "Scene/Titer/GameTiter.h"
 
 
 
@@ -36,6 +36,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_renderingEngine->DisableTonemap();
 	//ランダム性を向上させる。
 	srand(time(nullptr));
+
+	//TODO:ここ後で消しといて
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
 
 	//Gameクラスのオブジェクトを作成。
 	//NewGO<Player>(0);

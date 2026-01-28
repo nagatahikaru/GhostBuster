@@ -14,9 +14,10 @@ public:
 	void Update();
 	void Render(RenderContext& rc);
 
+
+private:
 	TiterUI* m_titerUI;
 	StageSelection* m_stageSelection;
-private:
 	bool m_conversion=false;
 	float m_standby=2.0f;
 	SpriteRender m_gameTiterSprite;

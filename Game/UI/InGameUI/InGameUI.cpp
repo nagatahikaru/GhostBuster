@@ -1,28 +1,37 @@
 #include "stdafx.h"
 #include "InGameUI.h"
-#include "Player.h"
+#include "Character/Player/Player.h"
 #include <algorithm>
 
-
+//ファイルパス関連
+//namespaceを使わないとグローバル変数になる
+//このファイル内でしか使わないので無名名前空間にする
+//無名名前空間:このファイル内でしか使わない変数や関数を定義する
+//外部からアクセスできないようにする
+//GetNumberFilePath:数字のファイルパス取得
+//GetItemFilePath:アイテムのファイルパス取得
+//UpdateSpriteInfo:スプライト情報更新
 namespace {
-	std::string FILE_PATH = ("Assets/sprite/Number/");
-	std::string FILE_PATH_TKA = (".DDS");
+	std::string FILE_PATH = ("Assets/sprite/");
+	std::string FILE_PATH_NUMBER = ("Number/");
+	std::string FILE_PATH_ITEM = ("Item/");
+	std::string FILE_PATH_DDS = (".DDS");
 	std::string NUMBER_FILE_PATH[10] = {
 		"0","1","2","3","4","5","6","7","8","9"
 	};
 
-	std::string ITEM_FILE_PATH[4] = {
-		"None","Snowball","Star","Book"
+	std::string ITEMMODEL_FILE_PATH[5] = {
+		"None","Snowball","StarPowr","Mushroom","Book"
 	};
 
 	inline std::string GetNumberFilePath(const int number)
 	{
-		return FILE_PATH+NUMBER_FILE_PATH[number]+ FILE_PATH_TKA;
+		return FILE_PATH+ FILE_PATH_NUMBER +NUMBER_FILE_PATH[number]+ FILE_PATH_DDS;
 	}
 
 	inline std::string GetItemFilePath(const int itemType)
 	{
-		return FILE_PATH + ITEM_FILE_PATH[itemType] + FILE_PATH_TKA;
+		return FILE_PATH + FILE_PATH_ITEM + ITEMMODEL_FILE_PATH[itemType] + FILE_PATH_DDS;
 	}
 
 	/**
@@ -47,13 +56,12 @@ namespace {
 		SpriteRender* spriteRender
 		, const Vector3& pos
 		, const Vector3& scl
-		, std::string filePath) {
+		, const std::string& filePath) {
 		spriteRender->Init(filePath.c_str(), 1.0f, 1.0f);
 		spriteRender->SetPosition(pos);
 		spriteRender->SetScale(scl);
 		spriteRender->Update();
 	}
-
 }
 
 
@@ -179,7 +187,7 @@ bool InGameUI::Start()
 	InitializeItem();
 	InitializeScore();
 	m_player = Player::GetInstance();
-	m_player->m_backout = false;
+	m_player->SetBackout(false);
 	return true;
 }
 
@@ -187,12 +195,42 @@ bool InGameUI::Start()
 //更新処理
 void InGameUI::Update()
 {	
-	PlayerResidueUI();
-	ItemUI();
-	MapUI();	
-	Direction();
-	Selection();
-	MeasureNowTime();
+	// 時間は毎フレーム更新が必要
+    MeasureNowTime();
+    
+    // プレイヤー関連は変化があったときだけ更新
+    if (m_player)
+    {
+        // 残基が変化したときだけ更新
+        if (m_player->GetResidue() != m_nowResidue)
+        {
+            PlayerResidueUI();
+        }
+        
+        // アイテムが変化したときだけ更新
+        if (m_player->GetItem() != m_nowItem)
+        {
+            ItemUI();
+        }
+        
+        // スコアが変化したときだけ更新
+        if (m_player->GetScore() != m_pastScore)
+        {
+            AddScore();
+        }
+    }
+    
+    // 演出中だけ実行
+    if (m_blackout || g_pad[0]->IsTrigger(enButtonSelect))
+    {
+        Direction();
+    }
+    
+    // 選択中だけ実行
+    if (m_blackout)
+    {
+        Selection();
+    }
 }
 
 
@@ -200,8 +238,8 @@ void InGameUI::Update()
 void InGameUI::PlayerResidueUI()
 {
 	//プレイヤーの残基を代入
-	m_nowResidue = m_player->m_residue;;
-	//0秒以下にはしない
+	m_nowResidue = m_player->GetResidue();
+	//0以下にはしない
 	m_nowResidue = max(0.0f, m_nowResidue);
 
 	//計算したい桁数より上の桁の合計
@@ -212,8 +250,8 @@ void InGameUI::PlayerResidueUI()
 		//一旦現在の数字を保存
 		int oldResidue = m_residueUI[i].nowResidue;
 		//計算する桁数より上の桁の合計を引いてさらにそれぞれの
-		m_residueUI
-			[i].nowResidue = (m_nowResidue - harderDigitTimeCalc) / nsUI::nsResidue::COUNT[i];
+		//m_nowResidueを桁数で割った値を代入
+		m_residueUI[i].nowResidue = (m_nowResidue - harderDigitTimeCalc) / nsUI::nsResidue::COUNT[i];
 		//今計算している桁の数値を合計値に加算
 		harderDigitTimeCalc += m_residueUI[i].nowResidue * nsUI::nsResidue::COUNT[i];
 		//今計算中の桁の数値が変化したかどうか判定
@@ -232,17 +270,30 @@ void InGameUI::PlayerResidueUI()
 }
 
 //スコア加算
-void InGameUI::AddScore(int score)
+void InGameUI::AddScore()
 {
-	m_nowScore = m_player->m_score;
-	m_nowScore += score;
-	m_nowScore += enScoreType_TimeBonus * static_cast<int>(m_nowTime);
-	for(int i = enMaxScoreDigit - 1; i >= 0; i--)
-	{
-		int oldScore = m_scoreUI[i].nowScore;
-		m_scoreUI[i].nowScore = (m_nowScore / nsUI::nsScore::DIGIT[i]) % 10;
+	//スコア加算
+	m_nowScore = m_player->GetScore();
+	//時間ボーナス分加算
+	m_TimeBonusScore += enScoreType_TimeBonus * m_gameTimer;
+	//最大スコアを超えないようにする
+	m_nowScore = std::min<int>(m_nowScore, nsUI::nsScore::MAX);
+	//計算したい桁数より上の桁の合計
+	int harderDigitTimeCalc = 0;	
+
+	//桁数分繰り返す
+	for (int i = enMaxScoreDigit - 1; i >= 0; i--) {
+		//一旦現在の数字を保存
+		int oldScore = m_scoreUI[i].nowScore;			
+		//計算する桁数より上の桁の合計を引いてさらにそれぞれの
+		//m_nowScoreを桁数で割った値を代入
+		m_scoreUI[i].nowScore = (m_nowScore - harderDigitTimeCalc) / nsUI::nsScore::DIGIT[i];
+		//今計算中の桁の数値が変化したかどうか判定
+		harderDigitTimeCalc += m_scoreUI[i].nowScore * nsUI::nsScore::DIGIT[i];
+		//変化していなければ次の桁へ
 		if (oldScore == m_scoreUI[i].nowScore) continue;
-		//スコアが変化しているのでスプライトを更新
+
+		//時間が変化しているのでスプライトを更新
 		int fileNum = m_scoreUI[i].nowScore;
 		UpdateSpriteInfo(
 			&m_scoreUI[i].spriteRender
@@ -250,22 +301,26 @@ void InGameUI::AddScore(int score)
 			, nsUI::nsScore::SCALE
 			, GetNumberFilePath(fileNum)
 		);
-	}	
+	}
+	//過去のスコアを現在のスコアに更新
+	if (m_nowScore >= m_pastScore)
+	{
+		m_pastScore = m_nowScore;
+	}
 }
 
 
-//アイテム欄表示
+//アイテム表示
 void InGameUI::ItemUI()
 {
-	m_nowItem = m_player->m_itemStatus;
+	m_nowItem = m_player->GetItem();
 	int fileNum = m_itemUI[m_nowItem].nowItem;
 	UpdateSpriteInfo(
 		&m_itemUI[m_nowItem].spriteRender
 		, nsUI::nsItem::POS[m_nowItem]
 		, nsUI::nsItem::SCALE
-		, GetNumberFilePath(fileNum)
+		, GetItemFilePath(fileNum)
 	);
-	m_itemColumnUI.Update();
 }
 
 
@@ -279,20 +334,21 @@ void InGameUI:: MapUI()
 //演出表示(死亡時の暗転のような)
 void InGameUI::Direction()
 {
+	
 	//プレイヤーの残基が0以下の時、又はスペースキーを押した際に半暗転する
 	if (g_pad[0]->IsTrigger(enButtonSelect))
 	{
-		m_blackout = true;
+		SetBlackout(true);
 		m_player->m_backout = true;
-		m_transparency = 0.5;
+		UIColors::TRANSPARENCY_DEFAULT;
 	}	
-	Vector4 blackoutColor(m_black, m_black, m_black, m_transparency);
+	Vector4 blackoutColor(UIColors::BLACK, UIColors::BLACK, UIColors::BLACK, UIColors::TRANSPARENCY_DEFAULT);
 	m_spriteRender.SetMulColor(blackoutColor);
 	m_spriteRender.Update();
 	//プレイヤーの残基が０より大きい時Bボタンを押したら半暗転を解除する
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
-		m_blackout = false;
+		SetBlackout(false);
 	}	
 }
 
@@ -361,8 +417,8 @@ void InGameUI::Selection()
 		m_sceneMovement = false;
 	}
 
-	Vector4 OverFrameColor(m_red, m_blue, m_green, m_overFrameTransparency);
-	Vector4 LordFrameColor(m_red, m_blue, m_green, m_lordFrameTransparency);
+	Vector4 OverFrameColor(UIColors::RED, UIColors::BLUE, UIColors::GREEN, m_overFrameTransparency);
+	Vector4 LordFrameColor(UIColors::RED, UIColors::BLUE, UIColors::GREEN, m_lordFrameTransparency);
 
 	m_overSelectionFrame.SetMulColor(OverFrameColor);
 	m_lordSelectionFrame.SetMulColor(LordFrameColor);
@@ -375,33 +431,40 @@ void InGameUI::Selection()
 //描画処理
 void InGameUI::Render(RenderContext& rc)
 {
-	if (m_blackout)
-	{
-		m_spriteRender.Draw(rc);
-		m_overSelectionFrame.Draw(rc);
-		m_lordSelectionFrame.Draw(rc);
-	}
-	//コロンをspriteで表示
-	m_koronSprite.Draw(rc);
-	//アイテム欄をspriteで表示
-	m_itemColumnUI.Draw(rc);
-	//プレイヤーアイコンを表示
-	m_playerfestureUI.Draw(rc);
-	//残基をspriteで表示
-	for (int i = 0; i < enResidue_num; i++)
-	{
-		m_residueUI[i].spriteRender.Draw(rc);
-	}
-	//時間をspriteで表示
-	for (int i = 0; i < enTime_num; i++) {
-		m_timeUI[i].spriteRender.Draw(rc);
-	}
-	//スコアをspriteで表示
-	for (int i = 0; i < enMaxScoreDigit; i++)
-	{
-		m_scoreUI[i].spriteRender.Draw(rc);
-	}
-
-	//m_itemSprite.Draw(rc);
-	//m_map.Draw(rc);	
+	// 暗転中の描画
+    if (m_blackout)
+    {
+        m_spriteRender.Draw(rc);
+        m_overSelectionFrame.Draw(rc);
+        m_lordSelectionFrame.Draw(rc);
+    }
+    
+    // 常に表示されるUI
+    m_koronSprite.Draw(rc);
+    m_itemColumnUI.Draw(rc);
+    m_playerfestureUI.Draw(rc);
+    
+    // 残基表示（配列を逆順で描画すると重なりが自然）
+    for (int i = enResidue_num - 1; i >= 0; --i)
+    {
+        m_residueUI[i].spriteRender.Draw(rc);
+    }
+    
+    // 時間表示
+    for (int i = 0; i < enTime_num; ++i)
+    {
+        m_timeUI[i].spriteRender.Draw(rc);
+    }
+    
+    // スコア表示
+    for (int i = 0; i < enMaxScoreDigit; ++i)
+    {
+        m_scoreUI[i].spriteRender.Draw(rc);
+    }
+    
+    // アイテム表示（現在選択中のアイテムのみ）
+    if (m_nowItem >= 0 && m_nowItem < enItem_num)
+    {
+        m_itemUI[m_nowItem].spriteRender.Draw(rc);
+    }
 }

@@ -4,7 +4,7 @@
 */
 #pragma once
 #include "UI/UI.h"
-#include "Player.h"
+#include "Character/Player/Player.h"
 #include "UI/InGameUI/InGameUI.h"
 
 

@@ -4,23 +4,23 @@
 
 namespace {
 	std::string FILE_PATH = ("Assets/sprite/Number/");
-	std::string FILE_PATH_TKA = (".DDS");
+	std::string FILE_PATH_DDS = (".DDS");
 	std::string NUMBER_FILE_PATH[10] = {
 		"0","1","2","3","4","5","6","7","8","9"
 	};
 
-	std::string ITEM_FILE_PATH[2] = {
+	std::string ITEMMODEL_FILE_PATH[2] = {
 		"None","Snowball"
 	};
 
 	inline std::string GetNumberFilePath(const int number)
 	{
-		return FILE_PATH + NUMBER_FILE_PATH[number] + FILE_PATH_TKA;
+		return FILE_PATH + NUMBER_FILE_PATH[number] + FILE_PATH_DDS;
 	}
 
 	inline std::string GetItemFilePath(const int itemType)
 	{
-		return FILE_PATH + ITEM_FILE_PATH[itemType] + FILE_PATH_TKA;
+		return FILE_PATH + ITEMMODEL_FILE_PATH[itemType] + FILE_PATH_DDS;
 	}
 
 	/**
@@ -45,7 +45,7 @@ namespace {
 		SpriteRender* spriteRender
 		, const Vector3& pos
 		, const Vector3& scl
-		, std::string filePath) {
+		, const std::string filePath) {
 		spriteRender->Init(filePath.c_str(), 1.0f, 1.0f);
 		spriteRender->SetPosition(pos);
 		spriteRender->SetScale(scl);
@@ -100,7 +100,7 @@ void ResultUI::InitializeScore()
 void ResultUI::InitializeClearTime()
 {
 	//ƒNƒŠƒA‚µ‚½ŽžŠÔ‚ðŽæ“¾
-	m_nowTime = m_inGameUI->m_nowTime;
+	m_nowTime = m_inGameUI->GetNowTime();
 	//0•bˆÈ‰º‚É‚Í‚µ‚È‚¢
 	m_nowTime = std::max<float>(0.0f, m_nowTime);
 

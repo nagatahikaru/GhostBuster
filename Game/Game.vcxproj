@@ -149,6 +149,10 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;k2Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4006 %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <FxCompile>
+      <ShaderType>
+      </ShaderType>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -223,35 +227,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BackGround.cpp" />
-    <ClCompile Include="DropItems.cpp" />
-    <ClCompile Include="DropItemsManager.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="GameLoad.cpp" />
-    <ClCompile Include="GameResult.cpp" />
-    <ClCompile Include="GameTiter.cpp" />
-    <ClCompile Include="GhostEnemy.cpp" />
-    <ClCompile Include="GhostEnemyManager.cpp" />
-    <ClCompile Include="GolemEnemy.cpp" />
-    <ClCompile Include="ItemBox.cpp" />
+    <ClCompile Include="Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="Character\Enemy\GhostEnemy\GhostEnemy.cpp" />
+    <ClCompile Include="Character\Enemy\GolemEnemy\GolemEnemy.cpp" />
+    <ClCompile Include="Character\Enemy\MushroomEnemy\MushroomEnemy.cpp" />
+    <ClCompile Include="Character\Enemy\SnowEnemy\SnowEnemy.cpp" />
+    <ClCompile Include="Character\Player\Player.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MushroomEnemy.cpp" />
-    <ClCompile Include="MushroomEnemyManager.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="SnowBall.cpp" />
-    <ClCompile Include="SnowBallManager.cpp" />
-    <ClCompile Include="SnowEnemy.cpp" />
-    <ClCompile Include="SnowEnemyManager.cpp" />
-    <ClCompile Include="SnowMan.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="StageSelection.cpp" />
-    <ClCompile Include="Star.cpp" />
+    <ClCompile Include="Manager\DropItemManager\DropItemsManager.cpp" />
+    <ClCompile Include="Manager\GhostEnemyManager\GhostEnemyManager.cpp" />
+    <ClCompile Include="Manager\MushroomEnemyManager\MushroomEnemyManager.cpp" />
+    <ClCompile Include="Manager\SnowBallManager\SnowBallManager.cpp" />
+    <ClCompile Include="Manager\SnowEnemyManager\SnowEnemyManager.cpp" />
+    <ClCompile Include="Manager\SoundManager\SoundManager.cpp" />
+    <ClCompile Include="Object\BackGround\BackGround.cpp" />
+    <ClCompile Include="Object\GameCamera\GameCamera.cpp" />
+    <ClCompile Include="Object\ItemBox\ItemBox.cpp" />
+    <ClCompile Include="Object\Item\DropItems\DropItems.cpp" />
+    <ClCompile Include="Object\Item\SnowBall\SnowBall.cpp" />
+    <ClCompile Include="Object\Item\Star\Star.cpp" />
+    <ClCompile Include="Object\SnowMan\SnowMan.cpp" />
+    <ClCompile Include="Scene\GameLoad\GameLoad.cpp" />
+    <ClCompile Include="Scene\GameResult\GameResult.cpp" />
+    <ClCompile Include="Scene\InGame\Game.cpp" />
+    <ClCompile Include="Scene\StageSelection\StageSelection.cpp" />
+    <ClCompile Include="Scene\Titer\GameTiter.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="UI\InGameUI\InGameUI.cpp" />
@@ -260,42 +266,39 @@
     <ClCompile Include="UI\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="BulletCallback.h" />
-    <ClInclude Include="DropItems.h" />
-    <ClInclude Include="DropItemsManager.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="GameLoad.h" />
-    <ClInclude Include="GameResult.h" />
-    <ClInclude Include="GameTiter.h" />
-    <ClInclude Include="GhostEnemy.h" />
-    <ClInclude Include="GhostEnemyManager.h" />
-    <ClInclude Include="GolemEnemy.h" />
-    <ClInclude Include="ItemBox.h" />
-    <ClInclude Include="MushroomEnemy.h" />
-    <ClInclude Include="MushroomEnemyManager.h" />
+    <ClInclude Include="Character\Enemy\Enemy.h" />
+    <ClInclude Include="Character\Enemy\GhostEnemy\GhostEnemy.h" />
+    <ClInclude Include="Character\Enemy\GolemEnemy\GolemEnemy.h" />
+    <ClInclude Include="Character\Enemy\MushroomEnemy\MushroomEnemy.h" />
+    <ClInclude Include="Character\Enemy\SnowEnemy\SnowEnemy.h" />
+    <ClInclude Include="Character\Player\Player.h" />
+    <ClInclude Include="Manager\DropItemManager\DropItemsManager.h" />
+    <ClInclude Include="Manager\GhostEnemyManager\GhostEnemyManager.h" />
+    <ClInclude Include="Manager\MushroomEnemyManager\MushroomEnemyManager.h" />
+    <ClInclude Include="Manager\SnowBallManager\SnowBallManager.h" />
+    <ClInclude Include="Manager\SnowEnemyManager\SnowEnemyManager.h" />
+    <ClInclude Include="Manager\SoundManager\SoundManager.h" />
     <ClInclude Include="ObjectPool.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="Object\BackGround\BackGround.h" />
+    <ClInclude Include="Object\GameCamera\GameCamera.h" />
+    <ClInclude Include="Object\ItemBox\ItemBox.h" />
+    <ClInclude Include="Object\Item\DropItems\DropItems.h" />
+    <ClInclude Include="Object\Item\SnowBall\SnowBall.h" />
+    <ClInclude Include="Object\Item\Star\Star.h" />
+    <ClInclude Include="Object\SnowMan\SnowMan.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SnowBall.h" />
-    <ClInclude Include="SnowBallManager.h" />
-    <ClInclude Include="SnowEnemy.h" />
-    <ClInclude Include="SnowEnemyManager.h" />
-    <ClInclude Include="SnowMan.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="StageSelection.h" />
-    <ClInclude Include="Star.h" />
+    <ClInclude Include="Scene\GameLoad\GameLoad.h" />
+    <ClInclude Include="Scene\GameResult\GameResult.h" />
+    <ClInclude Include="Scene\InGame\Game.h" />
+    <ClInclude Include="Scene\StageSelection\StageSelection.h" />
+    <ClInclude Include="Scene\Titer\GameTiter.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="UI\InGameUI\InGameUI.h" />
     <ClInclude Include="UI\ResultUI\ResultUI.h" />
     <ClInclude Include="UI\TiterUI\TiterUI.h" />
     <ClInclude Include="UI\UI.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

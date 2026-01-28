@@ -36,36 +36,33 @@ void TiterUI::Update()
 //演出表示(死亡時の暗転のような)
 void TiterUI::Direction()
 {
-	//タイトル画面の演出
-	Vector4 titerColor(1.0f,1.0f, 0.31372549019f, m_transparency);
+	// フェード処理
+	const float deltaTime = g_gameTime->GetFrameDeltaTime();
+	const float fadeSpeed = m_blinkingfrag ? 15.0f : 1.0f;
+
 	if (m_fadeIn)
 	{
-		// フェードイン → アルファ増加（表示へ）
-		m_transparency += g_gameTime->GetFrameDeltaTime()* m_blinking;
+		m_transparency += deltaTime * fadeSpeed;
 		if (m_transparency >= 1.0f)
 		{
 			m_transparency = 1.0f;
-			m_fadeIn = false; // 次はフェードアウトへ
+			m_fadeIn = false;
 		}
 	}
 	else
 	{
-		// フェードアウト → アルファ減少（透明へ）
-		m_transparency -= g_gameTime->GetFrameDeltaTime()* m_blinking;
+		m_transparency -= deltaTime * fadeSpeed;
 		if (m_transparency <= 0.0f)
 		{
 			m_transparency = 0.0f;
-			m_fadeIn = true; // 次はフェードインへ
+			m_fadeIn = true;
 		}
 	}
-	if (m_blinkingfrag)
-	{
-		//画面転換するときに点滅速度を加速する
-		m_blinking = 15;
-	}
-	m_spriteRender.Update();
-	m_spriteRender.SetMulColor(titerColor);
 
+	// 色設定を先に行う
+	constexpr float YELLOW_BLUE = 0.31372549019f;  // 定数化
+	m_spriteRender.SetMulColor(Vector4(1.0f, 1.0f, YELLOW_BLUE, m_transparency));
+	m_spriteRender.Update();
 }
 
 //描画処理

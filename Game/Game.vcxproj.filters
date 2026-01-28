@@ -105,8 +105,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
@@ -122,86 +120,85 @@
     <ClCompile Include="UI\TiterUI\TiterUI.cpp">
       <Filter>UI\TiterUI</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Scene\InGame</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLoad.cpp">
-      <Filter>Scene\GameLoad</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTiter.cpp">
-      <Filter>Scene\Titer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameResult.cpp">
-      <Filter>Scene\GameResult</Filter>
-    </ClCompile>
-    <ClCompile Include="GhostEnemy.cpp">
+    <ClCompile Include="Character\Enemy\GhostEnemy\GhostEnemy.cpp">
       <Filter>Character\Enemy\GhostEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="GhostEnemyManager.cpp">
-      <Filter>Manager\GhostEnemyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="GolemEnemy.cpp">
+    <ClCompile Include="Character\Enemy\GolemEnemy\GolemEnemy.cpp">
       <Filter>Character\Enemy\GolemEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="MushroomEnemy.cpp">
+    <ClCompile Include="Character\Enemy\MushroomEnemy\MushroomEnemy.cpp">
       <Filter>Character\Enemy\MushroomEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="MushroomEnemyManager.cpp">
-      <Filter>Manager\MushroomEnemyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowBallManager.cpp">
-      <Filter>Manager\SnowBollManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowEnemy.cpp">
+    <ClCompile Include="Character\Enemy\SnowEnemy\SnowEnemy.cpp">
       <Filter>Character\Enemy\SnowEnemy</Filter>
     </ClCompile>
-    <ClCompile Include="SnowEnemyManager.cpp">
-      <Filter>Manager\SnowEnemyManager</Filter>
+    <ClCompile Include="Character\Enemy\Enemy.cpp">
+      <Filter>Character\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Character\Player\Player.cpp">
       <Filter>Character\Player</Filter>
     </ClCompile>
-    <ClCompile Include="SnowMan.cpp">
-      <Filter>Object\SnowMan</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemBox.cpp">
-      <Filter>Object\ItemBox</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Object\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowBall.cpp">
-      <Filter>Object\Item\SnowBoll</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>Object\GameCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="DropItemsManager.cpp">
-      <Filter>Manager\DropItemsManager</Filter>
-    </ClCompile>
-    <ClCompile Include="DropItems.cpp">
+    <ClCompile Include="Object\Item\DropItems\DropItems.cpp">
       <Filter>Object\Item\DropItems</Filter>
     </ClCompile>
-    <ClCompile Include="StageSelection.cpp">
+    <ClCompile Include="Object\Item\SnowBall\SnowBall.cpp">
+      <Filter>Object\Item\SnowBoll</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\Item\Star\Star.cpp">
+      <Filter>Object\Item\Star</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\ItemBox\ItemBox.cpp">
+      <Filter>Object\ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\SnowMan\SnowMan.cpp">
+      <Filter>Object\SnowMan</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\GameCamera\GameCamera.cpp">
+      <Filter>Object\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameLoad\GameLoad.cpp">
+      <Filter>Scene\GameLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameResult\GameResult.cpp">
+      <Filter>Scene\GameResult</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\InGame\Game.cpp">
+      <Filter>Scene\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\StageSelection\StageSelection.cpp">
       <Filter>Scene\StageSelection</Filter>
     </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
+    <ClCompile Include="Scene\Titer\GameTiter.cpp">
+      <Filter>Scene\Titer</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\SoundManager\SoundManager.cpp">
       <Filter>Manager\SoundManager</Filter>
     </ClCompile>
-    <ClCompile Include="Star.cpp">
-      <Filter>Object\Item\Star</Filter>
+    <ClCompile Include="Manager\SnowEnemyManager\SnowEnemyManager.cpp">
+      <Filter>Manager\SnowEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\SnowBallManager\SnowBallManager.cpp">
+      <Filter>Manager\SnowBollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\MushroomEnemyManager\MushroomEnemyManager.cpp">
+      <Filter>Manager\MushroomEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\GhostEnemyManager\GhostEnemyManager.cpp">
+      <Filter>Manager\GhostEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\DropItemManager\DropItemsManager.cpp">
+      <Filter>Manager\DropItemsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Object\BackGround\BackGround.cpp">
+      <Filter>Object\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="UI\UI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -214,83 +211,83 @@
     <ClInclude Include="UI\TiterUI\TiterUI.h">
       <Filter>UI\TiterUI</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Scene\InGame</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLoad.h">
-      <Filter>Scene\GameLoad</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTiter.h">
-      <Filter>Scene\Titer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameResult.h">
-      <Filter>Scene\GameResult</Filter>
-    </ClInclude>
-    <ClInclude Include="GhostEnemy.h">
-      <Filter>Character\Enemy\GhostEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="GhostEnemyManager.h">
-      <Filter>Manager\GhostEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="GolemEnemy.h">
-      <Filter>Character\Enemy\GolemEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="MushroomEnemy.h">
-      <Filter>Character\Enemy\MushroomEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="MushroomEnemyManager.h">
-      <Filter>Manager\MushroomEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowBallManager.h">
-      <Filter>Manager\SnowBollManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowEnemy.h">
-      <Filter>Character\Enemy\SnowEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowEnemyManager.h">
-      <Filter>Manager\SnowEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowMan.h">
-      <Filter>Object\SnowMan</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemBox.h">
-      <Filter>Object\ItemBox</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Object\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="SnowBall.h">
-      <Filter>Object\Item\SnowBoll</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>Object\GameCamera</Filter>
-    </ClInclude>
     <ClInclude Include="BulletCallback.h">
       <Filter>Character\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="DropItemsManager.h">
-      <Filter>Manager\DropItemsManager</Filter>
+    <ClInclude Include="Character\Enemy\GhostEnemy\GhostEnemy.h">
+      <Filter>Character\Enemy\GhostEnemy</Filter>
     </ClInclude>
-    <ClInclude Include="DropItems.h">
+    <ClInclude Include="Character\Enemy\GolemEnemy\GolemEnemy.h">
+      <Filter>Character\Enemy\GolemEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Enemy\MushroomEnemy\MushroomEnemy.h">
+      <Filter>Character\Enemy\MushroomEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Enemy\SnowEnemy\SnowEnemy.h">
+      <Filter>Character\Enemy\SnowEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Enemy\Enemy.h">
+      <Filter>Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Player\Player.h">
+      <Filter>Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\Item\DropItems\DropItems.h">
       <Filter>Object\Item\DropItems</Filter>
     </ClInclude>
-    <ClInclude Include="StageSelection.h">
-      <Filter>Scene\StageSelection</Filter>
+    <ClInclude Include="Object\Item\SnowBall\SnowBall.h">
+      <Filter>Object\Item\SnowBoll</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Manager\SoundManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Star.h">
+    <ClInclude Include="Object\Item\Star\Star.h">
       <Filter>Object\Item\Star</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Game.rc" />
+    <ClInclude Include="Object\ItemBox\ItemBox.h">
+      <Filter>Object\ItemBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\SnowMan\SnowMan.h">
+      <Filter>Object\SnowMan</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\GameCamera\GameCamera.h">
+      <Filter>Object\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameLoad\GameLoad.h">
+      <Filter>Scene\GameLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameResult\GameResult.h">
+      <Filter>Scene\GameResult</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\InGame\Game.h">
+      <Filter>Scene\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\StageSelection\StageSelection.h">
+      <Filter>Scene\StageSelection</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Titer\GameTiter.h">
+      <Filter>Scene\Titer</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\SoundManager\SoundManager.h">
+      <Filter>Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\SnowEnemyManager\SnowEnemyManager.h">
+      <Filter>Manager\SnowEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\SnowBallManager\SnowBallManager.h">
+      <Filter>Manager\SnowBollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\MushroomEnemyManager\MushroomEnemyManager.h">
+      <Filter>Manager\MushroomEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\GhostEnemyManager\GhostEnemyManager.h">
+      <Filter>Manager\GhostEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\DropItemManager\DropItemsManager.h">
+      <Filter>Manager\DropItemsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Object\BackGround\BackGround.h">
+      <Filter>Object\BackGround</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

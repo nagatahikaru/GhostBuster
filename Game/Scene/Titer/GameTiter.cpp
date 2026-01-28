@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameTiter.h"
 #include "UI/TiterUI/TiterUI.h"
-#include "StageSelection.h"
+#include "Scene/StageSelection/StageSelection.h"
 
 GameTiter::GameTiter()
 {
