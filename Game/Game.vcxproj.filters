@@ -4,308 +4,314 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{42e85ba3-0de6-4844-ae94-f2e1fed81cef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\TiterUI">
-      <UniqueIdentifier>{18b434f3-76dc-49e5-b8d8-b184954d6ab6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\InGameUI">
-      <UniqueIdentifier>{cdcc0f95-b961-4e01-bc42-3f40d5eea1d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="UI\ResultUI">
-      <UniqueIdentifier>{77797ce9-2f36-4520-a4ce-eadeac074d8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{4fccbf0a-21c3-4c56-836e-287e4f1aa410}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager">
-      <UniqueIdentifier>{180febdc-b3b5-4973-8112-3c22b0451b42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\MushroomEnemyManager">
-      <UniqueIdentifier>{e76e1a4b-1f1e-434f-9c41-fc70243a6c9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\SnowEnemyManager">
-      <UniqueIdentifier>{355af645-8ca1-43e3-b1e2-4a50d98adfc7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\GhostEnemyManager">
-      <UniqueIdentifier>{adf4dc70-2c33-4d76-8a02-446dfe4d0a7d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\SnowBollManager">
-      <UniqueIdentifier>{657cbc6b-4251-416e-a1a7-7457fd5edd30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\Titer">
-      <UniqueIdentifier>{2139a8f4-67de-4349-844e-ab23a21fa605}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\InGame">
-      <UniqueIdentifier>{5d09a4d9-670c-4c15-8baa-a2af7df18a36}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GameResult">
-      <UniqueIdentifier>{2f13a383-f9b2-4879-bb17-3dc81d7450bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\GameLoad">
-      <UniqueIdentifier>{116953d1-8e65-4b84-b2c6-55b7d7c5d700}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character">
-      <UniqueIdentifier>{e7fbde7d-1384-4ef6-a25f-52faa9b39f73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Enemy">
-      <UniqueIdentifier>{0c1f70b9-8441-4e76-9afd-80398e29f784}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Enemy\SnowEnemy">
-      <UniqueIdentifier>{4f6f0152-d013-44ba-91df-d636134571f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Enemy\GhostEnemy">
-      <UniqueIdentifier>{08b6ee8a-07f3-4587-aa67-938a1e258b8c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Enemy\GolemEnemy">
-      <UniqueIdentifier>{004453ac-a030-4c55-b93d-ef8671430a51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Enemy\MushroomEnemy">
-      <UniqueIdentifier>{e81517be-18c4-4101-a613-f9e591271ad5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Character\Player">
-      <UniqueIdentifier>{94d0f989-3701-4920-a2eb-5d2323341034}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{801522ea-3999-4880-a751-8c86d72eb899}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\SnowMan">
-      <UniqueIdentifier>{d20a1051-8651-4460-8a4b-4aa70e236fba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\ItemBox">
-      <UniqueIdentifier>{8e56b9a4-c598-4036-bf59-e066056d32b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Item">
-      <UniqueIdentifier>{01023c12-d8dc-4532-97c0-6f2ba98674b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\BackGround">
-      <UniqueIdentifier>{72ff508e-b4b2-4198-b8d1-24488a7ed3f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Item\SnowBoll">
-      <UniqueIdentifier>{ee88acb5-09c2-4d86-9dbd-467750bd8bc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\GameCamera">
-      <UniqueIdentifier>{2a16588c-0aac-43d7-80a7-92c4cffbd214}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\DropItemsManager">
-      <UniqueIdentifier>{2154712c-62f2-4c3c-81eb-7b13d0bf1547}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Item\DropItems">
-      <UniqueIdentifier>{3fe28367-4e49-4e1b-8f3a-9fd9687c81e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene\StageSelection">
-      <UniqueIdentifier>{ba0c8761-f603-4b54-b6a8-2f188b1f4292}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager\SoundManager">
-      <UniqueIdentifier>{d36a9b06-2464-44f7-bfe3-529bbdd3d94f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Item\Star">
-      <UniqueIdentifier>{eb137ff1-8a80-4958-91f1-bcbfff4ff7ff}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{cb7c8257-106c-4774-8a84-e167902e0230}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Actor">
       <UniqueIdentifier>{fa81f05d-8a9d-4b37-95f0-c4c5c5724398}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Scene">
+      <UniqueIdentifier>{4fccbf0a-21c3-4c56-836e-287e4f1aa410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene\Titer">
+      <UniqueIdentifier>{2139a8f4-67de-4349-844e-ab23a21fa605}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene\InGame">
+      <UniqueIdentifier>{5d09a4d9-670c-4c15-8baa-a2af7df18a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene\GameResult">
+      <UniqueIdentifier>{2f13a383-f9b2-4879-bb17-3dc81d7450bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene\GameLoad">
+      <UniqueIdentifier>{116953d1-8e65-4b84-b2c6-55b7d7c5d700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scene\StageSelection">
+      <UniqueIdentifier>{ba0c8761-f603-4b54-b6a8-2f188b1f4292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager">
+      <UniqueIdentifier>{180febdc-b3b5-4973-8112-3c22b0451b42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\MushroomEnemyManager">
+      <UniqueIdentifier>{e76e1a4b-1f1e-434f-9c41-fc70243a6c9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\SnowEnemyManager">
+      <UniqueIdentifier>{355af645-8ca1-43e3-b1e2-4a50d98adfc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\GhostEnemyManager">
+      <UniqueIdentifier>{adf4dc70-2c33-4d76-8a02-446dfe4d0a7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\SnowBollManager">
+      <UniqueIdentifier>{657cbc6b-4251-416e-a1a7-7457fd5edd30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\DropItemsManager">
+      <UniqueIdentifier>{2154712c-62f2-4c3c-81eb-7b13d0bf1547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Manager\SoundManager">
+      <UniqueIdentifier>{d36a9b06-2464-44f7-bfe3-529bbdd3d94f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI">
+      <UniqueIdentifier>{42e85ba3-0de6-4844-ae94-f2e1fed81cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\TiterUI">
+      <UniqueIdentifier>{18b434f3-76dc-49e5-b8d8-b184954d6ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\InGameUI">
+      <UniqueIdentifier>{cdcc0f95-b961-4e01-bc42-3f40d5eea1d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\UI\ResultUI">
+      <UniqueIdentifier>{77797ce9-2f36-4520-a4ce-eadeac074d8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character">
+      <UniqueIdentifier>{e7fbde7d-1384-4ef6-a25f-52faa9b39f73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Enemy">
+      <UniqueIdentifier>{0c1f70b9-8441-4e76-9afd-80398e29f784}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Enemy\SnowEnemy">
+      <UniqueIdentifier>{4f6f0152-d013-44ba-91df-d636134571f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Enemy\GhostEnemy">
+      <UniqueIdentifier>{08b6ee8a-07f3-4587-aa67-938a1e258b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Enemy\GolemEnemy">
+      <UniqueIdentifier>{004453ac-a030-4c55-b93d-ef8671430a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Enemy\MushroomEnemy">
+      <UniqueIdentifier>{e81517be-18c4-4101-a613-f9e591271ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Character\Player">
+      <UniqueIdentifier>{94d0f989-3701-4920-a2eb-5d2323341034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object">
+      <UniqueIdentifier>{801522ea-3999-4880-a751-8c86d72eb899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\SnowMan">
+      <UniqueIdentifier>{d20a1051-8651-4460-8a4b-4aa70e236fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\ItemBox">
+      <UniqueIdentifier>{8e56b9a4-c598-4036-bf59-e066056d32b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\Item">
+      <UniqueIdentifier>{01023c12-d8dc-4532-97c0-6f2ba98674b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\Item\SnowBoll">
+      <UniqueIdentifier>{ee88acb5-09c2-4d86-9dbd-467750bd8bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\Item\DropItems">
+      <UniqueIdentifier>{3fe28367-4e49-4e1b-8f3a-9fd9687c81e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\Item\Star">
+      <UniqueIdentifier>{eb137ff1-8a80-4958-91f1-bcbfff4ff7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\BackGround">
+      <UniqueIdentifier>{72ff508e-b4b2-4198-b8d1-24488a7ed3f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Actor\Object\GameCamera">
+      <UniqueIdentifier>{2a16588c-0aac-43d7-80a7-92c4cffbd214}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="UI\UI.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\InGameUI\InGameUI.cpp">
-      <Filter>UI\InGameUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\ResultUI\ResultUI.cpp">
-      <Filter>UI\ResultUI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI\TiterUI\TiterUI.cpp">
-      <Filter>UI\TiterUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Enemy\GhostEnemy\GhostEnemy.cpp">
-      <Filter>Character\Enemy\GhostEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Enemy\GolemEnemy\GolemEnemy.cpp">
-      <Filter>Character\Enemy\GolemEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Enemy\MushroomEnemy\MushroomEnemy.cpp">
-      <Filter>Character\Enemy\MushroomEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Enemy\SnowEnemy\SnowEnemy.cpp">
-      <Filter>Character\Enemy\SnowEnemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Enemy\Enemy.cpp">
-      <Filter>Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Character\Player\Player.cpp">
-      <Filter>Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Item\DropItems\DropItems.cpp">
-      <Filter>Object\Item\DropItems</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Item\SnowBall\SnowBall.cpp">
-      <Filter>Object\Item\SnowBoll</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Item\Star\Star.cpp">
-      <Filter>Object\Item\Star</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\ItemBox\ItemBox.cpp">
-      <Filter>Object\ItemBox</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\SnowMan\SnowMan.cpp">
-      <Filter>Object\SnowMan</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\GameCamera\GameCamera.cpp">
-      <Filter>Object\GameCamera</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameLoad\GameLoad.cpp">
-      <Filter>Scene\GameLoad</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\GameResult\GameResult.cpp">
-      <Filter>Scene\GameResult</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\InGame\Game.cpp">
-      <Filter>Scene\InGame</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\StageSelection\StageSelection.cpp">
-      <Filter>Scene\StageSelection</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Titer\GameTiter.cpp">
-      <Filter>Scene\Titer</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\SoundManager\SoundManager.cpp">
-      <Filter>Manager\SoundManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\SnowEnemyManager\SnowEnemyManager.cpp">
-      <Filter>Manager\SnowEnemyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\SnowBallManager\SnowBallManager.cpp">
-      <Filter>Manager\SnowBollManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\MushroomEnemyManager\MushroomEnemyManager.cpp">
-      <Filter>Manager\MushroomEnemyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\GhostEnemyManager\GhostEnemyManager.cpp">
-      <Filter>Manager\GhostEnemyManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager\DropItemManager\DropItemsManager.cpp">
-      <Filter>Manager\DropItemsManager</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="Object\BackGround\BackGround.cpp">
-      <Filter>Object\BackGround</Filter>
-    </ClCompile>
     <ClCompile Include="src\Actor\Actor.cpp">
       <Filter>src\Actor</Filter>
     </ClCompile>
     <ClCompile Include="src\Actor\Transform.cpp">
       <Filter>src\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\UI.cpp">
+      <Filter>src\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\TiterUI\TiterUI.cpp">
+      <Filter>src\UI\TiterUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\ResultUI\ResultUI.cpp">
+      <Filter>src\UI\ResultUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UI\InGameUI\InGameUI.cpp">
+      <Filter>src\UI\InGameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Titer\GameTiter.cpp">
+      <Filter>src\Scene\Titer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\StageSelection\StageSelection.cpp">
+      <Filter>src\Scene\StageSelection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\InGame\Game.cpp">
+      <Filter>src\Scene\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\GameResult\GameResult.cpp">
+      <Filter>src\Scene\GameResult</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\GameLoad\GameLoad.cpp">
+      <Filter>src\Scene\GameLoad</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\SoundManager\SoundManager.cpp">
+      <Filter>src\Manager\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\SnowEnemyManager\SnowEnemyManager.cpp">
+      <Filter>src\Manager\SnowEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\SnowBallManager\SnowBallManager.cpp">
+      <Filter>src\Manager\SnowBollManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\MushroomEnemyManager\MushroomEnemyManager.cpp">
+      <Filter>src\Manager\MushroomEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\GhostEnemyManager\GhostEnemyManager.cpp">
+      <Filter>src\Manager\GhostEnemyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\DropItemManager\DropItemsManager.cpp">
+      <Filter>src\Manager\DropItemsManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\SnowMan\SnowMan.cpp">
+      <Filter>src\Actor\Object\SnowMan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\ItemBox\ItemBox.cpp">
+      <Filter>src\Actor\Object\ItemBox</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\Item\Star\Star.cpp">
+      <Filter>src\Actor\Object\Item\Star</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\Item\SnowBall\SnowBall.cpp">
+      <Filter>src\Actor\Object\Item\SnowBoll</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\Item\DropItems\DropItems.cpp">
+      <Filter>src\Actor\Object\Item\DropItems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\GameCamera\GameCamera.cpp">
+      <Filter>src\Actor\Object\GameCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Object\BackGround\BackGround.cpp">
+      <Filter>src\Actor\Object\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Character.cpp">
+      <Filter>src\Actor\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Player\Player.cpp">
+      <Filter>src\Actor\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Enemy\Enemy.cpp">
+      <Filter>src\Actor\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Enemy\SnowEnemy\SnowEnemy.cpp">
+      <Filter>src\Actor\Character\Enemy\SnowEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Enemy\MushroomEnemy\MushroomEnemy.cpp">
+      <Filter>src\Actor\Character\Enemy\MushroomEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Enemy\GolemEnemy\GolemEnemy.cpp">
+      <Filter>src\Actor\Character\Enemy\GolemEnemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Actor\Character\Enemy\GhostEnemy\GhostEnemy.cpp">
+      <Filter>src\Actor\Character\Enemy\GhostEnemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="UI\UI.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\InGameUI\InGameUI.h">
-      <Filter>UI\InGameUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\ResultUI\ResultUI.h">
-      <Filter>UI\ResultUI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI\TiterUI\TiterUI.h">
-      <Filter>UI\TiterUI</Filter>
-    </ClInclude>
     <ClInclude Include="BulletCallback.h">
-      <Filter>Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Enemy\GhostEnemy\GhostEnemy.h">
-      <Filter>Character\Enemy\GhostEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Enemy\GolemEnemy\GolemEnemy.h">
-      <Filter>Character\Enemy\GolemEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Enemy\MushroomEnemy\MushroomEnemy.h">
-      <Filter>Character\Enemy\MushroomEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Enemy\SnowEnemy\SnowEnemy.h">
-      <Filter>Character\Enemy\SnowEnemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Enemy\Enemy.h">
-      <Filter>Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Character\Player\Player.h">
-      <Filter>Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Item\DropItems\DropItems.h">
-      <Filter>Object\Item\DropItems</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Item\SnowBall\SnowBall.h">
-      <Filter>Object\Item\SnowBoll</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Item\Star\Star.h">
-      <Filter>Object\Item\Star</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\ItemBox\ItemBox.h">
-      <Filter>Object\ItemBox</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\SnowMan\SnowMan.h">
-      <Filter>Object\SnowMan</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\GameCamera\GameCamera.h">
-      <Filter>Object\GameCamera</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameLoad\GameLoad.h">
-      <Filter>Scene\GameLoad</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\GameResult\GameResult.h">
-      <Filter>Scene\GameResult</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\InGame\Game.h">
-      <Filter>Scene\InGame</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\StageSelection\StageSelection.h">
-      <Filter>Scene\StageSelection</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Titer\GameTiter.h">
-      <Filter>Scene\Titer</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\SoundManager\SoundManager.h">
-      <Filter>Manager\SoundManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\SnowEnemyManager\SnowEnemyManager.h">
-      <Filter>Manager\SnowEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\SnowBallManager\SnowBallManager.h">
-      <Filter>Manager\SnowBollManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\MushroomEnemyManager\MushroomEnemyManager.h">
-      <Filter>Manager\MushroomEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\GhostEnemyManager\GhostEnemyManager.h">
-      <Filter>Manager\GhostEnemyManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager\DropItemManager\DropItemsManager.h">
-      <Filter>Manager\DropItemsManager</Filter>
+      <Filter>src\Actor\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="Object\BackGround\BackGround.h">
-      <Filter>Object\BackGround</Filter>
-    </ClInclude>
     <ClInclude Include="src\Actor\Actor.h">
       <Filter>src\Actor</Filter>
     </ClInclude>
     <ClInclude Include="src\Actor\Transform.h">
       <Filter>src\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\UI.h">
+      <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\TiterUI\TiterUI.h">
+      <Filter>src\UI\TiterUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\ResultUI\ResultUI.h">
+      <Filter>src\UI\ResultUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\InGameUI\InGameUI.h">
+      <Filter>src\UI\InGameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Titer\GameTiter.h">
+      <Filter>src\Scene\Titer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\StageSelection\StageSelection.h">
+      <Filter>src\Scene\StageSelection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\InGame\Game.h">
+      <Filter>src\Scene\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\GameResult\GameResult.h">
+      <Filter>src\Scene\GameResult</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\GameLoad\GameLoad.h">
+      <Filter>src\Scene\GameLoad</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\SoundManager\SoundManager.h">
+      <Filter>src\Manager\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\SnowEnemyManager\SnowEnemyManager.h">
+      <Filter>src\Manager\SnowEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\SnowBallManager\SnowBallManager.h">
+      <Filter>src\Manager\SnowBollManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\MushroomEnemyManager\MushroomEnemyManager.h">
+      <Filter>src\Manager\MushroomEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\GhostEnemyManager\GhostEnemyManager.h">
+      <Filter>src\Manager\GhostEnemyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\DropItemManager\DropItemsManager.h">
+      <Filter>src\Manager\DropItemsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\SnowMan\SnowMan.h">
+      <Filter>src\Actor\Object\SnowMan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\ItemBox\ItemBox.h">
+      <Filter>src\Actor\Object\ItemBox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\Item\Star\Star.h">
+      <Filter>src\Actor\Object\Item\Star</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\Item\SnowBall\SnowBall.h">
+      <Filter>src\Actor\Object\Item\SnowBoll</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\Item\DropItems\DropItems.h">
+      <Filter>src\Actor\Object\Item\DropItems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\GameCamera\GameCamera.h">
+      <Filter>src\Actor\Object\GameCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Object\BackGround\BackGround.h">
+      <Filter>src\Actor\Object\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Character.h">
+      <Filter>src\Actor\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Player\Player.h">
+      <Filter>src\Actor\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Enemy\Enemy.h">
+      <Filter>src\Actor\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Enemy\SnowEnemy\SnowEnemy.h">
+      <Filter>src\Actor\Character\Enemy\SnowEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Enemy\MushroomEnemy\MushroomEnemy.h">
+      <Filter>src\Actor\Character\Enemy\MushroomEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Enemy\GolemEnemy\GolemEnemy.h">
+      <Filter>src\Actor\Character\Enemy\GolemEnemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actor\Character\Enemy\GhostEnemy\GhostEnemy.h">
+      <Filter>src\Actor\Character\Enemy\GhostEnemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

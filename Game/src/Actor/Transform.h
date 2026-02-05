@@ -13,6 +13,8 @@ public:
 	Vector3 m_position;
 	Quaternion m_rotation;
 	Vector3 m_scale;
+	float m_speed = 0.0f;//移動速度
+	Vector3 m_moveSpeed;//移動速度
 
 	/** private変数 */
 	/** 基本的に関数以外から弄る必要なし */

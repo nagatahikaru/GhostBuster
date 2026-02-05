@@ -5,7 +5,7 @@
 #include<dxgidebug.h>
 #include <time.h>
 //#include "Game.h"
-#include "Scene/Titer/GameTiter.h"
+#include "src/Scene/Titer/GameTiter.h"
 
 
 
